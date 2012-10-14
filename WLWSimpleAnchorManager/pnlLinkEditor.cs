@@ -14,11 +14,14 @@ namespace WLWSimpleAnchorManager
         private Image ANCHOR_IMAGE = Properties.Resources.Anchor1616;
 
         private ListViewItem _selectedListItem;
+        private string[] _anchorNames;
 
 
-        public pnlLinkEditor(AnchorData settings) : base(settings)
+        public pnlLinkEditor(string[] anchorNames, AnchorData settings) : base(settings)
         {
             InitializeComponent();
+
+            _anchorNames = anchorNames;
 
             this.txtDisplayText.TextChanged += new EventHandler(txtDisplayText_TextChanged);
             this.lvSelectedAnchor.ItemSelectionChanged +=new ListViewItemSelectionChangedEventHandler(lvSelectedAnchor_ItemSelect);
@@ -31,8 +34,7 @@ namespace WLWSimpleAnchorManager
 
         void pnlLinkEditor_Load(object sender, EventArgs e)
         {
-            //var anchors = WLWPostContentHelper.getAnchorNamesFromDelimitedString(this.AnchorSettings.DelimitedAnchorsList);
-            //this.FillAnchorList(anchors);
+            this.FillAnchorList(_anchorNames);
         }
 
        
