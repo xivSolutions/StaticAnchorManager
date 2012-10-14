@@ -6,6 +6,7 @@ using WindowsLive.Writer.Api;
 using System.Windows.Forms;
 using System.Drawing;
 using WLWPluginBase.Win32;
+using mshtml;
 
 namespace WLWSimpleAnchorManager
 {
@@ -14,6 +15,20 @@ namespace WLWSimpleAnchorManager
 
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
         private const char ANCHOR_LIST_DELIMITER = '|';
+
+
+        public static IHTMLDocument2 getHtmlDocument(IntPtr owner)
+        {
+            IHTMLDocument2 output = null;
+
+            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
+            // Determine if it is visible (i.e. active at the time of the request).
+            if (item != null)
+            {
+                output = Win32IEHelper.getHtmlDocument(item.Handle);
+            }
+            return output;
+        }
 
 
         public static string ExtractSelectedText(IntPtr owner)
@@ -54,7 +69,7 @@ namespace WLWSimpleAnchorManager
             return selectedText;
         }
 
-
+        
         public static string ExtractDelimitedAnchorsList(string PostContent)
         {
             String regExMatchPattern = "(?<=<!--wlwSmartAnchorName:).*?(?=-->)";
@@ -73,6 +88,14 @@ namespace WLWSimpleAnchorManager
             }
 
             return sb.ToString();
+        }
+
+
+        public static string[] getAnchorNames(string editorHtml)
+        {
+            string delimitedList = WLWPostContentHelper.ExtractDelimitedAnchorsList(editorHtml);
+            return WLWPostContentHelper.getAnchorNamesFromDelimitedString(delimitedList);
+
         }
 
 
