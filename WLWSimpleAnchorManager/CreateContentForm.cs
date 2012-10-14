@@ -24,11 +24,14 @@ namespace WLWSimpleAnchorManager
         private AnchorData _currentAnchorSettings;
         private pnlAnchorEditorBase _currentEditorPanel;
 
+        private string[] _anchorNames;
 
-        public CreateContentForm(AnchorData settings)
+
+        public CreateContentForm(AnchorData settings, string[] anchorNames)
         {
             InitializeComponent();
 
+            _anchorNames = anchorNames;
             _currentAnchorSettings = settings;
 
             this.setUpComboBox();
@@ -119,7 +122,7 @@ namespace WLWSimpleAnchorManager
                     _currentEditorPanel = new pnlAnchorEditor(_currentAnchorSettings);
                     break;
                 case AnchorTypes.Link:
-                    _currentEditorPanel = new pnlLinkEditor(_currentAnchorSettings);
+                    _currentEditorPanel = new pnlLinkEditor(_anchorNames, _currentAnchorSettings);
                     break;
                 case AnchorTypes.None:
                     _currentEditorPanel = null;
