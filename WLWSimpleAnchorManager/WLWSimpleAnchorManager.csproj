@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnchorBuilder.cs" />
     <Compile Include="AnchorData.cs" />
     <Compile Include="AnchorTypes.cs" />
     <Compile Include="CreateContentForm.cs">
@@ -55,6 +56,14 @@
     <Compile Include="CreateContentForm.designer.cs">
       <DependentUpon>CreateContentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HtmlAssembly\HTMLAttribute.cs" />
+    <Compile Include="HtmlAssembly\HTMLAttributeList.cs" />
+    <Compile Include="HtmlAssembly\htmlComment.cs" />
+    <Compile Include="HtmlAssembly\HTMLElement.cs" />
+    <Compile Include="HtmlAssembly\HTMLElementList.cs" />
+    <Compile Include="HtmlAssembly\htmLMarkupSymbols.cs" />
+    <Compile Include="HtmlAssembly\InvalidhtmlException.cs" />
+    <Compile Include="HtmlBuilderBase.cs" />
     <Compile Include="InLineAnchorManager.cs" />
     <Compile Include="pnlAnchorEditor.cs">
       <SubType>UserControl</SubType>
@@ -111,6 +120,9 @@
     <Content Include="Resources\AnchorLink1616.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY /D /Y /R "$(TargetPath)" "C:\Program Files (x86)\Windows Live\Writer\Plugins\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
