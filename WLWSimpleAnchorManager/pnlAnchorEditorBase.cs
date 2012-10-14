@@ -14,13 +14,6 @@ namespace WLWSimpleAnchorManager
         public event ValidAnchorContentHandler ValidContentDetected;
         public event ValidAnchorContentHandler InvalidContentDetected;
 
-        // Abstract methods/properties to be implemented on derived classes:
-        protected virtual bool CanSave()
-        {
-            return false;
-        }
-
-        public virtual AnchorTypes AnchorType{get; set; }
 
         public pnlAnchorEditorBase(AnchorData settings)
         {
@@ -29,6 +22,13 @@ namespace WLWSimpleAnchorManager
         }
 
 
+        // Abstract methods/properties to be implemented on derived classes:
+        protected virtual bool CanSave()
+        {
+            return false;
+        }
+
+        public virtual AnchorTypes AnchorType{get; set; }
         public AnchorData AnchorSettings { get; set; }
 
 
