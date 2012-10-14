@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using WindowsLive.Writer.Api;
 using System.Windows.Forms;
 using System.Drawing;
+using mshtml;
 using WLWPluginBase.Win32;
 
 using System.Runtime.InteropServices;
@@ -12,8 +13,8 @@ using System.Runtime.InteropServices;
 
 namespace WLWSimpleAnchorManager
 {
-    [WriterPlugin("88472252-60F6-4EEC-A26D-F2001A2E1392",
-    "WLW Inline Anchors",
+    [WriterPlugin("5439640A-F022-4A52-8BB6-3F9983D96153",
+    "WLW Anchor Manager",
     PublisherUrl = "http://TypeCaseException.com",
     Description =
     "Insert inline html anchors and manage the links to" +
@@ -23,8 +24,6 @@ namespace WLWSimpleAnchorManager
     [InsertableContentSource("Inline Anchor")]
     public class InLineAnchorManager : ContentSource
     {
-        private bool _initialized = false;
-
         private static string ANCHOR_ICON_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
         private static string LINK_ICON_KEY = Properties.Resources.LINK_IMAGE_KEY;
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
@@ -32,72 +31,75 @@ namespace WLWSimpleAnchorManager
         private string _editorHtml;
         private string _selectedHtml;
         private string _selectedText;
-
+        private string[] _anchorsList;
+        IHTMLDocument2 _htmlDoc;
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
-            return base.CreateContent(dialogOwner, ref content);
+            _editorHtml = WLWPostContentHelper.ExtractHtml(dialogOwner.Handle);
+            _selectedHtml = WLWPostContentHelper.ExtractSelectedHtml(dialogOwner.Handle);
+            _selectedText = WLWPostContentHelper.ExtractSelectedText(dialogOwner.Handle);
+            _anchorsList = WLWPostContentHelper.getAnchorNames(_editorHtml);
+            _htmlDoc = WLWPostContentHelper.getHtmlDocument(dialogOwner.Handle);
+
+            var anchor = new AnchorData();
+
+            using (var frm = new CreateContentForm(anchor, _anchorsList))
+            {
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    HtmlBuilderBase builder;
+                    switch(anchor.AnchorType)
+                    {
+                        case AnchorTypes.Anchor:
+                            builder = new AnchorBuilder(anchor);
+                            if (string.IsNullOrEmpty(_selectedHtml))
+                            {
+                                _selectedHtml = this.getContainingElement();
+                                content = builder.getPublishHtml() + _selectedHtml;
+                            }
+                            else
+                            {
+                                string replaceMent = builder.getPublishHtml(_selectedText);
+                                content = content.Replace(_selectedText, replaceMent);
+                            }
+                            break;
+                        case AnchorTypes.Link:
+                            content = "";
+                            break;
+                        case AnchorTypes.None:
+                            content = "";
+                            break;
+                        default:
+                            content = "";
+                            break;
+                    }
+                    return DialogResult.OK;
+                }
+                else
+                {
+                    return DialogResult.Cancel;
+                }
+            }
         }
 
 
-        private string ExtractSelectedText(IntPtr owner)
+        string getContainingElement()
         {
-            string selectedText = "";
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
-            if (item != null)
+            IHTMLTxtRange rng = _htmlDoc.selection.createRange() as IHTMLTxtRange;
+            rng.expand("Word");
+            IHTMLElement elmt = rng.parentElement();
+
+            if (elmt.tagName != "DIV" && elmt.tagName != "HTML")
             {
-                selectedText = Win32IEHelper.GetSelectedText(item.Handle);
+                rng.moveToElementText(elmt);
+                rng.select();
+                return elmt.outerHTML;
             }
-            return selectedText;
-        }
-
-
-        private string ExtractHtml(IntPtr owner)
-        {
-            string selectedText = "";
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
-            if (item != null)
+            else
             {
-                selectedText = Win32IEHelper.GetHtml(item.Handle);
+                return "";
             }
-            return selectedText;
-        }
-
-
-        private string ExtractSelectedHtml(IntPtr owner)
-        {
-            string selectedText = "";
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
-            if (item != null)
-            {
-                selectedText = Win32IEHelper.GetSelectedHtml(item.Handle);
-            }
-            return selectedText;
-        }
-
-
-        private String ExtractDelimitedAnchorsList(string PostContent)
-        {
-            String regExMatchPattern = "(?<=<!--wlwSmartAnchorName:).*?(?=-->)";
-            //String regExMatchPattern = "<!--wlwSmartAnchorName:.*?-->";
-            MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
-
-
-            StringBuilder sb = new StringBuilder("");
-            foreach (Match currentMatch in matches)
-            {
-                sb.Append(currentMatch.Value + "|");
-            }
-
-            if (sb.Length > 0)
-            {
-                sb.Remove(sb.Length - 1, 1);
-            }
-
-            return sb.ToString();
         }
     }
 }
