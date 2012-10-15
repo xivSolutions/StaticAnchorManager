@@ -52,6 +52,9 @@ namespace WLWSimpleAnchorManager
                     {
                         case AnchorTypes.Anchor:
                             builder = new AnchorBuilder(anchor);
+
+                            // If no text is selected in the editor, a named anchor will be inserted the 
+                            // the cursor location, but will not be bound to a specific HTML text element:
                             if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
                             {
                                 try
@@ -67,16 +70,7 @@ namespace WLWSimpleAnchorManager
                             }
                             else
                             {
-                                string replaceMent = builder.getPublishHtml(_selectedText);
-
-                                if (string.IsNullOrEmpty(_selectedText))
-                                {
-                                    content = replaceMent;
-                                }
-                                else
-                                {
-                                    content = content.Replace(_selectedText, replaceMent);
-                                }
+                                content = builder.getPublishHtml(_selectedHtml, _selectedText);
                             }
                             break;
                         case AnchorTypes.Link:

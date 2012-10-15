@@ -16,6 +16,6 @@ namespace WLWSimpleAnchorManager
         public string ExistingHtml { get; set; }
 
         public abstract string getPublishHtml();
-        public abstract string getPublishHtml(string selectedHtml = "");
+        public abstract string getPublishHtml(string selectedHtml, string selectedText);
     }
 }

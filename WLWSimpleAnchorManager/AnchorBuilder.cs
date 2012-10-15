@@ -27,12 +27,22 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public override string getPublishHtml(string selectedHtml = "")
+        public override string getPublishHtml(string selectedHtml, string selectedText)
         {
             htmlElement newAnchor = new htmlElement("a", false);
             newAnchor.Attributes.Add(new htmlAttribute("name", wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Content = selectedHtml;
-            return newAnchor.ToString();
+            newAnchor.Content = selectedText;
+
+            string anchorTag = newAnchor.ToString();
+
+            if (string.IsNullOrEmpty(selectedText))
+            {
+                return anchorTag;
+            }
+            else
+            {
+                return selectedHtml.Replace(selectedText, anchorTag);
+            }
         }
     }
 }
