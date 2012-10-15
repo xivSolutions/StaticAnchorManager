@@ -26,7 +26,6 @@ namespace WLWSimpleAnchorManager
     {
         private static string ANCHOR_ICON_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
         private static string LINK_ICON_KEY = Properties.Resources.LINK_IMAGE_KEY;
-        private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
 
         private string _editorHtml;
         private string _selectedHtml;
@@ -53,15 +52,31 @@ namespace WLWSimpleAnchorManager
                     {
                         case AnchorTypes.Anchor:
                             builder = new AnchorBuilder(anchor);
-                            if (string.IsNullOrEmpty(_selectedHtml))
+                            if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
                             {
-                                _selectedHtml = this.getContainingElement();
-                                content = builder.getPublishHtml() + _selectedHtml;
+                                try
+                                {
+                                    _selectedHtml = this.getContainingElement();
+                                    content = builder.getPublishHtml() + _selectedHtml;
+                                }
+                                catch (Exception)
+                                {
+                                    MessageBox.Show("You cannot attach an anchor to this type of object");
+                                    return DialogResult.Cancel;
+                                }
                             }
                             else
                             {
                                 string replaceMent = builder.getPublishHtml(_selectedText);
-                                content = content.Replace(_selectedText, replaceMent);
+
+                                if (string.IsNullOrEmpty(_selectedText))
+                                {
+                                    content = replaceMent;
+                                }
+                                else
+                                {
+                                    content = content.Replace(_selectedText, replaceMent);
+                                }
                             }
                             break;
                         case AnchorTypes.Link:
@@ -86,19 +101,28 @@ namespace WLWSimpleAnchorManager
 
         string getContainingElement()
         {
+            IHTMLSelectionObject selected = _htmlDoc.selection;
             IHTMLTxtRange rng = _htmlDoc.selection.createRange() as IHTMLTxtRange;
-            rng.expand("Word");
-            IHTMLElement elmt = rng.parentElement();
 
-            if (elmt.tagName != "DIV" && elmt.tagName != "HTML")
+            try
             {
-                rng.moveToElementText(elmt);
-                rng.select();
-                return elmt.outerHTML;
+                rng.expand("Word");
+                IHTMLElement elmt = rng.parentElement();
+
+                if (elmt.tagName != "DIV" && elmt.tagName != "HTML")
+                {
+                    rng.moveToElementText(elmt);
+                    rng.select();
+                    return elmt.outerHTML;
+                }
+                else
+                {
+                    return "";
+                }
             }
-            else
+            catch (Exception)
             {
-                return "";
+                throw;
             }
         }
     }
