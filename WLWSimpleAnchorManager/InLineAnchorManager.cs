@@ -35,8 +35,13 @@ namespace WLWSimpleAnchorManager
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
+            // String representation of the HTML currently in the WLW Editor window:
             _editorHtml = WLWPostContentHelper.ExtractHtml(dialogOwner.Handle);
+
+            // String representation of the HTML enclosing the current selected text in the editor:
             _selectedHtml = WLWPostContentHelper.ExtractSelectedHtml(dialogOwner.Handle);
+
+            // String representation of the Text currently selected in the editor:
             _selectedText = WLWPostContentHelper.ExtractSelectedText(dialogOwner.Handle);
             _anchorsList = WLWPostContentHelper.getAnchorNames(_editorHtml);
             _htmlDoc = WLWPostContentHelper.getHtmlDocument(dialogOwner.Handle);
@@ -53,13 +58,13 @@ namespace WLWSimpleAnchorManager
                         case AnchorTypes.Anchor:
                             builder = new AnchorBuilder(anchor);
 
-                            // If no text is selected in the editor, a named anchor will be inserted the 
+                            // If no text is selected in the editor, a named anchor will be inserted at the 
                             // the cursor location, but will not be bound to a specific HTML text element:
                             if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
                             {
                                 try
                                 {
-                                    _selectedHtml = this.getContainingElement();
+                                    _selectedHtml = this.getSelectionOuterHtmlElement();
                                     content = builder.getPublishHtml() + _selectedHtml;
                                 }
                                 catch (Exception)
@@ -93,7 +98,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        string getContainingElement()
+        string getSelectionOuterHtmlElement()
         {
             IHTMLSelectionObject selected = _htmlDoc.selection;
             IHTMLTxtRange rng = _htmlDoc.selection.createRange() as IHTMLTxtRange;
