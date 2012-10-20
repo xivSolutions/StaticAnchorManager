@@ -33,6 +33,8 @@ namespace WLWSimpleAnchorManager
         private string[] _anchorsList;
         IHTMLDocument2 _htmlDoc;
 
+        private string _currentAnchorName = "";
+
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
             // String representation of the HTML currently in the WLW Editor window:
@@ -46,7 +48,9 @@ namespace WLWSimpleAnchorManager
             _anchorsList = WLWPostContentHelper.getAnchorNames(_editorHtml);
             _htmlDoc = WLWPostContentHelper.getHtmlDocument(dialogOwner.Handle);
 
-            var anchor = new AnchorData();
+            _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
+
+            var anchor = new AnchorData(_currentAnchorName, _selectedText, AnchorTypes.None);
 
             using (var frm = new CreateContentForm(anchor, _anchorsList))
             {
@@ -75,11 +79,39 @@ namespace WLWSimpleAnchorManager
                             }
                             else
                             {
-                                content = builder.getPublishHtml(_selectedHtml, _selectedText);
+                                if (string.IsNullOrEmpty(_currentAnchorName))
+                                {
+                                    content = builder.getPublishHtml(_selectedHtml, _selectedText);
+                                }
+                                else
+                                {
+                                    content = builder.editPublishHtml(_selectedHtml, _selectedText);
+                                }
                             }
                             break;
+
                         case AnchorTypes.Link:
-                            content = "";
+                            builder = new LinkBuilder(anchor);
+
+                            // If no text is selected in the editor, a named anchor will be inserted at the 
+                            // the cursor location, but will not be bound to a specific HTML text element:
+                            if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
+                            {
+                                try
+                                {
+                                    _selectedHtml = this.getSelectionOuterHtmlElement();
+                                    content = builder.getPublishHtml() + _selectedHtml;
+                                }
+                                catch (Exception)
+                                {
+                                    MessageBox.Show("You cannot attach a Link to this type of object");
+                                    return DialogResult.Cancel;
+                                }
+                            }
+                            else
+                            {
+                                content = builder.getPublishHtml(_selectedHtml, _selectedText);
+                            }
                             break;
                         case AnchorTypes.None:
                             content = "";
@@ -124,5 +156,6 @@ namespace WLWSimpleAnchorManager
                 throw;
             }
         }
+
     }
 }

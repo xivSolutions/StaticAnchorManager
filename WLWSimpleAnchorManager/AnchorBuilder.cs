@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 
 
@@ -8,7 +9,9 @@ namespace WLWSimpleAnchorManager
 {
     class AnchorBuilder : HtmlBuilderBase
     {
-        private static string wlwAnchorTag = "wlwSmartAnchorName";
+        //private static string wlwAnchorTag = "wlwSmartAnchorName";
+
+        private static string AnchorTagRegexPattern = "<A\\sname=wlwSmartAnchorName:.*?(>|\\s+>)";
 
         public AnchorBuilder(AnchorData settings)
         {
@@ -44,5 +47,36 @@ namespace WLWSimpleAnchorManager
                 return selectedHtml.Replace(selectedText, anchorTag);
             }
         }
+
+
+        public override string editPublishHtml(string selectedHtml, string selectedText)
+        {
+            string freshHtml = this.stripAnchorHtml(selectedHtml);
+
+            htmlElement newAnchor = new htmlElement("a", false);
+            newAnchor.Attributes.Add(new htmlAttribute("name", wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Content = this.AnchorSettings.DisplayText;
+
+            string anchorTag = newAnchor.ToString();
+
+            if (string.IsNullOrEmpty(selectedText))
+            {
+                return anchorTag;
+            }
+            else
+            {
+                return freshHtml.Replace(selectedText, anchorTag);
+            }
+        }
+
+
+        private string stripAnchorHtml(string selectedHtml)
+        {
+            Regex rgx = new Regex(AnchorTagRegexPattern);
+            string output = rgx.Replace(selectedHtml, "");
+            output = output.Replace("</A>", "");
+            return output;
+        }
+
     }
 }
