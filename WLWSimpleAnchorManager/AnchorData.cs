@@ -7,8 +7,21 @@ namespace WLWSimpleAnchorManager
 {
     public class AnchorData
     {
-        private string rgxOnlyAlphaNumeric = "[^0-9a-zA-Z-]";
-        private string _anchorName;
+        private static string rgxOnlyAlphaNumeric = "[^0-9a-zA-Z-]";
+        private string _anchorName = "";
+
+
+        //public AnchorData() : this("", "", AnchorTypes.None)
+        //{
+        //}
+
+
+        public AnchorData(string anchorName, string displayText, AnchorTypes type)
+        {
+            this.AnchorName = anchorName;
+            this.DisplayText = displayText;
+            this.AnchorType = type;
+        }
 
 
         public string DisplayText { get; set; }
