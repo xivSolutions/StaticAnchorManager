@@ -12,10 +12,8 @@ namespace WLWSimpleAnchorManager
 {
     public class WLWPostContentHelper
     {
-
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
         private const char ANCHOR_LIST_DELIMITER = '|';
-
 
         public static IHTMLDocument2 getHtmlDocument(IntPtr owner)
         {
@@ -95,7 +93,6 @@ namespace WLWSimpleAnchorManager
         {
             string delimitedList = WLWPostContentHelper.ExtractDelimitedAnchorsList(editorHtml);
             return WLWPostContentHelper.getAnchorNamesFromDelimitedString(delimitedList);
-
         }
 
 
