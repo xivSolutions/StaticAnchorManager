@@ -35,6 +35,8 @@ namespace WLWSimpleAnchorManager
         void pnlLinkEditor_Load(object sender, EventArgs e)
         {
             this.FillAnchorList(_anchorNames);
+            this.DisplayText = this.AnchorSettings.DisplayText;
+            this.SetSelectedAnchor(this.AnchorSettings.AnchorName);
         }
 
        
@@ -69,7 +71,16 @@ namespace WLWSimpleAnchorManager
         private void SetSelectedAnchor(String AnchorName)
         {
             ListView lv = this.lvSelectedAnchor;
-            lv.FindItemWithText(AnchorName).Selected = true;
+            ListViewItem selected = lv.FindItemWithText(AnchorName);
+            if (selected != null)
+            {
+                selected.Selected = true;
+            }
+            else
+            {
+                lv.SelectedItems.Clear();
+            }
+            
             this.CheckContentValidation();
         }
 
