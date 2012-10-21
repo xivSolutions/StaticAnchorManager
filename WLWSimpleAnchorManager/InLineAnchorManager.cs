@@ -50,6 +50,8 @@ namespace WLWSimpleAnchorManager
 
             _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
 
+            _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
+
             var anchor = new AnchorData(_currentAnchorName, _selectedText, AnchorTypes.None);
 
             using (var frm = new CreateContentForm(anchor, _anchorsList))
@@ -69,6 +71,7 @@ namespace WLWSimpleAnchorManager
                                 try
                                 {
                                     _selectedHtml = this.getSelectionOuterHtmlElement();
+                                    _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
                                     content = builder.getPublishHtml() + _selectedHtml;
                                 }
                                 catch (Exception)
@@ -79,14 +82,8 @@ namespace WLWSimpleAnchorManager
                             }
                             else
                             {
-                                if (string.IsNullOrEmpty(_currentAnchorName))
-                                {
-                                    content = builder.getPublishHtml(_selectedHtml, _selectedText);
-                                }
-                                else
-                                {
-                                    content = builder.editPublishHtml(_selectedHtml, _selectedText);
-                                }
+                                _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
+                                content = builder.getPublishHtml(_selectedHtml, _selectedText);
                             }
                             break;
 
@@ -144,10 +141,23 @@ namespace WLWSimpleAnchorManager
                 {
                     rng.moveToElementText(elmt);
                     rng.select();
+
+                    if (elmt.tagName == "A")
+                    {
+                        return elmt.parentElement.outerHTML;
+                    }
+
                     return elmt.outerHTML;
                 }
                 else
                 {
+                    if (elmt.tagName == "A")
+                    {
+                        rng.moveToElementText(elmt);
+                        rng.select();
+                        return elmt.outerHTML;
+                    }
+
                     return "";
                 }
             }
