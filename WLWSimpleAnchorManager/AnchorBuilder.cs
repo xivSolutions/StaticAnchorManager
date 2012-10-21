@@ -34,7 +34,7 @@ namespace WLWSimpleAnchorManager
         {
             htmlElement newAnchor = new htmlElement("a", false);
             newAnchor.Attributes.Add(new htmlAttribute("name", wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Content = selectedText;
+            newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();
 
