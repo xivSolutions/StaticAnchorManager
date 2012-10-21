@@ -70,17 +70,19 @@ namespace WLWSimpleAnchorManager
 
         public static string getAnchorNameFromHtml(string selectedHtml)
         {
-            String regExMatchPattern = "(?<=wlwSmartAnchorName:).*?(?=\\s|>|\")";
-            Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
-            if (anchorMatch.Success)
-            {
-                return anchorMatch.Value;
-            }
-            else
-            {
+            string output = "";
 
+            if (!string.IsNullOrEmpty(selectedHtml))
+            {
+                String regExMatchPattern = "(?<=wlwSmartAnchorName:).*?(?=\\s|>|\")";
+                Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
+                if (anchorMatch.Success)
+                {
+                    output = anchorMatch.Value;
+                }
             }
-                return "";
+
+            return output;
         }
 
         
@@ -118,11 +120,17 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        private string stripAnchorHtml(string selectedHtml)
+        public static string stripAnchorHtml(string selectedHtml)
         {
-            Regex rgx = new Regex("<A\\sname=wlwSmartAnchorName:.*?(>|\\s+>)");
-            string output = rgx.Replace(selectedHtml, "");
-            output = output.Replace("</A>", "");
+            string output = "";
+
+            if (!string.IsNullOrEmpty(selectedHtml))
+            {
+                Regex rgx = new Regex("<A\\sname=wlwSmartAnchorName:.*?(>|\\s+>)");
+                output = rgx.Replace(selectedHtml, "");
+                output = output.Replace("</A>", "");
+            }
+
             return output;
         }
     }
