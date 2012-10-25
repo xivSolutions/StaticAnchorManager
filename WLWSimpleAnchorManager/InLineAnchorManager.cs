@@ -70,9 +70,20 @@ namespace WLWSimpleAnchorManager
                             {
                                 try
                                 {
-                                    _selectedHtml = this.getSelectionOuterHtmlElement();
-                                    _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
-                                    content = builder.getPublishHtml() + _selectedHtml;
+                                    _selectedHtml = this.getCurrentElement(_htmlDoc).outerHTML;
+
+                                    //_selectedHtml = this.getSelectionOuterHtmlElement();
+                                    if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
+                                    {
+                                        _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
+                                        content = builder.getPublishHtml() + _selectedHtml;
+                                    }
+                                    else
+                                    {
+                                        _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
+                                        content = builder.getPublishHtml(_selectedHtml, _selectedText);
+                                    }
+
                                 }
                                 catch (Exception)
                                 {
@@ -96,7 +107,8 @@ namespace WLWSimpleAnchorManager
                             {
                                 try
                                 {
-                                    _selectedHtml = this.getSelectionOuterHtmlElement();
+                                    _selectedHtml = this.getCurrentElement(_htmlDoc).outerHTML;
+                                    //_selectedHtml = this.getSelectionOuterHtmlElement();
                                     content = builder.getPublishHtml() + _selectedHtml;
                                 }
                                 catch (Exception)
@@ -127,6 +139,68 @@ namespace WLWSimpleAnchorManager
         }
 
 
+        IHTMLElement getCurrentElement(IHTMLDocument2 htmlDocument)
+        {
+            IHTMLSelectionObject selection = _htmlDoc.selection;
+
+            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
+            IHTMLElement elmt = null;
+
+            try
+            {
+                elmt = this.getSelectionElement(rng.parentElement());
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            return elmt;
+        }
+
+
+        IHTMLElement getSelectionElement(IHTMLElement selectionElement)
+        {
+            
+            if (Array.IndexOf(this.validSelectionElementNames(), selectionElement.GetType().Name) >= 0)
+            {
+                // This current element is valid as selected HTML for the editor:
+                return selectionElement;
+            }
+            else
+            {
+                if (Array.IndexOf(this.CheckParentSelectionElementNames(), selectionElement.GetType().Name) >= 0)
+                {
+                    IHTMLElement parent = selectionElement.parentElement;
+                    return this.getSelectionElement(parent);
+                }
+                else
+                {
+                    return null;
+                }
+            }           
+        }
+
+
+        string[] validSelectionElementNames()
+        {
+            return new string[] { 
+                "HTMLHeaderElementClass", "HTMLLIElementClass", "HTMLListElementClass", 
+                "HTMLOListElementClass", "HTMLParaElementClass", 
+                "HTMLSpanElementClass", "HTMLTableCaptionClass", "HTMLTableCellClass", 
+                "HTMLTableRowClass" };
+        }
+
+
+        string[] CheckParentSelectionElementNames()
+        {
+            return new string[] {
+                "HTMLAnchorElementClass",
+                "HTMLBaseFontElementClass", "HTMLFontElementClass", "HTMLLinkElementClass", 
+                "HTMLPhraseElementClass" };
+        }
+
+
         string getSelectionOuterHtmlElement()
         {
             IHTMLSelectionObject selected = _htmlDoc.selection;
@@ -134,7 +208,6 @@ namespace WLWSimpleAnchorManager
 
             try
             {
-                rng.expand("Word");
                 IHTMLElement elmt = rng.parentElement();
 
                 if (elmt.tagName != "DIV" && elmt.tagName != "HTML")
