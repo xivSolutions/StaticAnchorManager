@@ -37,19 +37,32 @@ namespace WLWSimpleAnchorManager
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
-            // String representation of the HTML currently in the WLW Editor window:
             _editorHtml = WLWPostContentHelper.ExtractHtml(dialogOwner.Handle);
-
-            // String representation of the HTML enclosing the current selected text in the editor:
-            _selectedHtml = WLWPostContentHelper.ExtractSelectedHtml(dialogOwner.Handle);
-
             // String representation of the Text currently selected in the editor:
             _selectedText = WLWPostContentHelper.ExtractSelectedText(dialogOwner.Handle);
             _anchorsList = WLWPostContentHelper.getAnchorNames(_editorHtml);
             _htmlDoc = WLWPostContentHelper.getHtmlDocument(dialogOwner.Handle);
 
-            _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
+            //// String representation of the HTML enclosing the current selected text in the editor:
+            //_selectedHtml = WLWPostContentHelper.ExtractSelectedHtml(dialogOwner.Handle);
 
+            //if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
+            //{
+                try
+                {
+                    IHTMLElement currentElement = this.getCurrentElement(_htmlDoc);
+                    
+                    _selectedHtml = currentElement.outerHTML;
+                    _selectedText = currentElement.innerText;
+
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("You cannot attach an anchor to this type of object");
+                    return DialogResult.Cancel;
+                }
+
+            _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
             _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
 
             var anchor = new AnchorData(_currentAnchorName, _selectedText, AnchorTypes.None);
@@ -68,28 +81,8 @@ namespace WLWSimpleAnchorManager
                             // the cursor location, but will not be bound to a specific HTML text element:
                             if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
                             {
-                                try
-                                {
-                                    _selectedHtml = this.getCurrentElement(_htmlDoc).outerHTML;
-
-                                    //_selectedHtml = this.getSelectionOuterHtmlElement();
-                                    if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
-                                    {
-                                        _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
-                                        content = builder.getPublishHtml() + _selectedHtml;
-                                    }
-                                    else
-                                    {
-                                        _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
-                                        content = builder.getPublishHtml(_selectedHtml, _selectedText);
-                                    }
-
-                                }
-                                catch (Exception)
-                                {
-                                    MessageBox.Show("You cannot attach an anchor to this type of object");
-                                    return DialogResult.Cancel;
-                                }
+                                _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
+                                content = builder.getPublishHtml() + _selectedHtml;
                             }
                             else
                             {
@@ -105,17 +98,7 @@ namespace WLWSimpleAnchorManager
                             // the cursor location, but will not be bound to a specific HTML text element:
                             if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
                             {
-                                try
-                                {
-                                    _selectedHtml = this.getCurrentElement(_htmlDoc).outerHTML;
-                                    //_selectedHtml = this.getSelectionOuterHtmlElement();
                                     content = builder.getPublishHtml() + _selectedHtml;
-                                }
-                                catch (Exception)
-                                {
-                                    MessageBox.Show("You cannot attach a Link to this type of object");
-                                    return DialogResult.Cancel;
-                                }
                             }
                             else
                             {
@@ -155,6 +138,8 @@ namespace WLWSimpleAnchorManager
                 return null;
             }
 
+            rng.moveToElementText(elmt);
+            rng.select();
             return elmt;
         }
 
