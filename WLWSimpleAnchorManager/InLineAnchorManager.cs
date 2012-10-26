@@ -38,29 +38,23 @@ namespace WLWSimpleAnchorManager
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
             _editorHtml = WLWPostContentHelper.ExtractHtml(dialogOwner.Handle);
-            // String representation of the Text currently selected in the editor:
             _selectedText = WLWPostContentHelper.ExtractSelectedText(dialogOwner.Handle);
             _anchorsList = WLWPostContentHelper.getAnchorNames(_editorHtml);
             _htmlDoc = WLWPostContentHelper.getHtmlDocument(dialogOwner.Handle);
 
-            //// String representation of the HTML enclosing the current selected text in the editor:
-            //_selectedHtml = WLWPostContentHelper.ExtractSelectedHtml(dialogOwner.Handle);
-
-            //if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
-            //{
-                try
-                {
-                    IHTMLElement currentElement = this.getCurrentElement(_htmlDoc);
+            try
+            {
+                IHTMLElement currentElement = this.getCurrentElement(_htmlDoc);
                     
-                    _selectedHtml = currentElement.outerHTML;
-                    _selectedText = currentElement.innerText;
+                _selectedHtml = currentElement.outerHTML;
+                _selectedText = currentElement.innerText;
 
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("You cannot attach an anchor to this type of object");
-                    return DialogResult.Cancel;
-                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("You cannot attach an anchor to this type of object");
+                return DialogResult.Cancel;
+            }
 
             _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
             _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
@@ -77,9 +71,10 @@ namespace WLWSimpleAnchorManager
                         case AnchorTypes.Anchor:
                             builder = new AnchorBuilder(anchor);
 
+
                             // If no text is selected in the editor, a named anchor will be inserted at the 
                             // the cursor location, but will not be bound to a specific HTML text element:
-                            if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
+                            if (string.IsNullOrEmpty(_selectedHtml))
                             {
                                 _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
                                 content = builder.getPublishHtml() + _selectedHtml;
@@ -96,13 +91,13 @@ namespace WLWSimpleAnchorManager
 
                             // If no text is selected in the editor, a named anchor will be inserted at the 
                             // the cursor location, but will not be bound to a specific HTML text element:
-                            if (string.IsNullOrEmpty(_selectedHtml) || _selectedHtml == "")
+                            if (string.IsNullOrEmpty(_selectedHtml))
                             {
-                                    content = builder.getPublishHtml() + _selectedHtml;
+                                content = builder.getPublishHtml() + _selectedHtml;
                             }
                             else
                             {
-                                content = builder.getPublishHtml(_selectedHtml, _selectedText);
+                                content = builder.editPublishHtml(_selectedHtml, _selectedText);
                             }
                             break;
                         case AnchorTypes.None:
@@ -131,7 +126,7 @@ namespace WLWSimpleAnchorManager
 
             try
             {
-                elmt = this.getSelectionElement(rng.parentElement());
+                elmt = this.getFirstValidSelectionElement(rng.parentElement());
             }
             catch (Exception)
             {
@@ -144,20 +139,20 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        IHTMLElement getSelectionElement(IHTMLElement selectionElement)
+        IHTMLElement getFirstValidSelectionElement(IHTMLElement intialElement)
         {
             
-            if (Array.IndexOf(this.validSelectionElementNames(), selectionElement.GetType().Name) >= 0)
+            if (Array.IndexOf(this.validSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
             {
                 // This current element is valid as selected HTML for the editor:
-                return selectionElement;
+                return intialElement;
             }
             else
             {
-                if (Array.IndexOf(this.CheckParentSelectionElementNames(), selectionElement.GetType().Name) >= 0)
+                if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
                 {
-                    IHTMLElement parent = selectionElement.parentElement;
-                    return this.getSelectionElement(parent);
+                    IHTMLElement parent = intialElement.parentElement;
+                    return this.getFirstValidSelectionElement(parent);
                 }
                 else
                 {
@@ -167,7 +162,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        string[] validSelectionElementNames()
+        string[] validSelectionElementClassNames()
         {
             return new string[] { 
                 "HTMLHeaderElementClass", "HTMLLIElementClass", "HTMLListElementClass", 
@@ -177,7 +172,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        string[] CheckParentSelectionElementNames()
+        string[] CheckParentSelectionElementClassNames()
         {
             return new string[] {
                 "HTMLAnchorElementClass",
