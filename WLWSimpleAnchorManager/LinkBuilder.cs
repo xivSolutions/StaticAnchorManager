@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Text.RegularExpressions;
 
 
 namespace WLWSimpleAnchorManager
 {
     class LinkBuilder : HtmlBuilderBase
     {
-        //private static string wlwLinkToAnchor = "wlwLinkToAnchor";
 
         public LinkBuilder(AnchorData settings)
         {
@@ -19,9 +18,8 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml()
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("name", wlwLinkToAnchor + ":" + this.AnchorSettings.AnchorName, '"'));
-
+            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + HtmlBuilderBase.wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("name", HtmlBuilderBase.wlwLinkToAnchor + ":" + this.AnchorSettings.AnchorName, '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -34,7 +32,7 @@ namespace WLWSimpleAnchorManager
             htmlElement newAnchor = new htmlElement("a", false);
             newAnchor.Attributes.Add(new htmlAttribute("href", "#" + wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
             newAnchor.Attributes.Add(new htmlAttribute("name", wlwLinkToAnchor + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Content = selectedText;
+            newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();
 
@@ -48,9 +46,35 @@ namespace WLWSimpleAnchorManager
             }
         }
 
+
         public override string editPublishHtml(string selectedHtml, string selectedText)
         {
-            throw new NotImplementedException();
+            string freshHtml = this.stripLinkHtml(selectedHtml);
+
+            htmlElement newAnchor = new htmlElement("a", false);
+            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("name", wlwLinkToAnchor + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Content = this.AnchorSettings.DisplayText;
+
+            string anchorTag = newAnchor.ToString();
+
+            if (string.IsNullOrEmpty(selectedText))
+            {
+                return anchorTag;
+            }
+            else
+            {
+                return freshHtml.Replace(selectedText, anchorTag);
+            }
+        }
+
+
+        private string stripLinkHtml(string selectedHtml)
+        {
+            Regex rgx = new Regex(HtmlBuilderBase.LinkTagRegexPattern);
+            string output = rgx.Replace(selectedHtml, "");
+            output = output.Replace("</A>", "");
+            return output;
         }
     }
 }
