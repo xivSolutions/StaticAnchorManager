@@ -58,54 +58,53 @@ namespace WLWSimpleAnchorManager
 
             _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
             _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
+            _selectedHtml = WLWPostContentHelper.stripLinkHtml(_selectedHtml);
 
             var anchor = new AnchorData(_currentAnchorName, _selectedText, AnchorTypes.None);
+            AnchorBuilderBase builder;
 
             using (var frm = new CreateContentForm(anchor, _anchorsList))
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    AnchorBuilderBase builder;
                     switch(anchor.AnchorType)
                     {
                         case AnchorTypes.Anchor:
                             builder = new AnchorBuilder(anchor);
-
-
-                            // If no text is selected in the editor, a named anchor will be inserted at the 
-                            // the cursor location, but will not be bound to a specific HTML text element:
-                            if (string.IsNullOrEmpty(_selectedHtml))
-                            {
-                                content = builder.getPublishHtml() + _selectedHtml;
-                            }
-                            else
-                            {
-                                content = builder.getPublishHtml(_selectedHtml, _selectedText);
-                            }
                             break;
 
                         case AnchorTypes.Link:
                             builder = new LinkBuilder(anchor);
-
-                            // If no text is selected in the editor, a named anchor will be inserted at the 
-                            // the cursor location, but will not be bound to a specific HTML text element:
-                            if (string.IsNullOrEmpty(_selectedHtml))
-                            {
-                                content = builder.getPublishHtml() + _selectedHtml;
-                            }
-                            else
-                            {
-                                content = builder.editPublishHtml(_selectedHtml, _selectedText);
-                            }
-                            break;
-                        case AnchorTypes.None:
-                            content = "";
                             break;
                         default:
+                            builder = null; 
                             content = "";
                             break;
                     }
-                    return DialogResult.OK;
+
+
+                    // If no text is selected in the editor, a named anchor will be inserted at the 
+                    // the cursor location, but will not be bound to a specific HTML text element:
+                    if (builder != null)
+                    {
+                        if (string.IsNullOrEmpty(_selectedHtml))
+                        {
+                            content = builder.getPublishHtml() + _selectedHtml;
+                        }
+                        else
+                        {
+                            content = builder.getPublishHtml(_selectedHtml, _selectedText);
+                        }
+
+                        // TODO: List, optional find and replace all instances of edited anchors!
+                        return DialogResult.OK;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid Anchor Settings");
+                        return DialogResult.Cancel;
+                    }
+
                 }
                 else
                 {

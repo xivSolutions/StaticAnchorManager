@@ -45,36 +45,5 @@ namespace WLWSimpleAnchorManager
                 return selectedHtml.Replace(selectedText, anchorTag);
             }
         }
-
-
-        public override string editPublishHtml(string selectedHtml, string selectedText)
-        {
-            string freshHtml = this.stripLinkHtml(selectedHtml);
-
-            htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("name", wlwLinkToAnchor + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Content = this.AnchorSettings.DisplayText;
-
-            string anchorTag = newAnchor.ToString();
-
-            if (string.IsNullOrEmpty(selectedText))
-            {
-                return anchorTag;
-            }
-            else
-            {
-                return freshHtml.Replace(selectedText, anchorTag);
-            }
-        }
-
-
-        private string stripLinkHtml(string selectedHtml)
-        {
-            Regex rgx = new Regex(AnchorBuilderBase.LinkTagRegexPattern);
-            string output = rgx.Replace(selectedHtml, "");
-            output = output.Replace("</A>", "");
-            return output;
-        }
     }
 }

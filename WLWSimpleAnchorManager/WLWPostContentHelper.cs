@@ -15,6 +15,10 @@ namespace WLWSimpleAnchorManager
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
         private const char ANCHOR_LIST_DELIMITER = '|';
 
+        public static string LinkTagRegexPattern = "<A\\s.*name=" + AnchorBuilderBase.wlwLinkToAnchor + ":.*?(>|\\s+>)";
+        public static string AnchorTagRegexPattern = "<A\\sname=" + AnchorBuilderBase.wlwAnchorTag + ":.*?(>|\\s+>)";
+
+
         public static IHTMLDocument2 getHtmlDocument(IntPtr owner)
         {
             IHTMLDocument2 output = null;
@@ -74,7 +78,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=wlwSmartAnchorName:).*?(?=\\s|>|\")";
+                String regExMatchPattern = "(?<=name=wlwSmartAnchorName:).*?(?=\\s|>|\")";
                 Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorMatch.Success)
                 {
@@ -88,7 +92,7 @@ namespace WLWSimpleAnchorManager
         
         public static string ExtractDelimitedAnchorsList(string PostContent)
         {
-            String regExMatchPattern = "(?<=wlwSmartAnchorName:).*?(?=\\s|>|\")";
+            String regExMatchPattern = "(?<=name=wlwSmartAnchorName:).*?(?=\\s|>|\")";
             MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
 
 
@@ -126,7 +130,22 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                Regex rgx = new Regex("<A\\sname=wlwSmartAnchorName:.*?(>|\\s+>)");
+                Regex rgx = new Regex(WLWPostContentHelper.AnchorTagRegexPattern);
+                output = rgx.Replace(selectedHtml, "");
+                output = output.Replace("</A>", "");
+            }
+
+            return output;
+        }
+
+
+        public static string stripLinkHtml(string selectedHtml)
+        {
+            string output = "";
+
+            if (!string.IsNullOrEmpty(selectedHtml))
+            {
+                Regex rgx = new Regex(WLWPostContentHelper.LinkTagRegexPattern);
                 output = rgx.Replace(selectedHtml, "");
                 output = output.Replace("</A>", "");
             }

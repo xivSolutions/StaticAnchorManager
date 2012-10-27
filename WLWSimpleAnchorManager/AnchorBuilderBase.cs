@@ -14,15 +14,10 @@ namespace WLWSimpleAnchorManager
         public static string wlwAnchorTag = "wlwSmartAnchorName";
         public static string wlwLinkToAnchor = "wlwLinkToAnchor";
 
-        public static string LinkTagRegexPattern = "<A\\s.*name=" + AnchorBuilderBase.wlwLinkToAnchor + ":.*?(>|\\s+>)";
-        public static string AnchorTagRegexPattern = "<A\\sname=" + AnchorBuilderBase.wlwAnchorTag + ":.*?(>|\\s+>)";
-
-
         public AnchorData AnchorSettings { get; set; }
         public string ExistingHtml { get; set; }
 
         public abstract string getPublishHtml();
         public abstract string getPublishHtml(string selectedHtml, string selectedText);
-        public abstract string editPublishHtml(string selectedHtml, string selectedText);
     }
 }
