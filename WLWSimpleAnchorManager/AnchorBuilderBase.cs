@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WLWSimpleAnchorManager
 {
-    public abstract class HtmlBuilderBase
+    public abstract class AnchorBuilderBase
     {
         protected const string PLACEHOLDER_TEXT_START = "[";
         protected const string PLACEHOLDER_TEXT_CLOSE = "]";
@@ -14,11 +14,8 @@ namespace WLWSimpleAnchorManager
         public static string wlwAnchorTag = "wlwSmartAnchorName";
         public static string wlwLinkToAnchor = "wlwLinkToAnchor";
 
-        public static string LinkTagRegexPattern = "<A\\s.*name=" + HtmlBuilderBase.wlwLinkToAnchor + ":.*?(>|\\s+>)";
-        public static string AnchorTagRegexPattern = "<A\\sname=" + HtmlBuilderBase.wlwAnchorTag + ":.*?(>|\\s+>)";
-
-        // <A\s.*name=wlwLinkToAnchor:.*?(>|\s+>)
-
+        public static string LinkTagRegexPattern = "<A\\s.*name=" + AnchorBuilderBase.wlwLinkToAnchor + ":.*?(>|\\s+>)";
+        public static string AnchorTagRegexPattern = "<A\\sname=" + AnchorBuilderBase.wlwAnchorTag + ":.*?(>|\\s+>)";
 
 
         public AnchorData AnchorSettings { get; set; }

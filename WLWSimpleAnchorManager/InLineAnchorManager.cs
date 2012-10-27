@@ -65,7 +65,7 @@ namespace WLWSimpleAnchorManager
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    HtmlBuilderBase builder;
+                    AnchorBuilderBase builder;
                     switch(anchor.AnchorType)
                     {
                         case AnchorTypes.Anchor:
@@ -76,12 +76,10 @@ namespace WLWSimpleAnchorManager
                             // the cursor location, but will not be bound to a specific HTML text element:
                             if (string.IsNullOrEmpty(_selectedHtml))
                             {
-                                _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
                                 content = builder.getPublishHtml() + _selectedHtml;
                             }
                             else
                             {
-                                _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
                                 content = builder.getPublishHtml(_selectedHtml, _selectedText);
                             }
                             break;

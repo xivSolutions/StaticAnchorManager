@@ -64,7 +64,7 @@
     <Compile Include="HtmlAssembly\HTMLElementList.cs" />
     <Compile Include="HtmlAssembly\htmLMarkupSymbols.cs" />
     <Compile Include="HtmlAssembly\InvalidhtmlException.cs" />
-    <Compile Include="HtmlBuilderBase.cs" />
+    <Compile Include="AnchorBuilderBase.cs" />
     <Compile Include="InLineAnchorManager.cs" />
     <Compile Include="pnlAnchorEditor.cs">
       <SubType>UserControl</SubType>

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace WLWSimpleAnchorManager
 {
-    class AnchorBuilder : HtmlBuilderBase
+    class AnchorBuilder : AnchorBuilderBase
     {
         //private static string wlwAnchorTag = "wlwSmartAnchorName";
 
@@ -32,7 +32,7 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml(string selectedHtml, string selectedText)
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("name", HtmlBuilderBase.wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorBuilderBase.wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
             newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();
@@ -53,7 +53,7 @@ namespace WLWSimpleAnchorManager
             string freshHtml = this.stripAnchorHtml(selectedHtml);
 
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("name", HtmlBuilderBase.wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorBuilderBase.wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
             newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();
@@ -71,7 +71,7 @@ namespace WLWSimpleAnchorManager
 
         private string stripAnchorHtml(string selectedHtml)
         {
-            Regex rgx = new Regex(HtmlBuilderBase.AnchorTagRegexPattern);
+            Regex rgx = new Regex(AnchorBuilderBase.AnchorTagRegexPattern);
             string output = rgx.Replace(selectedHtml, "");
             output = output.Replace("</A>", "");
             return output;

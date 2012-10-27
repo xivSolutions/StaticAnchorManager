@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace WLWSimpleAnchorManager
 {
-    class LinkBuilder : HtmlBuilderBase
+    class LinkBuilder : AnchorBuilderBase
     {
 
         public LinkBuilder(AnchorData settings)
@@ -18,8 +18,8 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml()
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + HtmlBuilderBase.wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("name", HtmlBuilderBase.wlwLinkToAnchor + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorBuilderBase.wlwAnchorTag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorBuilderBase.wlwLinkToAnchor + ":" + this.AnchorSettings.AnchorName, '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -71,7 +71,7 @@ namespace WLWSimpleAnchorManager
 
         private string stripLinkHtml(string selectedHtml)
         {
-            Regex rgx = new Regex(HtmlBuilderBase.LinkTagRegexPattern);
+            Regex rgx = new Regex(AnchorBuilderBase.LinkTagRegexPattern);
             string output = rgx.Replace(selectedHtml, "");
             output = output.Replace("</A>", "");
             return output;
