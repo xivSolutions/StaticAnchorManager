@@ -78,7 +78,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=name=" + AnchorBuilderBase.wlwLinkToAnchorFlag + ":).*?(?=\\s|>|\")";
+                String regExMatchPattern = "(?<=name=" + AnchorBuilderBase.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
                 Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorMatch.Success)
                 {
