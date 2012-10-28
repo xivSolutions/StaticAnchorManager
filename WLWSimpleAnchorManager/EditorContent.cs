@@ -29,6 +29,13 @@ namespace WLWSimpleAnchorManager
             _htmlDocument = EditorContent.getHtmlDocument(wlwEditorHandle);
         }
 
+
+        public string EditorHtml
+        {
+            get { return _editorHtml; }
+        }
+
+
         private static IHTMLDocument2 getHtmlDocument(IntPtr owner)
         {
             IHTMLDocument2 output = null;
@@ -57,7 +64,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public bool TryGetCurrentElement(ref IHTMLElement refElement)
+        public IHTMLElement TryGetCurrentElement()
         {
             IHTMLSelectionObject selection = _htmlDocument.selection;
 
@@ -65,20 +72,20 @@ namespace WLWSimpleAnchorManager
             // item is selected in teh editor. Allow the exception to propegate
             // up the call stack for handling at the UI level. 
             IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
-            //IHTMLElement elmt = null;
+            IHTMLElement elmt = null;
 
             try
             {
-                refElement = this.getFirstValidSelectionElement(rng.parentElement());
+                elmt = this.getFirstValidSelectionElement(rng.parentElement());
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
 
-            rng.moveToElementText(refElement);
+            rng.moveToElementText(elmt);
             rng.select();
-            return true;
+            return elmt;
         }
 
 
