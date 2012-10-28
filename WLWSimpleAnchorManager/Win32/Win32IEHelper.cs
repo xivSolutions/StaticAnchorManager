@@ -24,7 +24,7 @@ namespace WLWPluginBase.Win32
         /// </summary>
         /// <param name="hWnd">window handle for which to return the associated <see cref="IHTMLDocument2"/> instance.</param>
         /// <returns><see cref="IHTMLDocument2"/> instance for the given window handle, if any. Otherwise, <c>null</c>.</returns>
-        private static IHTMLDocument2 GetIEDocumentFromWindowHandle(IntPtr hWnd)
+        public static IHTMLDocument2 GetIEDocumentFromWindowHandle(IntPtr hWnd)
         {
             // Assume we did not find the document handle.
             IHTMLDocument2 htmlDocument = null;
@@ -70,6 +70,8 @@ namespace WLWPluginBase.Win32
             IHTMLDocument2 htmlDoc = GetIEDocumentFromWindowHandle(handle);
             return htmlDoc.body.innerHTML;
         }
+
+
         /// <summary>
         /// Get the underlying text for the given window handle.
         /// </summary>
@@ -80,6 +82,8 @@ namespace WLWPluginBase.Win32
             IHTMLDocument2 htmlDoc = GetIEDocumentFromWindowHandle(handle);
             return htmlDoc.body.innerText;
         }
+
+
         /// <summary>
         /// Get the selected HTML code for the given window handle.
         /// </summary>
@@ -114,6 +118,8 @@ namespace WLWPluginBase.Win32
             }
             return htmlText;
         }
+
+
         /// <summary>
         /// Get the selected text for the given window handle.
         /// </summary>
@@ -148,6 +154,7 @@ namespace WLWPluginBase.Win32
             }
             return text;
         }
+
         #endregion Document
 
         #region Commands
