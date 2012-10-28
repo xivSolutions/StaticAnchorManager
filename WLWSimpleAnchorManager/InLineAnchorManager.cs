@@ -5,8 +5,7 @@ using System.Text.RegularExpressions;
 using WindowsLive.Writer.Api;
 using System.Windows.Forms;
 using System.Drawing;
-using mshtml;
-//using WLWPluginBase.Win32;
+//using mshtml;
 
 using System.Runtime.InteropServices;
 
@@ -42,7 +41,10 @@ namespace WLWSimpleAnchorManager
 
             try
             {
-                IHTMLElement currentElement = currentEditor.TryGetCurrentElement();
+                // the call to currentEditor.TryGetCurrentElement mwill throw an exception
+                // if the current editor selection is not a valid html item. This is related to the 
+                // underlying COM basis of the operation, hence, the TRY block here:
+                mshtml.IHTMLElement currentElement = currentEditor.TryGetCurrentElement();
                 _selectedHtml = currentElement.outerHTML;
                 _selectedText = currentElement.innerText;
             }

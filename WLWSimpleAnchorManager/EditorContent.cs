@@ -41,7 +41,6 @@ namespace WLWSimpleAnchorManager
             IHTMLDocument2 output = null;
 
             Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
             if (item != null)
             {
                 output = Win32IEHelper.GetIEDocumentFromWindowHandle(item.Handle);
@@ -55,7 +54,6 @@ namespace WLWSimpleAnchorManager
             string selectedText = "";
 
             Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
             if (item != null)
             {
                 selectedText = Win32IEHelper.GetHtml(item.Handle);
@@ -125,9 +123,8 @@ namespace WLWSimpleAnchorManager
         string[] CheckParentSelectionElementClassNames()
         {
             return new string[] {
-                "HTMLAnchorElementClass",
-                "HTMLBaseFontElementClass", "HTMLFontElementClass", "HTMLLinkElementClass", 
-                "HTMLPhraseElementClass" };
+                "HTMLAnchorElementClass", "HTMLBaseFontElementClass", "HTMLFontElementClass", 
+                "HTMLLinkElementClass", "HTMLPhraseElementClass" };
         }
     }
 }
