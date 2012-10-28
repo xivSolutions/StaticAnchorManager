@@ -47,7 +47,6 @@ namespace WLWSimpleAnchorManager
                 IHTMLElement currentElement = this.getCurrentElement(_htmlDoc);
                 _selectedHtml = currentElement.outerHTML;
                 _selectedText = currentElement.innerText;
-
             }
             catch (Exception)
             {
@@ -117,10 +116,10 @@ namespace WLWSimpleAnchorManager
 
         IHTMLElement getCurrentElement(IHTMLDocument2 htmlDocument)
         {
-            IHTMLSelectionObject selection = _htmlDoc.selection;
+            IHTMLSelectionObject selection = htmlDocument.selection;
 
             // THis line will throw an exception if an Image or other non-Html
-            // item is selected in teh editor. Allow the exception to propegate
+            // item is selected in the editor. Allow the exception to propegate
             // up the call stack for handling at the UI level. 
             IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
             IHTMLElement elmt = null;
@@ -180,46 +179,5 @@ namespace WLWSimpleAnchorManager
                 "HTMLBaseFontElementClass", "HTMLFontElementClass", "HTMLLinkElementClass", 
                 "HTMLPhraseElementClass" };
         }
-
-
-        string getSelectionOuterHtmlElement()
-        {
-            IHTMLSelectionObject selected = _htmlDoc.selection;
-            IHTMLTxtRange rng = _htmlDoc.selection.createRange() as IHTMLTxtRange;
-
-            try
-            {
-                IHTMLElement elmt = rng.parentElement();
-
-                if (elmt.tagName != "DIV" && elmt.tagName != "HTML")
-                {
-                    rng.moveToElementText(elmt);
-                    rng.select();
-
-                    if (elmt.tagName == "A")
-                    {
-                        return elmt.parentElement.outerHTML;
-                    }
-
-                    return elmt.outerHTML;
-                }
-                else
-                {
-                    if (elmt.tagName == "A")
-                    {
-                        rng.moveToElementText(elmt);
-                        rng.select();
-                        return elmt.outerHTML;
-                    }
-
-                    return "";
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
     }
 }
