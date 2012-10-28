@@ -45,7 +45,6 @@ namespace WLWSimpleAnchorManager
             try
             {
                 IHTMLElement currentElement = this.getCurrentElement(_htmlDoc);
-                    
                 _selectedHtml = currentElement.outerHTML;
                 _selectedText = currentElement.innerText;
 
@@ -57,6 +56,8 @@ namespace WLWSimpleAnchorManager
             }
 
             _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
+            string anchorType = WLWPostContentHelper.getAnchorTypeFromHtml(_selectedHtml);
+
             _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
             _selectedHtml = WLWPostContentHelper.stripLinkHtml(_selectedHtml);
 

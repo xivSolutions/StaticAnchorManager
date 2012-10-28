@@ -11,8 +11,8 @@ namespace WLWSimpleAnchorManager
         protected const string PLACEHOLDER_TEXT_COLOR = "#ff0000";
         protected const string PLACEHOLDER_TEXT_SIZE = "1";
 
-        public static string wlwAnchorTag = "wlwSmartAnchorName";
-        public static string wlwLinkToAnchor = "wlwLinkToAnchor";
+        public static string wlwAnchorFlag = "wlwSmartAnchorName";
+        public static string wlwLinkToAnchorFlag = "wlwLinkToAnchor";
 
         public AnchorData AnchorSettings { get; set; }
         public string ExistingHtml { get; set; }

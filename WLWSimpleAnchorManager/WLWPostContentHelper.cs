@@ -15,8 +15,8 @@ namespace WLWSimpleAnchorManager
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
         private const char ANCHOR_LIST_DELIMITER = '|';
 
-        public static string LinkTagRegexPattern = "<A\\s.*name=" + AnchorBuilderBase.wlwLinkToAnchor + ":.*?(>|\\s+>)";
-        public static string AnchorTagRegexPattern = "<A\\sname=" + AnchorBuilderBase.wlwAnchorTag + ":.*?(>|\\s+>)";
+        public static string LinkTagRegexPattern = "<A\\s.*name=" + AnchorBuilderBase.wlwLinkToAnchorFlag + ":.*?(>|\\s+>)";
+        public static string AnchorTagRegexPattern = "<A\\sname=" + AnchorBuilderBase.wlwAnchorFlag + ":.*?(>|\\s+>)";
 
 
         public static IHTMLDocument2 getHtmlDocument(IntPtr owner)
@@ -78,7 +78,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=name=wlwSmartAnchorName:).*?(?=\\s|>|\")";
+                String regExMatchPattern = "(?<=name=" + AnchorBuilderBase.wlwLinkToAnchorFlag + ":).*?(?=\\s|>|\")";
                 Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorMatch.Success)
                 {
@@ -89,10 +89,31 @@ namespace WLWSimpleAnchorManager
             return output;
         }
 
+
+        public static string getAnchorTypeFromHtml(string selectedHtml)
+        {
+            //(?<=name=")(wlwSmartAnchorName|wlwLinkToAnchor).*?(?=:)(?=.*?(\s+|\"|>))
+
+            string output = "";
+
+            if (!string.IsNullOrEmpty(selectedHtml))
+            {
+                String regExMatchPattern = "(?<=name=)(" + AnchorBuilderBase.wlwAnchorFlag + "|" + AnchorBuilderBase.wlwLinkToAnchorFlag + ").*?(?=:)(?=.*?(\\s+|\"|>))";
+                Match anchorTypeMatch = Regex.Match(selectedHtml, regExMatchPattern);
+                if (anchorTypeMatch.Success)
+                {
+                    output = anchorTypeMatch.Value;
+                }
+            }
+
+            return output;
+
+        }
+
         
         public static string ExtractDelimitedAnchorsList(string PostContent)
         {
-            String regExMatchPattern = "(?<=name=wlwSmartAnchorName:).*?(?=\\s|>|\")";
+            String regExMatchPattern = "(?<=name=" + AnchorBuilderBase.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
             MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
 
 
