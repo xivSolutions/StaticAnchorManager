@@ -50,6 +50,7 @@
     <Compile Include="AnchorBuilder.cs" />
     <Compile Include="AnchorData.cs" />
     <Compile Include="AnchorTypes.cs" />
+    <Compile Include="EditorContent.cs" />
     <Compile Include="LinkBuilder.cs" />
     <Compile Include="CreateContentForm.cs">
       <SubType>Form</SubType>
