@@ -92,7 +92,6 @@ namespace WLWSimpleAnchorManager
 
         public static string getAnchorTypeFromHtml(string selectedHtml)
         {
-            //(?<=name=")(wlwSmartAnchorName|wlwLinkToAnchor).*?(?=:)(?=.*?(\s+|\"|>))
 
             string output = "";
 
@@ -107,7 +106,6 @@ namespace WLWSimpleAnchorManager
             }
 
             return output;
-
         }
 
         

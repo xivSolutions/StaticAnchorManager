@@ -6,7 +6,7 @@ using WindowsLive.Writer.Api;
 using System.Windows.Forms;
 using System.Drawing;
 using mshtml;
-using WLWPluginBase.Win32;
+//using WLWPluginBase.Win32;
 
 using System.Runtime.InteropServices;
 
