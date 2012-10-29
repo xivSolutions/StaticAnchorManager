@@ -11,11 +11,6 @@ namespace WLWSimpleAnchorManager
         private string _anchorName = "";
 
 
-        //public AnchorData() : this("", "", AnchorTypes.None)
-        //{
-        //}
-
-
         public AnchorData(string anchorName, string displayText, AnchorTypes type)
         {
             this.AnchorName = anchorName;
@@ -41,5 +36,6 @@ namespace WLWSimpleAnchorManager
         }
 
         public AnchorTypes AnchorType { get; set; }
+
     }
 }

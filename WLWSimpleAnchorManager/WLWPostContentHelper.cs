@@ -90,10 +90,10 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public static string getAnchorTypeFromHtml(string selectedHtml)
+        public static AnchorTypes getAnchorTypeFromHtml(string selectedHtml)
         {
 
-            string output = "";
+            AnchorTypes output = AnchorTypes.None;
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
@@ -101,7 +101,7 @@ namespace WLWSimpleAnchorManager
                 Match anchorTypeMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorTypeMatch.Success)
                 {
-                    output = anchorTypeMatch.Value;
+                    output = AnchorTypeHelper.getAnchorTypeFromString(anchorTypeMatch.Value.Replace("wlw", ""));
                 }
             }
 

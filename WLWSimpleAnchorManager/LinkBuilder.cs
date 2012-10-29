@@ -45,5 +45,20 @@ namespace WLWSimpleAnchorManager
                 return selectedHtml.Replace(selectedText, anchorTag);
             }
         }
+
+
+        private static string stripLinkHtml(string selectedHtml)
+        {
+            string output = "";
+
+            if (!string.IsNullOrEmpty(selectedHtml))
+            {
+                Regex rgx = new Regex(WLWPostContentHelper.LinkTagRegexPattern);
+                output = rgx.Replace(selectedHtml, "");
+                output = output.Replace("</A>", "");
+            }
+
+            return output;
+        }
     }
 }

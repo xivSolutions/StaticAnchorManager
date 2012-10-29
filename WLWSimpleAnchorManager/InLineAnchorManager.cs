@@ -55,7 +55,8 @@ namespace WLWSimpleAnchorManager
             }
 
             _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
-            string anchorType = WLWPostContentHelper.getAnchorTypeFromHtml(_selectedHtml);
+            AnchorTypes anchorType = WLWPostContentHelper.getAnchorTypeFromHtml(_selectedHtml);
+            
 
             _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
             _selectedHtml = WLWPostContentHelper.stripLinkHtml(_selectedHtml);
