@@ -19,59 +19,6 @@ namespace WLWSimpleAnchorManager
         public static string AnchorTagRegexPattern = "<A\\sname=" + AnchorBuilderBase.wlwAnchorFlag + ":.*?(>|\\s+>)";
 
 
-        public static IHTMLDocument2 getHtmlDocument(IntPtr owner)
-        {
-            IHTMLDocument2 output = null;
-
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
-            if (item != null)
-            {
-                output = Win32IEHelper.getHtmlDocument(item.Handle);
-            }
-            return output;
-        }
-
-
-        public static string ExtractSelectedText(IntPtr owner)
-        {
-            string selectedText = "";
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
-            if (item != null)
-            {
-                selectedText = Win32IEHelper.GetSelectedText(item.Handle);
-            }
-            return selectedText;
-        }
-
-
-        public static string ExtractHtml(IntPtr owner)
-        {
-            string selectedText = "";
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
-            if (item != null)
-            {
-                selectedText = Win32IEHelper.GetHtml(item.Handle);
-            }
-            return selectedText;
-        }
-
-
-        public static string ExtractSelectedHtml(IntPtr owner)
-        {
-            string selectedText = "";
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            // Determine if it is visible (i.e. active at the time of the request).
-            if (item != null)
-            {
-                selectedText = Win32IEHelper.GetSelectedHtml(item.Handle);
-            }
-            return selectedText;
-        }
-
-
         public static string getAnchorNameFromHtml(string selectedHtml)
         {
             string output = "";
