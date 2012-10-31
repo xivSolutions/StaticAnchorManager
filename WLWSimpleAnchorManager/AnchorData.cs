@@ -21,7 +21,7 @@ namespace WLWSimpleAnchorManager
             this.AnchorType = type;
         }
 
-
+        public AnchorTypes AnchorType { get; set; }
         public string DisplayText { get; set; }
 
 
@@ -36,10 +36,7 @@ namespace WLWSimpleAnchorManager
                 var rgx = new Regex(rgxOnlyAlphaNumeric);
                 _anchorName = rgx.Replace(value, "-");
             }
-        
         }
-
-        public AnchorTypes AnchorType { get; set; }
 
 
         public static string getAnchorNameFromHtml(string selectedHtml)
