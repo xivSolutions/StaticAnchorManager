@@ -37,7 +37,7 @@ namespace WLWSimpleAnchorManager
         {
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
             _editorHtml = currentEditor.EditorHtml;
-            _anchorsList = WLWPostContentHelper.getAnchorNames(_editorHtml);
+            _anchorsList = EditorContent.getAnchorNames(_editorHtml);
 
             try
             {
@@ -54,12 +54,12 @@ namespace WLWSimpleAnchorManager
                 return DialogResult.Cancel;
             }
 
-            _currentAnchorName = WLWPostContentHelper.getAnchorNameFromHtml(_selectedHtml);
-            AnchorTypes anchorType = WLWPostContentHelper.getAnchorTypeFromHtml(_selectedHtml);
+            _currentAnchorName = AnchorData.getAnchorNameFromHtml(_selectedHtml);
+            AnchorTypes anchorType = AnchorData.getAnchorTypeFromHtml(_selectedHtml);
             
 
-            _selectedHtml = WLWPostContentHelper.stripAnchorHtml(_selectedHtml);
-            _selectedHtml = WLWPostContentHelper.stripLinkHtml(_selectedHtml);
+            _selectedHtml = AnchorData.stripAnchorHtml(_selectedHtml);
+            _selectedHtml = AnchorData.stripLinkHtml(_selectedHtml);
 
             var anchor = new AnchorData(_currentAnchorName, _selectedText, AnchorTypes.None);
             AnchorBuilderBase builder;

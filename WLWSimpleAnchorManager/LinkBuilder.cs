@@ -18,8 +18,8 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml()
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorBuilderBase.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorBuilderBase.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -30,8 +30,8 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml(string selectedHtml, string selectedText)
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("name", wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
             newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();

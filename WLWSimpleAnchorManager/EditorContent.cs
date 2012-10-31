@@ -110,6 +110,36 @@ namespace WLWSimpleAnchorManager
         }
 
 
+        public static string[] getAnchorNames(string editorHtml)
+        {
+            string delimitedList = EditorContent.ExtractDelimitedAnchorsList(editorHtml);
+            //return EditorContent.getAnchorNamesFromDelimitedString(delimitedList);
+            return delimitedList.Split(ANCHOR_LIST_DELIMITER);
+
+        }
+
+
+        private static string ExtractDelimitedAnchorsList(string PostContent)
+        {
+            String regExMatchPattern = "(?<=name=" + AnchorData.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
+            MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
+
+
+            StringBuilder sb = new StringBuilder("");
+            foreach (Match currentMatch in matches)
+            {
+                sb.Append(currentMatch.Value + ANCHOR_LIST_DELIMITER);
+            }
+
+            if (sb.Length > 0)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+
+            return sb.ToString();
+        }
+
+
         string[] validSelectionElementClassNames()
         {
             return new string[] { 
