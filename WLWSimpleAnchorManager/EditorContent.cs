@@ -66,8 +66,8 @@ namespace WLWSimpleAnchorManager
         {
             IHTMLSelectionObject selection = _htmlDocument.selection;
 
-            // THis line will throw an exception if an Image or other non-Html
-            // item is selected in teh editor. Allow the exception to propegate
+            // This line will throw an exception if an Image or other non-Html
+            // item is selected in the editor. Allow the exception to propegate
             // up the call stack for handling at the UI level. 
             IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
             IHTMLElement elmt = null;
@@ -113,9 +113,7 @@ namespace WLWSimpleAnchorManager
         public static string[] getAnchorNames(string editorHtml)
         {
             string delimitedList = EditorContent.ExtractDelimitedAnchorsList(editorHtml);
-            //return EditorContent.getAnchorNamesFromDelimitedString(delimitedList);
             return delimitedList.Split(ANCHOR_LIST_DELIMITER);
-
         }
 
 

@@ -54,11 +54,6 @@ namespace WLWPluginBase.Win32
         }
 
 
-        public static IHTMLDocument2 getHtmlDocument(IntPtr hWnd)
-        {
-            return Win32IEHelper.GetIEDocumentFromWindowHandle(hWnd);
-        }
-
 
         /// <summary>
         /// Get the underlying HTML code for the given window handle.
