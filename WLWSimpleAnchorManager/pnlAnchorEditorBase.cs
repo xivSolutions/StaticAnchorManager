@@ -15,7 +15,13 @@ namespace WLWSimpleAnchorManager
         public event ValidAnchorContentHandler InvalidContentDetected;
 
 
-        public pnlAnchorEditorBase(AnchorData settings)
+        protected pnlAnchorEditorBase()
+        {
+        
+        }
+
+
+        public pnlAnchorEditorBase(AnchorData settings) : this()
         {
             InitializeComponent();
             this.AnchorSettings = settings;

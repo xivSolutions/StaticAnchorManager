@@ -13,6 +13,11 @@ namespace WLWSimpleAnchorManager
         private static string ANCHOR_IMAGE_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
         private Image ANCHOR_IMAGE = Properties.Resources.Anchor1616;
 
+        protected pnlAnchorEditor() : base()
+        {
+
+        }
+
 
         public pnlAnchorEditor(AnchorData settings) : base(settings)
         {

@@ -16,6 +16,11 @@ namespace WLWSimpleAnchorManager
         private ListViewItem _selectedListItem;
         private string[] _anchorNames;
 
+        protected pnlLinkEditor() : base()
+        {
+
+        }
+
 
         public pnlLinkEditor(string[] anchorNames, AnchorData settings) : base(settings)
         {
