@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.ControlContainer = new System.Windows.Forms.Panel();
             this.chkShowAnchors = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.cboChooseFunction = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // panel1
+            // ControlContainer
             // 
-            this.panel1.Location = new System.Drawing.Point(3, 60);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 350);
-            this.panel1.TabIndex = 2;
+            this.ControlContainer.Location = new System.Drawing.Point(3, 60);
+            this.ControlContainer.Name = "ControlContainer";
+            this.ControlContainer.Size = new System.Drawing.Size(200, 350);
+            this.ControlContainer.TabIndex = 2;
             // 
             // chkShowAnchors
             // 
@@ -96,7 +96,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.chkShowAnchors);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.ControlContainer);
             this.Name = "CreateContentForm";
             this.Text = "CreateContentForm";
             this.ResumeLayout(false);
@@ -106,7 +106,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel ControlContainer;
         private System.Windows.Forms.CheckBox chkShowAnchors;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;

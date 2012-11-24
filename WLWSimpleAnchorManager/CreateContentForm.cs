@@ -113,7 +113,7 @@ namespace WLWSimpleAnchorManager
         {
             if (_currentEditorPanel != null)
             {
-                this.panel1.Controls.Clear();
+                this.ControlContainer.Controls.Clear();
             }
 
             switch (selectedConfiguration)
@@ -136,7 +136,7 @@ namespace WLWSimpleAnchorManager
             _currentEditorPanel.InvalidContentDetected += new pnlAnchorEditorBase.ValidAnchorContentHandler(CurrentEditorPanel_InvalidContentDetected);
 
             _currentEditorPanel.Dock = DockStyle.Fill;
-            this.panel1.Controls.Add(_currentEditorPanel);
+            this.ControlContainer.Controls.Add(_currentEditorPanel);
             _currentEditorPanel.Show();
 
         }
