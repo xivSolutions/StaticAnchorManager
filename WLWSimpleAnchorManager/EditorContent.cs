@@ -64,10 +64,11 @@ namespace WLWSimpleAnchorManager
 
         public IHTMLElement TryGetCurrentElement()
         {
+            
             IHTMLSelectionObject selection = _htmlDocument.selection;
 
             // This line will throw an exception if an Image or other non-Html
-            // item is selected in the editor. Allow the exception to propegate
+            // item is selected in the html editor. Allow the exception to propegate
             // up the call stack for handling at the UI level. 
             IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
             IHTMLElement elmt = null;
