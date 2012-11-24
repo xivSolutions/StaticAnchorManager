@@ -61,21 +61,21 @@ namespace WLWSimpleAnchorManager
             _selectedHtml = AnchorData.stripAnchorHtml(_selectedHtml);
             _selectedHtml = AnchorData.stripLinkHtml(_selectedHtml);
 
-            var anchor = new AnchorData(_currentAnchorName, _selectedText, AnchorTypes.None);
+            var anchorSettings = new AnchorData(_currentAnchorName, _selectedText, anchorType);
             AnchorBuilderBase builder;
 
-            using (var frm = new CreateContentForm(anchor, _anchorsList))
+            using (var frm = new EditContentForm(anchorSettings, _anchorsList))
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    switch(anchor.AnchorType)
+                    switch(anchorSettings.AnchorType)
                     {
                         case AnchorTypes.Anchor:
-                            builder = new AnchorBuilder(anchor);
+                            builder = new AnchorBuilder(anchorSettings);
                             break;
 
                         case AnchorTypes.Link:
-                            builder = new LinkBuilder(anchor);
+                            builder = new LinkBuilder(anchorSettings);
                             break;
                         default:
                             builder = null; 
