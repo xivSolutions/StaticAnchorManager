@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using WindowsLive.Writer.Api;
-using System.Windows.Forms;
-using System.Drawing;
-using WLWPluginBase.Win32;
 using mshtml;
+using WLWPluginBase.Win32;
 
 namespace WLWSimpleAnchorManager
 {

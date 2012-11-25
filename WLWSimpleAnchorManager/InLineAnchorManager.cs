@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using WindowsLive.Writer.Api;
 using System.Windows.Forms;
-using System.Drawing;
-//using mshtml;
-
-using System.Runtime.InteropServices;
+using WindowsLive.Writer.Api;
 
 
 namespace WLWSimpleAnchorManager
