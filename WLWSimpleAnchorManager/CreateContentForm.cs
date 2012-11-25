@@ -142,16 +142,16 @@
 //        }
 
 
-//        void CurrentEditorPanel_ValidContentDetected(object sender, EventArgs e)
-//        {
-//            this.btnOK.Enabled = true;
-//        }
+        //void CurrentEditorPanel_ValidContentDetected(object sender, EventArgs e)
+        //{
+        //    this.btnOK.Enabled = true;
+        //}
 
 
-//        void CurrentEditorPanel_InvalidContentDetected(object sender, EventArgs e)
-//        {
-//            this.btnOK.Enabled = false;
-//        }
+        //void CurrentEditorPanel_InvalidContentDetected(object sender, EventArgs e)
+        //{
+        //    this.btnOK.Enabled = false;
+        //}
 
 
 
