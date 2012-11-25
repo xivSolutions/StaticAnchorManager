@@ -95,10 +95,10 @@ namespace WLWSimpleAnchorManager
                     if (builder != null)
                     {
 
-                        //if (_selectedText != _selectedInnerHtml)
-                        //{
-                        //    _selectedText = _selectedInnerHtml;
-                        //}
+                        if (_selectedText != _selectedInnerHtml)
+                        {
+                            _selectedText = _selectedInnerHtml;
+                        }
 
                         if (string.IsNullOrEmpty(_selectedHtml))
                         {
