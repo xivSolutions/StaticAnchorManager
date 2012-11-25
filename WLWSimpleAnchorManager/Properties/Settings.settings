@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WLWSimpleAnchorManager.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ACTIVE_TAB_FORECOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="INACTIVE_TAB_FORECOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">LightSteelBlue</Value>
+    </Setting>
+    <Setting Name="MOUSE_OVER_TAB_FORECOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">DarkBlue</Value>
+    </Setting>
+    <Setting Name="ACTIVE_TAB_BACKCOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">DarkBlue</Value>
+    </Setting>
+    <Setting Name="INACTIVE_TAB_BACKCOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Transparent</Value>
+    </Setting>
+    <Setting Name="MOUSE_OVER_TAB_BACKCOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Transparent</Value>
+    </Setting>
+    <Setting Name="STANDARD_LABEL_FORECOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">DarkBlue</Value>
+    </Setting>
+    <Setting Name="STANDARD_TEXTBOX_FORECOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="STANDARD_TEXTBOX_BACKCOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="STANDARD_TEXTBOX_BORDERCOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Silver</Value>
+    </Setting>
+    <Setting Name="STANDARD_UI_FONT" Type="System.Drawing.Font" Scope="Application">
+      <Value Profile="(Default)">Segoe UI, 12pt</Value>
+    </Setting>
+    <Setting Name="STANDARD_USER_FONT" Type="System.Drawing.Font" Scope="Application">
+      <Value Profile="(Default)">Segoe UI, 12pt</Value>
+    </Setting>
+    <Setting Name="FORM_LABEL_FONT" Type="System.Drawing.Font" Scope="Application">
+      <Value Profile="(Default)">Calibri, 11.25pt</Value>
+    </Setting>
+    <Setting Name="FORM_LABEL_FORECOLOR" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">DimGray</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -50,6 +50,9 @@
     <Compile Include="AnchorBuilder.cs" />
     <Compile Include="AnchorData.cs" />
     <Compile Include="AnchorTypes.cs" />
+    <Compile Include="ExtendedTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="EditContentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +97,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Win32\Win32EnumWindows.cs" />
     <Compile Include="Win32\Win32Functions.cs" />
     <Compile Include="Win32\Win32IEHelper.cs" />
@@ -107,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditContentForm.resx">
       <DependentUpon>EditContentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExtendedTextBox.resx">
+      <DependentUpon>ExtendedTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="pnlAnchorEditor.resx">
       <DependentUpon>pnlAnchorEditor.cs</DependentUpon>
@@ -125,6 +136,13 @@
   <ItemGroup>
     <Content Include="Resources\Anchor1616.png" />
     <Content Include="Resources\AnchorLink1616.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
