@@ -29,54 +29,43 @@
         private void InitializeComponent()
         {
             this.lblAnchorName = new System.Windows.Forms.Label();
-            this.txtAnchorName = new System.Windows.Forms.TextBox();
             this.lblDiplayText = new System.Windows.Forms.Label();
-            this.txtDisplayText = new System.Windows.Forms.TextBox();
             this.lblLvSelectedAnchor = new System.Windows.Forms.Label();
             this.lvSelectedAnchor = new System.Windows.Forms.ListView();
+            this.txtDisplayText = new WLWSimpleAnchorManager.ExtendedTextbox();
+            this.txtAnchorName = new WLWSimpleAnchorManager.ExtendedTextbox();
             this.SuspendLayout();
             // 
             // lblAnchorName
             // 
             this.lblAnchorName.AutoSize = true;
-            this.lblAnchorName.Location = new System.Drawing.Point(3, 58);
+            this.lblAnchorName.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblAnchorName.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblAnchorName.Location = new System.Drawing.Point(12, 60);
             this.lblAnchorName.Name = "lblAnchorName";
-            this.lblAnchorName.Size = new System.Drawing.Size(72, 13);
+            this.lblAnchorName.Size = new System.Drawing.Size(88, 17);
             this.lblAnchorName.TabIndex = 10;
             this.lblAnchorName.Text = "Anchor Name";
-            // 
-            // txtAnchorName
-            // 
-            this.txtAnchorName.Location = new System.Drawing.Point(3, 74);
-            this.txtAnchorName.Name = "txtAnchorName";
-            this.txtAnchorName.Size = new System.Drawing.Size(190, 20);
-            this.txtAnchorName.TabIndex = 1;
             // 
             // lblDiplayText
             // 
             this.lblDiplayText.AutoSize = true;
-            this.lblDiplayText.Location = new System.Drawing.Point(3, 19);
+            this.lblDiplayText.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblDiplayText.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblDiplayText.Location = new System.Drawing.Point(12, 8);
             this.lblDiplayText.Name = "lblDiplayText";
-            this.lblDiplayText.Size = new System.Drawing.Size(65, 13);
+            this.lblDiplayText.Size = new System.Drawing.Size(78, 17);
             this.lblDiplayText.TabIndex = 12;
             this.lblDiplayText.Text = "Display Text";
-            // 
-            // txtDisplayText
-            // 
-            this.txtDisplayText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDisplayText.Location = new System.Drawing.Point(3, 35);
-            this.txtDisplayText.Multiline = true;
-            this.txtDisplayText.Name = "txtDisplayText";
-            this.txtDisplayText.Size = new System.Drawing.Size(190, 20);
-            this.txtDisplayText.TabIndex = 0;
             // 
             // lblLvSelectedAnchor
             // 
             this.lblLvSelectedAnchor.AutoSize = true;
-            this.lblLvSelectedAnchor.Location = new System.Drawing.Point(0, 103);
+            this.lblLvSelectedAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblLvSelectedAnchor.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblLvSelectedAnchor.Location = new System.Drawing.Point(12, 113);
             this.lblLvSelectedAnchor.Name = "lblLvSelectedAnchor";
-            this.lblLvSelectedAnchor.Size = new System.Drawing.Size(74, 13);
+            this.lblLvSelectedAnchor.Size = new System.Drawing.Size(87, 17);
             this.lblLvSelectedAnchor.TabIndex = 14;
             this.lblLvSelectedAnchor.Text = "Select Anchor";
             // 
@@ -84,24 +73,46 @@
             // 
             this.lvSelectedAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvSelectedAnchor.Location = new System.Drawing.Point(3, 119);
+            this.lvSelectedAnchor.Location = new System.Drawing.Point(15, 133);
             this.lvSelectedAnchor.Name = "lvSelectedAnchor";
-            this.lvSelectedAnchor.Size = new System.Drawing.Size(190, 219);
+            this.lvSelectedAnchor.Size = new System.Drawing.Size(444, 169);
             this.lvSelectedAnchor.TabIndex = 2;
             this.lvSelectedAnchor.UseCompatibleStateImageBehavior = false;
+            // 
+            // txtDisplayText
+            // 
+            this.txtDisplayText.BackColor = System.Drawing.Color.Silver;
+            this.txtDisplayText.Location = new System.Drawing.Point(15, 26);
+            this.txtDisplayText.Margin = new System.Windows.Forms.Padding(1);
+            this.txtDisplayText.Name = "txtDisplayText";
+            this.txtDisplayText.Size = new System.Drawing.Size(444, 24);
+            this.txtDisplayText.TabIndex = 15;
+            this.txtDisplayText.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.txtDisplayText.TextBoxBorderColor = System.Drawing.Color.Silver;
+            // 
+            // txtAnchorName
+            // 
+            this.txtAnchorName.BackColor = System.Drawing.Color.Silver;
+            this.txtAnchorName.Location = new System.Drawing.Point(15, 78);
+            this.txtAnchorName.Margin = new System.Windows.Forms.Padding(1);
+            this.txtAnchorName.Name = "txtAnchorName";
+            this.txtAnchorName.Size = new System.Drawing.Size(444, 24);
+            this.txtAnchorName.TabIndex = 16;
+            this.txtAnchorName.TextBoxBackColor = System.Drawing.SystemColors.Window;
+            this.txtAnchorName.TextBoxBorderColor = System.Drawing.Color.Silver;
             // 
             // pnlLinkEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtAnchorName);
+            this.Controls.Add(this.txtDisplayText);
             this.Controls.Add(this.lblLvSelectedAnchor);
             this.Controls.Add(this.lvSelectedAnchor);
             this.Controls.Add(this.lblDiplayText);
-            this.Controls.Add(this.txtDisplayText);
             this.Controls.Add(this.lblAnchorName);
-            this.Controls.Add(this.txtAnchorName);
             this.Name = "pnlLinkEditor";
-            this.Size = new System.Drawing.Size(200, 350);
+            this.Size = new System.Drawing.Size(653, 315);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -110,10 +121,10 @@
         #endregion
 
         private System.Windows.Forms.Label lblAnchorName;
-        private System.Windows.Forms.TextBox txtAnchorName;
         private System.Windows.Forms.Label lblDiplayText;
-        private System.Windows.Forms.TextBox txtDisplayText;
         private System.Windows.Forms.Label lblLvSelectedAnchor;
         private System.Windows.Forms.ListView lvSelectedAnchor;
+        private ExtendedTextbox txtDisplayText;
+        private ExtendedTextbox txtAnchorName;
     }
 }

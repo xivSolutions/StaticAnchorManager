@@ -88,7 +88,8 @@ namespace WLWSimpleAnchorManager
         {
             this.tbLinkToAnchor.Visible = false;
             this.lblChooseAction.Visible = false;
-            this.tbInsertAnchor.Left = this.lblChooseAction.Left;
+            this.tbInsertAnchor.Left = 0;
+            this.tbInsertAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 
             this.SetTabLabelText(tbInsertAnchor, "Edit Existing Anchor");
 
@@ -100,7 +101,9 @@ namespace WLWSimpleAnchorManager
         {
             this.tbInsertAnchor.Visible = false;
             this.lblChooseAction.Visible = false;
-            this.tbLinkToAnchor.Left = this.lblChooseAction.Left;
+            this.tbLinkToAnchor.Left = 0;
+            this.tbLinkToAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+
 
             this.SetTabLabelText(tbLinkToAnchor, "Edit Link to Anchor");
 
@@ -273,63 +276,32 @@ namespace WLWSimpleAnchorManager
         private void InitializeComponent()
         {
             this.ControlContainer = new System.Windows.Forms.Panel();
-            this.tbInsertAnchor = new System.Windows.Forms.Label();
-            this.tbLinkToAnchor = new System.Windows.Forms.Label();
-            this.lblChooseAction = new System.Windows.Forms.Label();
             this.HorizontalDivider = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.lblChooseAction = new System.Windows.Forms.Label();
+            this.tbLinkToAnchor = new System.Windows.Forms.Label();
+            this.tbInsertAnchor = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ControlContainer
             // 
-            this.ControlContainer.Location = new System.Drawing.Point(0, 106);
+            this.ControlContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ControlContainer.Location = new System.Drawing.Point(0, 64);
             this.ControlContainer.Name = "ControlContainer";
-            this.ControlContainer.Size = new System.Drawing.Size(653, 269);
+            this.ControlContainer.Size = new System.Drawing.Size(653, 315);
             this.ControlContainer.TabIndex = 3;
-            // 
-            // tbInsertAnchor
-            // 
-            this.tbInsertAnchor.BackColor = System.Drawing.Color.Transparent;
-            this.tbInsertAnchor.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbInsertAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.tbInsertAnchor.Location = new System.Drawing.Point(306, 67);
-            this.tbInsertAnchor.Name = "tbInsertAnchor";
-            this.tbInsertAnchor.Size = new System.Drawing.Size(156, 26);
-            this.tbInsertAnchor.TabIndex = 4;
-            this.tbInsertAnchor.Text = "Create a New Anchor";
-            this.tbInsertAnchor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tbLinkToAnchor
-            // 
-            this.tbLinkToAnchor.BackColor = System.Drawing.Color.Transparent;
-            this.tbLinkToAnchor.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbLinkToAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.tbLinkToAnchor.Location = new System.Drawing.Point(468, 69);
-            this.tbLinkToAnchor.Name = "tbLinkToAnchor";
-            this.tbLinkToAnchor.Size = new System.Drawing.Size(173, 24);
-            this.tbLinkToAnchor.TabIndex = 5;
-            this.tbLinkToAnchor.Text = "Link to Existing Anchor";
-            this.tbLinkToAnchor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblChooseAction
-            // 
-            this.lblChooseAction.AutoSize = true;
-            this.lblChooseAction.BackColor = System.Drawing.Color.Transparent;
-            this.lblChooseAction.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChooseAction.ForeColor = System.Drawing.Color.DarkBlue;
-            this.lblChooseAction.Location = new System.Drawing.Point(12, 72);
-            this.lblChooseAction.Name = "lblChooseAction";
-            this.lblChooseAction.Size = new System.Drawing.Size(178, 18);
-            this.lblChooseAction.TabIndex = 6;
-            this.lblChooseAction.Text = "What do you want to do?";
             // 
             // HorizontalDivider
             // 
+            this.HorizontalDivider.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.HorizontalDivider.BackColor = System.Drawing.Color.DarkBlue;
             this.HorizontalDivider.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HorizontalDivider.ForeColor = System.Drawing.Color.DarkBlue;
-            this.HorizontalDivider.Location = new System.Drawing.Point(-2, 93);
+            this.HorizontalDivider.Location = new System.Drawing.Point(-2, 51);
             this.HorizontalDivider.Name = "HorizontalDivider";
             this.HorizontalDivider.Size = new System.Drawing.Size(655, 10);
             this.HorizontalDivider.TabIndex = 7;
@@ -355,6 +327,43 @@ namespace WLWSimpleAnchorManager
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
+            // lblChooseAction
+            // 
+            this.lblChooseAction.BackColor = System.Drawing.Color.Transparent;
+            this.lblChooseAction.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
+            this.lblChooseAction.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblChooseAction.Location = new System.Drawing.Point(12, 27);
+            this.lblChooseAction.Name = "lblChooseAction";
+            this.lblChooseAction.Size = new System.Drawing.Size(193, 28);
+            this.lblChooseAction.TabIndex = 6;
+            this.lblChooseAction.Text = "What do you want to do?";
+            // 
+            // tbLinkToAnchor
+            // 
+            this.tbLinkToAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbLinkToAnchor.BackColor = System.Drawing.Color.Transparent;
+            this.tbLinkToAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
+            this.tbLinkToAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.tbLinkToAnchor.Location = new System.Drawing.Point(457, 23);
+            this.tbLinkToAnchor.Name = "tbLinkToAnchor";
+            this.tbLinkToAnchor.Size = new System.Drawing.Size(184, 28);
+            this.tbLinkToAnchor.TabIndex = 5;
+            this.tbLinkToAnchor.Text = "Link to Existing Anchor";
+            this.tbLinkToAnchor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tbInsertAnchor
+            // 
+            this.tbInsertAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbInsertAnchor.BackColor = System.Drawing.Color.Transparent;
+            this.tbInsertAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
+            this.tbInsertAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
+            this.tbInsertAnchor.Location = new System.Drawing.Point(284, 23);
+            this.tbInsertAnchor.Name = "tbInsertAnchor";
+            this.tbInsertAnchor.Size = new System.Drawing.Size(167, 28);
+            this.tbInsertAnchor.TabIndex = 4;
+            this.tbInsertAnchor.Text = "Create a New Anchor";
+            this.tbInsertAnchor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // EditContentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -367,10 +376,10 @@ namespace WLWSimpleAnchorManager
             this.Controls.Add(this.tbLinkToAnchor);
             this.Controls.Add(this.tbInsertAnchor);
             this.Controls.Add(this.ControlContainer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "EditContentForm";
             this.Text = "EditContentForm";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
