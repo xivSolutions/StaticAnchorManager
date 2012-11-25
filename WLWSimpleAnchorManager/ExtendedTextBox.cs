@@ -14,6 +14,13 @@ namespace WLWSimpleAnchorManager
         {
             InitializeComponent();
             this.textBox1.Resize += new EventHandler(textBox1_Resize);
+
+            this.textBox1.TextChanged += new EventHandler(textBox1_TextChanged);
+        }
+
+        void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            this.OnTextChanged(e);
         }
 
         void textBox1_Resize(object sender, EventArgs e)
