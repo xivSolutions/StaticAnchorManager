@@ -29,6 +29,7 @@ namespace WLWSimpleAnchorManager
         private string _editorHtml;
         private string _selectedHtml = "";
         private string _selectedText = "";
+        private string _selectedInnerHtml = "";
         private string[] _anchorsList;
 
         private string _currentAnchorName = "";
@@ -46,7 +47,10 @@ namespace WLWSimpleAnchorManager
                 // underlying COM basis of the operation, hence, the TRY block here:
                 mshtml.IHTMLElement currentElement = currentEditor.TryGetCurrentElement();
                 _selectedHtml = currentElement.outerHTML;
+                _selectedInnerHtml = currentElement.innerHTML;
                 _selectedText = currentElement.innerText;
+
+
             }
             catch (Exception)
             {
@@ -59,7 +63,10 @@ namespace WLWSimpleAnchorManager
             
 
             _selectedHtml = AnchorData.stripAnchorHtml(_selectedHtml);
+            _selectedInnerHtml = AnchorData.stripAnchorHtml(_selectedInnerHtml);
+
             _selectedHtml = AnchorData.stripLinkHtml(_selectedHtml);
+            _selectedInnerHtml = AnchorData.stripLinkHtml(_selectedInnerHtml);
 
             var anchorSettings = new AnchorData(_currentAnchorName, _selectedText, anchorType);
             AnchorBuilderBase builder;
@@ -87,6 +94,12 @@ namespace WLWSimpleAnchorManager
                     // the cursor location, but will not be bound to a specific HTML text element:
                     if (builder != null)
                     {
+
+                        //if (_selectedText != _selectedInnerHtml)
+                        //{
+                        //    _selectedText = _selectedInnerHtml;
+                        //}
+
                         if (string.IsNullOrEmpty(_selectedHtml))
                         {
                             content = builder.getPublishHtml() + _selectedHtml;
