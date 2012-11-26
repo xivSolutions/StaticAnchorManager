@@ -63,7 +63,6 @@
     <Compile Include="HtmlAssembly\htmlComment.cs" />
     <Compile Include="HtmlAssembly\HTMLElement.cs" />
     <Compile Include="HtmlAssembly\HTMLElementList.cs" />
-    <Compile Include="HtmlAssembly\htmLMarkupSymbols.cs" />
     <Compile Include="HtmlAssembly\InvalidhtmlException.cs" />
     <Compile Include="AnchorBuilderBase.cs" />
     <Compile Include="InLineAnchorManager.cs" />
@@ -125,6 +124,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Anchor Blue1.png" />
     <Content Include="Resources\Anchor1616.png" />
     <Content Include="Resources\AnchorLink1616.png" />
   </ItemGroup>
