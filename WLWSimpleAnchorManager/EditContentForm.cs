@@ -290,7 +290,7 @@ namespace WLWSimpleAnchorManager
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ControlContainer.Location = new System.Drawing.Point(0, 64);
             this.ControlContainer.Name = "ControlContainer";
-            this.ControlContainer.Size = new System.Drawing.Size(653, 315);
+            this.ControlContainer.Size = new System.Drawing.Size(620, 315);
             this.ControlContainer.TabIndex = 3;
             // 
             // HorizontalDivider
@@ -302,14 +302,14 @@ namespace WLWSimpleAnchorManager
             this.HorizontalDivider.ForeColor = System.Drawing.Color.DarkBlue;
             this.HorizontalDivider.Location = new System.Drawing.Point(-2, 51);
             this.HorizontalDivider.Name = "HorizontalDivider";
-            this.HorizontalDivider.Size = new System.Drawing.Size(655, 10);
+            this.HorizontalDivider.Size = new System.Drawing.Size(622, 10);
             this.HorizontalDivider.TabIndex = 7;
             this.HorizontalDivider.Text = "What do you want to do?";
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCancel.Location = new System.Drawing.Point(566, 385);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Location = new System.Drawing.Point(533, 385);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 9;
@@ -318,8 +318,8 @@ namespace WLWSimpleAnchorManager
             // 
             // btnOK
             // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnOK.Location = new System.Drawing.Point(485, 385);
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.Location = new System.Drawing.Point(452, 385);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 8;
@@ -331,7 +331,7 @@ namespace WLWSimpleAnchorManager
             this.lblChooseAction.BackColor = System.Drawing.Color.Transparent;
             this.lblChooseAction.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
             this.lblChooseAction.ForeColor = System.Drawing.Color.DarkBlue;
-            this.lblChooseAction.Location = new System.Drawing.Point(12, 27);
+            this.lblChooseAction.Location = new System.Drawing.Point(2, 27);
             this.lblChooseAction.Name = "lblChooseAction";
             this.lblChooseAction.Size = new System.Drawing.Size(193, 28);
             this.lblChooseAction.TabIndex = 6;
@@ -343,7 +343,7 @@ namespace WLWSimpleAnchorManager
             this.tbLinkToAnchor.BackColor = System.Drawing.Color.Transparent;
             this.tbLinkToAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
             this.tbLinkToAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.tbLinkToAnchor.Location = new System.Drawing.Point(457, 23);
+            this.tbLinkToAnchor.Location = new System.Drawing.Point(436, 23);
             this.tbLinkToAnchor.Name = "tbLinkToAnchor";
             this.tbLinkToAnchor.Size = new System.Drawing.Size(184, 28);
             this.tbLinkToAnchor.TabIndex = 5;
@@ -356,7 +356,7 @@ namespace WLWSimpleAnchorManager
             this.tbInsertAnchor.BackColor = System.Drawing.Color.Transparent;
             this.tbInsertAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
             this.tbInsertAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.tbInsertAnchor.Location = new System.Drawing.Point(284, 23);
+            this.tbInsertAnchor.Location = new System.Drawing.Point(263, 23);
             this.tbInsertAnchor.Name = "tbInsertAnchor";
             this.tbInsertAnchor.Size = new System.Drawing.Size(167, 28);
             this.tbInsertAnchor.TabIndex = 4;
@@ -367,7 +367,7 @@ namespace WLWSimpleAnchorManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 420);
+            this.ClientSize = new System.Drawing.Size(620, 420);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.HorizontalDivider);

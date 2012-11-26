@@ -43,7 +43,7 @@
             this.lblAnchorName.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblAnchorName.Location = new System.Drawing.Point(12, 60);
             this.lblAnchorName.Name = "lblAnchorName";
-            this.lblAnchorName.Size = new System.Drawing.Size(88, 17);
+            this.lblAnchorName.Size = new System.Drawing.Size(92, 18);
             this.lblAnchorName.TabIndex = 10;
             this.lblAnchorName.Text = "Anchor Name";
             // 
@@ -54,7 +54,7 @@
             this.lblDiplayText.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblDiplayText.Location = new System.Drawing.Point(12, 8);
             this.lblDiplayText.Name = "lblDiplayText";
-            this.lblDiplayText.Size = new System.Drawing.Size(78, 17);
+            this.lblDiplayText.Size = new System.Drawing.Size(82, 18);
             this.lblDiplayText.TabIndex = 12;
             this.lblDiplayText.Text = "Display Text";
             // 
@@ -65,7 +65,7 @@
             this.lblLvSelectedAnchor.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblLvSelectedAnchor.Location = new System.Drawing.Point(12, 113);
             this.lblLvSelectedAnchor.Name = "lblLvSelectedAnchor";
-            this.lblLvSelectedAnchor.Size = new System.Drawing.Size(87, 17);
+            this.lblLvSelectedAnchor.Size = new System.Drawing.Size(93, 18);
             this.lblLvSelectedAnchor.TabIndex = 14;
             this.lblLvSelectedAnchor.Text = "Select Anchor";
             // 
@@ -75,29 +75,37 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvSelectedAnchor.Location = new System.Drawing.Point(15, 133);
             this.lvSelectedAnchor.Name = "lvSelectedAnchor";
-            this.lvSelectedAnchor.Size = new System.Drawing.Size(444, 169);
+            this.lvSelectedAnchor.Size = new System.Drawing.Size(521, 169);
             this.lvSelectedAnchor.TabIndex = 2;
             this.lvSelectedAnchor.UseCompatibleStateImageBehavior = false;
             // 
             // txtDisplayText
             // 
+            this.txtDisplayText.AutoSize = true;
+            this.txtDisplayText.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.txtDisplayText.BackColor = System.Drawing.Color.Silver;
+            this.txtDisplayText.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDisplayText.Location = new System.Drawing.Point(15, 26);
             this.txtDisplayText.Margin = new System.Windows.Forms.Padding(1);
             this.txtDisplayText.Name = "txtDisplayText";
-            this.txtDisplayText.Size = new System.Drawing.Size(444, 24);
+            this.txtDisplayText.Size = new System.Drawing.Size(521, 21);
             this.txtDisplayText.TabIndex = 15;
+            this.txtDisplayText.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtDisplayText.TextBoxBackColor = System.Drawing.SystemColors.Window;
             this.txtDisplayText.TextBoxBorderColor = System.Drawing.Color.Silver;
             // 
             // txtAnchorName
             // 
+            this.txtAnchorName.AutoSize = true;
+            this.txtAnchorName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.txtAnchorName.BackColor = System.Drawing.Color.Silver;
+            this.txtAnchorName.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAnchorName.Location = new System.Drawing.Point(15, 78);
             this.txtAnchorName.Margin = new System.Windows.Forms.Padding(1);
             this.txtAnchorName.Name = "txtAnchorName";
-            this.txtAnchorName.Size = new System.Drawing.Size(444, 24);
+            this.txtAnchorName.Size = new System.Drawing.Size(521, 21);
             this.txtAnchorName.TabIndex = 16;
+            this.txtAnchorName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtAnchorName.TextBoxBackColor = System.Drawing.SystemColors.Window;
             this.txtAnchorName.TextBoxBorderColor = System.Drawing.Color.Silver;
             // 
@@ -112,7 +120,7 @@
             this.Controls.Add(this.lblDiplayText);
             this.Controls.Add(this.lblAnchorName);
             this.Name = "pnlLinkEditor";
-            this.Size = new System.Drawing.Size(653, 315);
+            this.Size = new System.Drawing.Size(620, 315);
             this.ResumeLayout(false);
             this.PerformLayout();
 

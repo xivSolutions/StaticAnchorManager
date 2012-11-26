@@ -79,7 +79,7 @@
             this.txtAnchorName.Location = new System.Drawing.Point(15, 26);
             this.txtAnchorName.Margin = new System.Windows.Forms.Padding(1);
             this.txtAnchorName.Name = "txtAnchorName";
-            this.txtAnchorName.Size = new System.Drawing.Size(400, 21);
+            this.txtAnchorName.Size = new System.Drawing.Size(521, 21);
             this.txtAnchorName.TabIndex = 20;
             this.txtAnchorName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtAnchorName.TextBoxBackColor = System.Drawing.SystemColors.Window;
@@ -95,7 +95,7 @@
             this.txtDisplayText.Location = new System.Drawing.Point(15, 78);
             this.txtDisplayText.Margin = new System.Windows.Forms.Padding(1);
             this.txtDisplayText.Name = "txtDisplayText";
-            this.txtDisplayText.Size = new System.Drawing.Size(400, 21);
+            this.txtDisplayText.Size = new System.Drawing.Size(521, 21);
             this.txtDisplayText.TabIndex = 21;
             this.txtDisplayText.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtDisplayText.TextBoxBackColor = System.Drawing.SystemColors.Window;
@@ -111,7 +111,7 @@
             this.Controls.Add(this.lblDiplayText);
             this.Controls.Add(this.lblAnchorName);
             this.Name = "pnlAnchorEditor";
-            this.Size = new System.Drawing.Size(653, 259);
+            this.Size = new System.Drawing.Size(582, 315);
             this.ResumeLayout(false);
             this.PerformLayout();
 
