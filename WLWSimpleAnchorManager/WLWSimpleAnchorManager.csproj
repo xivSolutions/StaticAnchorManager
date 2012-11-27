@@ -124,7 +124,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Anchor Blue1.png" />
+    <EmbeddedResource Include="Images\Anchor-Icon-PNG-1616.png" />
+    <EmbeddedResource Include="Images\Clean-Anchor-Icon-PNG-1616.png" />
     <Content Include="Resources\Anchor1616.png" />
     <Content Include="Resources\AnchorLink1616.png" />
   </ItemGroup>

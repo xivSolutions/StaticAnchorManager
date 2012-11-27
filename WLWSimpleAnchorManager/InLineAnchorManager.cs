@@ -11,7 +11,7 @@ namespace WLWSimpleAnchorManager
     Description =
     "Insert inline html anchors and manage the links to" +
     "anchors within your post from a list",
-    ImagePath = "writer.png",
+    ImagePath = "Images.Clean-Anchor-Icon-PNG-1616.png",
     HasEditableOptions = false)]
     [InsertableContentSource("Inline Anchor")]
     public class InLineAnchorManager : ContentSource

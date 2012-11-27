@@ -377,7 +377,7 @@ namespace WLWSimpleAnchorManager
             this.Controls.Add(this.ControlContainer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "EditContentForm";
-            this.Text = "EditContentForm";
+            this.Text = "WLW Static Anchor Manager";
             this.ResumeLayout(false);
 
         }
