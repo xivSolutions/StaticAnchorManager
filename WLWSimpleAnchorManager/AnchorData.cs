@@ -8,7 +8,7 @@ namespace WLWSimpleAnchorManager
         public static string wlwAnchorFlag = "wlwAnchor";
         public static string wlwLinkToAnchorFlag = "wlwLink";
 
-        private static string rgxOnlyAlphaNumeric = "[^0-9a-zA-Z-]";
+        private static string rgxOnlyAlphaNumeric = "[^0-9a-zA-Z-_:]";
         private string _anchorName = "";
 
 
@@ -34,6 +34,25 @@ namespace WLWSimpleAnchorManager
                 var rgx = new Regex(rgxOnlyAlphaNumeric);
                 _anchorName = rgx.Replace(value, "-");
             }
+        }
+
+
+        public string FullAnchorName()
+        {
+            string output = this.AnchorName;
+            switch(this.AnchorType)
+            {
+                case AnchorTypes.Anchor:
+                    output = AnchorData.wlwAnchorFlag + ":" + this.AnchorName;
+                    break;
+                case AnchorTypes.Link:
+                    output = AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorName;
+                    break;
+                default:
+                    output = this.AnchorName;
+                    break;
+            }
+            return output;
         }
 
 
