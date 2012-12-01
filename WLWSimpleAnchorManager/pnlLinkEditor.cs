@@ -67,7 +67,8 @@ namespace WLWSimpleAnchorManager
             {
                 foreach (string anchor in Anchors)
                 {
-                    this.lvSelectedAnchor.Items.Add(anchor, ANCHOR_IMAGE_KEY);
+                    ListViewItem item = this.lvSelectedAnchor.Items.Add(anchor, ANCHOR_IMAGE_KEY);
+                    item.Name = anchor;
                 }
             }
         }
@@ -76,7 +77,7 @@ namespace WLWSimpleAnchorManager
         private void SetSelectedAnchor(String AnchorName)
         {
             ListView lv = this.lvSelectedAnchor;
-            ListViewItem selected = lv.FindItemWithText(AnchorName);
+            ListViewItem selected = lv.Items[AnchorName];
             if (selected != null)
             {
                 selected.Selected = true;
