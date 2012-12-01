@@ -31,21 +31,58 @@ namespace WLWSimpleAnchorManager
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
+
+        /* 
+         * GET THE STUFF WE NEED TO:
+         * ** CREATE OR EDIT AN IN_PAGE ANCHOR OR
+         * ** LINK TO AN INPAGE ANCHOR:
+        */
+
+             /* currentEditor creates a reference to the IHTMLDocument2 representing the 
+             * html in the WLW editor window, and provides methods to 
+             * traverse/exctract/manipulate the DOM and html:
+             */
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
+
+            // Current editor contents:
             _editorHtml = currentEditor.EditorHtml;
+
+            /* 
+             * A list of the user-friendly id names static anchors already present 
+             * (created by this plug-in). 
+             * This list includes the actual anchors, but not links to those anchors. 
+             * This list will be displayed in a listview control from which the user
+             * can choose to link to an existing anchor. 
+             */
             _anchorsList = EditorContent.getAnchorNames(_editorHtml);
 
+            
             try
             {
-                // the call to currentEditor.TryGetCurrentElement mwill throw an exception
-                // if the current editor selection is not a valid html item. This is related to the 
-                // underlying COM basis of the operation, hence, the TRY block here:
+                /* 
+                 * the call to currentEditor.TryGetCurrentElement will throw an exception
+                 * if the current editor selection is not a valid html item. This is related to the 
+                 * underlying COM basis of the operation, hence, the TRY block here:
+                 */
                 mshtml.IHTMLElement currentElement = currentEditor.TryGetCurrentElement();
+
+                /* 
+                 * The current html selected in the editor, or within which the cursor 
+                 * is currently located. This includes any relevant formatting tags surrounding the
+                 * visible text, and any pre-existing WLW plug-in anchor or link-to-anchor markup:
+                 * */
                 _selectedHtml = currentElement.outerHTML;
+
+                /*
+                 * Visible text contained within the current element which has additional formatting
+                 * tags (such as <em> or <pre>) will mess with our eventual insertion of a 
+                 * well-formed anchor or link element. We need to be able to test for this later, 
+                 * using the _selectedInnerHtml variable:
+                 */
                 _selectedInnerHtml = currentElement.innerHTML;
+
+                /* The visible text contained within the html element */
                 _selectedText = currentElement.innerText;
-
-
             }
             catch (Exception)
             {
@@ -53,12 +90,21 @@ namespace WLWSimpleAnchorManager
                 return DialogResult.Cancel;
             }
 
+            // We need to know the user-friendly name assigned to the selected anchor, the type of anchor,
+            // and the static page anchor targeted (if this anchor is a link to a in-page target):
             _currentAnchorName = AnchorData.getAnchorNameFromHtml(_selectedHtml);
             AnchorTypes anchorType = AnchorData.getAnchorTypeFromHtml(_selectedHtml);
+
+            // This value will be an empty string if the current selection is not a link to an 
+            // in-page anchor, or if the current selection represents a new anchor:
             _LinkTargetName = AnchorData.getFriendlyLinkTargetIdFromHtml(_selectedHtml);
             
-
+            // Now that we have what we need to create or edit an anchor or link, strip previous anchor 
+            // Markup created by this plug-in from the existing html. If there is not an existing anchor seleced, 
+            // nothing wil be changed:
             _selectedHtml = AnchorData.stripAnchorHtml(_selectedHtml);
+
+
             _selectedInnerHtml = AnchorData.stripAnchorHtml(_selectedInnerHtml);
 
             _selectedHtml = AnchorData.stripLinkHtml(_selectedHtml);
