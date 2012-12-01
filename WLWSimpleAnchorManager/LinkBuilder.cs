@@ -15,7 +15,7 @@ namespace WLWSimpleAnchorManager
         {
             htmlElement newAnchor = new htmlElement("a", false);
             newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -27,7 +27,7 @@ namespace WLWSimpleAnchorManager
         {
             htmlElement newAnchor = new htmlElement("a", false);
             newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("name", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
             newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();
