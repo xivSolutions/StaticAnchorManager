@@ -80,7 +80,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=id=" + AnchorData.wlwAnchorFlag + "|" + AnchorData.wlwLinkToAnchorFlag + ":).*?(?=\\s|>|\")";
+                String regExMatchPattern = "(?<=id=" + AnchorData.wlwAnchorFlag + ":|" + AnchorData.wlwLinkToAnchorFlag + ":).*?(?=\\s|>|\")";
                 Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorMatch.Success)
                 {
@@ -145,7 +145,6 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        string LinkTagRegexPattern = "<A\\s.*id=" + AnchorData.wlwLinkToAnchorFlag + ":.*?(>|\\s+>)";
         public static string stripLinkHtml(string selectedHtml)
         {
             string output = "";
