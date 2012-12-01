@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using WindowsLive.Writer.Api;
 
@@ -68,6 +69,13 @@ namespace WLWSimpleAnchorManager
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
+                    string proposedAnchorName = anchorSettings.FullAnchorName();
+                    int uniqueNameIndex = currentEditor.getUniqueAnchorNameIndex(proposedAnchorName);
+                    if (uniqueNameIndex > 0)
+                    {
+                        anchorSettings.AnchorName = anchorSettings.AnchorName + "_" + uniqueNameIndex;
+                    }
+                    
                     switch(anchorSettings.AnchorType)
                     {
                         case AnchorTypes.Anchor:
@@ -87,7 +95,6 @@ namespace WLWSimpleAnchorManager
                     // the cursor location, but will not be bound to a specific HTML text element:
                     if (builder != null)
                     {
-
                         if (_selectedText != _selectedInnerHtml)
                         {
                             _selectedText = _selectedInnerHtml;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using mshtml;
@@ -22,7 +23,7 @@ namespace WLWSimpleAnchorManager
             owner = wlwEditorHandle;
 
             _editorHtml = EditorContent.getHtml(wlwEditorHandle);
-            _htmlDocument = EditorContent.getHtmlDocument(wlwEditorHandle);
+            _htmlDocument = EditorContent.getHtmlDocument2(wlwEditorHandle);
         }
 
 
@@ -32,7 +33,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        private static IHTMLDocument2 getHtmlDocument(IntPtr owner)
+        private static IHTMLDocument2 getHtmlDocument2(IntPtr owner)
         {
             IHTMLDocument2 output = null;
 
@@ -101,7 +102,7 @@ namespace WLWSimpleAnchorManager
                 }
                 else
                 {
-                    return null;
+                    return intialElement;
                 }
             }
         }
@@ -116,7 +117,7 @@ namespace WLWSimpleAnchorManager
 
         private static string ExtractDelimitedAnchorsList(string PostContent)
         {
-            String regExMatchPattern = "(?<=name=" + AnchorData.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
+            String regExMatchPattern = "(?<=id=" + AnchorData.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
             MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
 
 
@@ -150,6 +151,54 @@ namespace WLWSimpleAnchorManager
             return new string[] {
                 "HTMLAnchorElementClass", "HTMLBaseFontElementClass", "HTMLFontElementClass", 
                 "HTMLLinkElementClass", "HTMLPhraseElementClass" };
+        }
+
+
+
+        public void ChangeAllAnchorRefs(string anchorName)
+        {
+            IHTMLDocument2 document = EditorContent.getHtmlDocument2(owner);
+            IHTMLElementCollection elements = document.anchors as IHTMLElementCollection;
+            IHTMLElement selected = elements.item(anchorName) as IHTMLElement;
+            selected.id = "MyNewAnchor";           
+        }
+
+
+        public Dictionary<string, string> ExistingAnchorNames()
+        {
+            IHTMLDocument2 document = EditorContent.getHtmlDocument2(owner);
+            IHTMLElementCollection elements = document.anchors as IHTMLElementCollection;
+            //IHTMLElement selected = elements.item(linkName) as IHTMLElement;
+
+            var output = new Dictionary<string, string>();
+
+            foreach (IHTMLElement item in elements)
+            {
+                IHTMLElement current = (IHTMLElement)item;
+                string name = current.id;
+                if (!string.IsNullOrEmpty(name))
+                {
+                    output.Add(name, name);
+                }
+            }
+
+            return output;
+        }
+
+
+        public int getUniqueAnchorNameIndex(string proposedAnchorName)
+        {
+            Dictionary<string, string> existingAnchorNames = this.ExistingAnchorNames();
+            int i = 0;
+            string appendIndex = "";
+            while (existingAnchorNames.ContainsKey(proposedAnchorName))
+            {
+                i++;
+                appendIndex = "_" + i.ToString();
+                proposedAnchorName = proposedAnchorName + appendIndex;
+            }
+
+            return i;
         }
     }
 }
