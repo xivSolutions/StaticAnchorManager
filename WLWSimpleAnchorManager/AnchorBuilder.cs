@@ -12,7 +12,7 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml()
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("id", AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.FullAnchorName(), '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -23,7 +23,7 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml(string selectedHtml, string selectedText)
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("id", AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.FullAnchorName(), '"'));
             newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();
