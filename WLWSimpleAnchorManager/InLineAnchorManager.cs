@@ -69,9 +69,10 @@ namespace WLWSimpleAnchorManager
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    string proposedAnchorName = anchorSettings.FullAnchorName();
+                    
+                    string proposedAnchorName = anchorSettings.currentInstanceID();
                     int uniqueNameIndex = currentEditor.getUniqueAnchorNameIndex(proposedAnchorName);
-                    if (uniqueNameIndex > 0)
+                    if (uniqueNameIndex > 0 && anchorSettings.AnchorName != _currentAnchorName)
                     {
                         anchorSettings.AnchorName = anchorSettings.AnchorName + "_" + uniqueNameIndex;
                     }
@@ -81,7 +82,6 @@ namespace WLWSimpleAnchorManager
                         case AnchorTypes.Anchor:
                             builder = new AnchorBuilder(anchorSettings);
                             break;
-
                         case AnchorTypes.Link:
                             builder = new LinkBuilder(anchorSettings);
                             break;

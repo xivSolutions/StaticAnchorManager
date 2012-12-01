@@ -14,8 +14,8 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml()
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("id", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + this.AnchorSettings.WLWLinksToAnchorId(), '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.currentInstanceID(), '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -26,8 +26,8 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml(string selectedHtml, string selectedText)
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + AnchorData.wlwAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("id", AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorSettings.AnchorName, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("href", "#" + this.AnchorSettings.WLWLinksToAnchorId(), '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.currentInstanceID(), '"'));
             newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorTag = newAnchor.ToString();

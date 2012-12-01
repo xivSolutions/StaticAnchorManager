@@ -43,6 +43,7 @@ namespace WLWSimpleAnchorManager
             this.AnchorSettings.AnchorName = this.AnchorName;
             this.AnchorSettings.DisplayText = this.DisplayText;
             this.AnchorSettings.AnchorType = this.AnchorType;
+            this.AnchorSettings.LinksToAnchorName = this.AnchorName;
         }
 
 
