@@ -27,7 +27,7 @@ namespace WLWSimpleAnchorManager
         void pnlAnchorEditor_Load(object sender, EventArgs e)
         {
             this.DisplayText = this.AnchorSettings.DisplayText;
-            this.AnchorName = this.AnchorSettings.AnchorName;
+            this.AnchorName = this.AnchorSettings.FriendlyAnchorName;
             
             this.chkShowAnchorText.Checked = false;
             if (this.txtDisplayText.Text != "")

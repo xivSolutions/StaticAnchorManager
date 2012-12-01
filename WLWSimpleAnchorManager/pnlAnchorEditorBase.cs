@@ -40,10 +40,10 @@ namespace WLWSimpleAnchorManager
 
         public virtual void PerformSave()
         {
-            this.AnchorSettings.AnchorName = this.AnchorName;
+            this.AnchorSettings.FriendlyAnchorName = this.AnchorName;
             this.AnchorSettings.DisplayText = this.DisplayText;
             this.AnchorSettings.AnchorType = this.AnchorType;
-            this.AnchorSettings.LinksToAnchorName = this.AnchorName;
+            this.AnchorSettings.LinkTargetAnchorId = this.AnchorName;
         }
 
 

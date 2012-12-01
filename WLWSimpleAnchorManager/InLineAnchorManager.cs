@@ -27,6 +27,7 @@ namespace WLWSimpleAnchorManager
         private string[] _anchorsList;
 
         private string _currentAnchorName = "";
+        private string _LinkTargetName = "";
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
@@ -54,6 +55,7 @@ namespace WLWSimpleAnchorManager
 
             _currentAnchorName = AnchorData.getAnchorNameFromHtml(_selectedHtml);
             AnchorTypes anchorType = AnchorData.getAnchorTypeFromHtml(_selectedHtml);
+            _LinkTargetName = AnchorData.getFriendlyLinkTargetIdFromHtml(_selectedHtml);
             
 
             _selectedHtml = AnchorData.stripAnchorHtml(_selectedHtml);
@@ -63,6 +65,8 @@ namespace WLWSimpleAnchorManager
             _selectedInnerHtml = AnchorData.stripLinkHtml(_selectedInnerHtml);
 
             var anchorSettings = new AnchorData(_currentAnchorName, _selectedText, anchorType);
+            anchorSettings.LinkTargetAnchorId = _LinkTargetName;
+
             AnchorBuilderBase builder;
 
             using (var frm = new EditContentForm(anchorSettings, _anchorsList))
@@ -72,9 +76,9 @@ namespace WLWSimpleAnchorManager
                     
                     string proposedAnchorName = anchorSettings.currentInstanceID();
                     int uniqueNameIndex = currentEditor.getUniqueAnchorNameIndex(proposedAnchorName);
-                    if (uniqueNameIndex > 0 && anchorSettings.AnchorName != _currentAnchorName)
+                    if (uniqueNameIndex > 0 && anchorSettings.FriendlyAnchorName != _currentAnchorName)
                     {
-                        anchorSettings.AnchorName = anchorSettings.AnchorName + "_" + uniqueNameIndex;
+                        anchorSettings.FriendlyAnchorName = anchorSettings.FriendlyAnchorName + "_" + uniqueNameIndex;
                     }
                     
                     switch(anchorSettings.AnchorType)

@@ -41,7 +41,7 @@ namespace WLWSimpleAnchorManager
         {
             this.FillAnchorList(_anchorNames);
             this.DisplayText = this.AnchorSettings.DisplayText;
-            this.SetSelectedAnchor(this.AnchorSettings.AnchorName);
+            this.SetSelectedAnchor(this.AnchorSettings.LinkTargetAnchorId);
         }
 
        

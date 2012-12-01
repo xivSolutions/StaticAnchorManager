@@ -14,16 +14,16 @@ namespace WLWSimpleAnchorManager
 
         public AnchorData(string anchorName, string displayText, AnchorTypes type)
         {
-            this.AnchorName = anchorName;
+            this.FriendlyAnchorName = anchorName;
             this.DisplayText = displayText;
             this.AnchorType = type;
         }
 
         public AnchorTypes AnchorType { get; set; }
         public string DisplayText { get; set; }
-        public string LinksToAnchorName { get; set; }
+        public string LinkTargetAnchorId { get; set; }
 
-        public string AnchorName 
+        public string FriendlyAnchorName 
         { 
             get 
             { 
@@ -39,7 +39,7 @@ namespace WLWSimpleAnchorManager
 
         public string currentInstanceID()
         {
-            string output = this.AnchorName;
+            string output = this.FriendlyAnchorName;
             switch(this.AnchorType)
             {
                 case AnchorTypes.Anchor:
@@ -49,7 +49,7 @@ namespace WLWSimpleAnchorManager
                     output = this.WLWTagLinkID();
                     break;
                 default:
-                    output = this.AnchorName;
+                    output = this.FriendlyAnchorName;
                     break;
             }
             return output;
@@ -58,19 +58,19 @@ namespace WLWSimpleAnchorManager
 
         public string WLWTagAnchorId()
         {
-            return AnchorData.wlwAnchorFlag + ":" + this.AnchorName;
+            return AnchorData.wlwAnchorFlag + ":" + this.FriendlyAnchorName;
         }
 
 
         public string WLWTagLinkID()
         {
-            return AnchorData.wlwLinkToAnchorFlag + ":" + this.AnchorName;
+            return AnchorData.wlwLinkToAnchorFlag + ":" + this.FriendlyAnchorName;
         }
 
 
         public string WLWLinksToAnchorId()
         {
-            return AnchorData.wlwAnchorFlag + ":" + this.LinksToAnchorName;
+            return AnchorData.wlwAnchorFlag + ":" + this.LinkTargetAnchorId;
         }
 
 
@@ -80,7 +80,25 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=id=" + AnchorData.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
+                String regExMatchPattern = "(?<=id=" + AnchorData.wlwAnchorFlag + "|" + AnchorData.wlwLinkToAnchorFlag + ":).*?(?=\\s|>|\")";
+                Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
+                if (anchorMatch.Success)
+                {
+                    output = anchorMatch.Value;
+                }
+            }
+
+            return output;
+        }
+
+
+        public static string getFriendlyLinkTargetIdFromHtml(string selectedHtml)
+        {
+            string output = "";
+
+            if (!string.IsNullOrEmpty(selectedHtml))
+            {
+                String regExMatchPattern = "(?<=href=\"#" + AnchorData.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
                 Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorMatch.Success)
                 {
