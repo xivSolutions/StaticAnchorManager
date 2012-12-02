@@ -59,30 +59,36 @@ namespace WLWSimpleAnchorManager
             
             try
             {
-                /* 
-                 * the call to currentEditor.TryGetCurrentElement will throw an exception
-                 * if the current editor selection is not a valid html item. This is related to the 
-                 * underlying COM basis of the operation, hence, the TRY block here:
-                 */
-                mshtml.IHTMLElement currentElement = currentEditor.TryGetCurrentElement();
 
-                /* 
-                 * The current html selected in the editor, or within which the cursor 
-                 * is currently located. This includes any relevant formatting tags surrounding the
-                 * visible text, and any pre-existing WLW plug-in anchor or link-to-anchor markup:
-                 * */
-                _selectedHtml = currentElement.outerHTML;
+                SelectedEditorContent selectedContent = currentEditor.SelectedContent();
+                _selectedHtml = selectedContent.SelectedHtml;
+                _selectedInnerHtml = selectedContent.InnerHtml;
+                _selectedText = selectedContent.SelectedText;
 
-                /*
-                 * Visible text contained within the current element which has additional formatting
-                 * tags (such as <em> or <pre>) will mess with our eventual insertion of a 
-                 * well-formed anchor or link element. We need to be able to test for this later, 
-                 * using the _selectedInnerHtml variable:
-                 */
-                _selectedInnerHtml = currentElement.innerHTML;
+                ///* 
+                // * the call to currentEditor.TryGetCurrentElement will throw an exception
+                // * if the current editor selection is not a valid html item. This is related to the 
+                // * underlying COM basis of the operation, hence, the TRY block here:
+                // */
+                //mshtml.IHTMLElement currentElement = currentEditor.TryGetCurrentElement();
 
-                /* The visible text contained within the html element */
-                _selectedText = currentElement.innerText;
+                ///* 
+                // * The current html seleScted in the editor, or within which the cursor 
+                // * is currently located. This includes any relevant formatting tags surrounding the
+                // * visible text, and any pre-existing WLW plug-in anchor or link-to-anchor markup:
+                // * */
+                //_selectedHtml = currentElement.outerHTML;
+
+                ///*
+                // * Visible text contained within the current element which has additional formatting
+                // * tags (such as <em> or <pre>) will mess with our eventual insertion of a 
+                // * well-formed anchor or link element. We need to be able to test for this later, 
+                // * using the _selectedInnerHtml variable:
+                // */
+                //_selectedInnerHtml = currentElement.innerHTML;
+
+                ///* The visible text contained within the html element */
+                //_selectedText = currentElement.innerText;
             }
             catch (Exception)
             {
