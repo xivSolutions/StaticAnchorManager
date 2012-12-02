@@ -67,9 +67,6 @@ namespace WLWSimpleAnchorManager
         }
 
 
-
-
-
         private static IHTMLDocument2 getHtmlDocument2(IntPtr owner)
         {
             IHTMLDocument2 output = null;
@@ -122,31 +119,8 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        //private IHTMLElement getFirstValidSelectionElement(IHTMLElement intialElement)
-        //{
-
-        //    if (Array.IndexOf(this.validSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
-        //    {
-        //        // This current element is valid as selected HTML for the editor:
-        //        return intialElement;
-        //    }
-        //    else
-        //    {
-        //        if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
-        //        {
-        //            IHTMLElement parent = intialElement.parentElement;
-        //            return this.getFirstValidSelectionElement(parent);
-        //        }
-        //        else
-        //        {
-        //            return intialElement;
-        //        }
-        //    }
-        //}
-
         private IHTMLElement getFirstValidSelectionElement(IHTMLElement intialElement)
         {
-            IHTMLElement parent = intialElement.parentElement;
 
             if (Array.IndexOf(this.validSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
             {
@@ -155,21 +129,23 @@ namespace WLWSimpleAnchorManager
             }
             else
             {
-                if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), parent.GetType().Name) >= 0
+                if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
+                {
+                    IHTMLElement parent = intialElement.parentElement;
+
+                    if (Array.IndexOf(this.validSelectionElementClassNames(), parent.GetType().Name) >= 0
                     || Array.IndexOf(this.CheckParentSelectionElementClassNames(), parent.GetType().Name) >= 0)
-                {
-                    return this.getFirstValidSelectionElement(parent);
-                }
-                else
-                {
-                    if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
                     {
-                        return intialElement;
+                        return this.getFirstValidSelectionElement(parent);
                     }
                     else
                     {
-                        return null;
+                        return intialElement;
                     }
+                }
+                else
+                {
+                    return intialElement;
                 }
             }
         }

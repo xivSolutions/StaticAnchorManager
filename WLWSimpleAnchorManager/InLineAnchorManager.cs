@@ -114,6 +114,11 @@ namespace WLWSimpleAnchorManager
             _selectedInnerHtml = AnchorData.stripAnchorHtml(_selectedInnerHtml);
 
             _selectedHtml = AnchorData.stripLinkHtml(_selectedHtml);
+            if (_selectedHtml == _selectedText)
+            {
+                _selectedHtml = "";
+            }
+
             _selectedInnerHtml = AnchorData.stripLinkHtml(_selectedInnerHtml);
 
             var anchorSettings = new AnchorData(_currentAnchorName, _selectedText, anchorType);
@@ -151,7 +156,7 @@ namespace WLWSimpleAnchorManager
                     // the cursor location, but will not be bound to a specific HTML text element:
                     if (builder != null)
                     {
-                        if (_selectedText != _selectedInnerHtml)
+                        if (_selectedInnerHtml != "" && _selectedText != _selectedInnerHtml)
                         {
                             _selectedText = _selectedInnerHtml;
                         }

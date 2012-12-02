@@ -1,4 +1,5 @@
-﻿
+﻿using System.Text.RegularExpressions;
+
 namespace WLWSimpleAnchorManager
 {
     class AnchorBuilder : AnchorBuilderBase
@@ -30,12 +31,32 @@ namespace WLWSimpleAnchorManager
 
             if (string.IsNullOrEmpty(selectedText))
             {
+                if (!string.IsNullOrEmpty(selectedHtml))
+                {
+                    htmlElement wrapper = this.EmptyHtmlWrapper(selectedHtml);
+                    wrapper.InternalElements.Add(newAnchor);
+                    anchorTag = wrapper.ToString();
+                }
+
                 return anchorTag;
             }
             else
             {
                 return selectedHtml.Replace(selectedText, anchorTag);
             }
+        }
+
+
+        htmlElement EmptyHtmlWrapper(string emptyTagset)
+        {
+            string regexTagPair = @"(?<=<)\w+?(?=>)";
+            Regex rgx = new Regex(regexTagPair);
+            Match match = rgx.Match(emptyTagset);
+            string tagName = match.Value;
+
+            htmlElement output = new htmlElement(tagName, false);
+
+            return output;
         }
     }
 }
