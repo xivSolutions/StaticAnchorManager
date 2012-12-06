@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public partial class pnlLinkEditor : pnlAnchorEditorBase
     {
@@ -22,7 +22,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public pnlLinkEditor(string[] anchorNames, AnchorData settings) : base(settings)
+        public pnlLinkEditor(string[] anchorNames, WLWSAMAnchor settings) : base(settings)
         {
             InitializeComponent();
 
@@ -40,7 +40,7 @@ namespace WLWSimpleAnchorManager
         void pnlLinkEditor_Load(object sender, EventArgs e)
         {
             this.FillAnchorList(_anchorNames);
-            this.DisplayText = this.AnchorSettings.DisplayText;
+            this.DisplayText = this.AnchorSettings.InnerText;
             this.SetSelectedAnchor(this.AnchorSettings.LinkTargetAnchorId);
         }
 
@@ -128,7 +128,7 @@ namespace WLWSimpleAnchorManager
         {
             get
             {
-                return AnchorTypes.Link;
+                return AnchorTypes.wlwStaticLink;
             }
             set
             {

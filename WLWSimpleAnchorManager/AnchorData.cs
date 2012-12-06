@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
-    public class AnchorData
+    public class WLWSAMAnchor
     {
-        public static string wlwAnchorFlag = "wlwAnchor";
-        public static string wlwLinkToAnchorFlag = "wlwLink";
+        public static string wlwAnchorFlag = AnchorTypes.wlwStaticAnchor.ToString();
+        public static string wlwLinkToAnchorFlag = AnchorTypes.wlwStaticLink.ToString();
 
         private static string rgxOnlyAlphaNumeric = "[^0-9a-zA-Z-_:]";
         private string _anchorName = "";
 
 
-        public AnchorData(string anchorName, string displayText, AnchorTypes type)
+        public WLWSAMAnchor(string anchorName, string displayText, AnchorTypes type)
         {
-            this.FriendlyAnchorName = anchorName;
-            this.DisplayText = displayText;
+            this.DescriptiveName = anchorName;
+            this.InnerText = displayText;
             this.AnchorType = type;
         }
 
         public AnchorTypes AnchorType { get; set; }
-        public string DisplayText { get; set; }
+        public string InnerText { get; set; }
         public string LinkTargetAnchorId { get; set; }
 
-        public string FriendlyAnchorName 
+        public string DescriptiveName 
         { 
             get 
             { 
@@ -37,40 +37,40 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public string currentInstanceID()
+        public string htmlElementID()
         {
-            string output = this.FriendlyAnchorName;
+            string output = this.DescriptiveName;
             switch(this.AnchorType)
             {
-                case AnchorTypes.Anchor:
-                    output = this.WLWTagAnchorId();
+                case AnchorTypes.wlwStaticAnchor:
+                    output = this.WLWAnchorElementId();
                     break;
-                case AnchorTypes.Link:
-                    output = this.WLWTagLinkID();
+                case AnchorTypes.wlwStaticLink:
+                    output = this.WLWLinkElementID();
                     break;
                 default:
-                    output = this.FriendlyAnchorName;
+                    output = this.DescriptiveName;
                     break;
             }
             return output;
         }
 
 
-        public string WLWTagAnchorId()
+        public string WLWAnchorElementId()
         {
-            return AnchorData.wlwAnchorFlag + ":" + this.FriendlyAnchorName;
+            return WLWSAMAnchor.wlwAnchorFlag + ":" + this.DescriptiveName;
         }
 
 
-        public string WLWTagLinkID()
+        public string WLWLinkElementID()
         {
-            return AnchorData.wlwLinkToAnchorFlag + ":" + this.FriendlyAnchorName;
+            return WLWSAMAnchor.wlwLinkToAnchorFlag + ":" + this.DescriptiveName;
         }
 
 
         public string WLWLinksToAnchorId()
         {
-            return AnchorData.wlwAnchorFlag + ":" + this.LinkTargetAnchorId;
+            return WLWSAMAnchor.wlwAnchorFlag + ":" + this.LinkTargetAnchorId;
         }
 
 
@@ -80,7 +80,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=id=" + AnchorData.wlwAnchorFlag + ":|" + AnchorData.wlwLinkToAnchorFlag + ":).*?(?=\\s|>|\")";
+                String regExMatchPattern = "(?<=id=" + WLWSAMAnchor.wlwAnchorFlag + ":|" + WLWSAMAnchor.wlwLinkToAnchorFlag + ":).*?(?=\\s|>|\")";
                 Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorMatch.Success)
                 {
@@ -98,7 +98,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=href=\"#" + AnchorData.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
+                String regExMatchPattern = "(?<=href=\"#" + WLWSAMAnchor.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
                 Match anchorMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorMatch.Success)
                 {
@@ -116,7 +116,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                String regExMatchPattern = "(?<=id=)(" + AnchorData.wlwAnchorFlag + "|" + AnchorData.wlwLinkToAnchorFlag + ").*?(?=:)(?=.*?(\\s+|\"|>))";
+                String regExMatchPattern = "(?<=id=)(" + WLWSAMAnchor.wlwAnchorFlag + "|" + WLWSAMAnchor.wlwLinkToAnchorFlag + ").*?(?=:)(?=.*?(\\s+|\"|>))";
                 Match anchorTypeMatch = Regex.Match(selectedHtml, regExMatchPattern);
                 if (anchorTypeMatch.Success)
                 {
@@ -134,7 +134,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                string AnchorTagRegexPattern = "<A\\sid=" + AnchorData.wlwAnchorFlag + ":.*?(>|\\s+>)";
+                string AnchorTagRegexPattern = "<A\\sid=" + WLWSAMAnchor.wlwAnchorFlag + ":.*?(>|\\s+>)";
 
                 Regex rgx = new Regex(AnchorTagRegexPattern);
                 output = rgx.Replace(selectedHtml, "");
@@ -151,7 +151,7 @@ namespace WLWSimpleAnchorManager
 
             if (!string.IsNullOrEmpty(selectedHtml))
             {
-                string LinkTagRegexPattern = "<A\\s.*id=" + AnchorData.wlwLinkToAnchorFlag + ":.*?(>|\\s+>)";
+                string LinkTagRegexPattern = "<A\\s.*id=" + WLWSAMAnchor.wlwLinkToAnchorFlag + ":.*?(>|\\s+>)";
 
                 Regex rgx = new Regex(LinkTagRegexPattern);
                 output = rgx.Replace(selectedHtml, "");

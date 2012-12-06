@@ -1,5 +1,5 @@
 ﻿
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public class InvalidhtmlException : System.Exception
 

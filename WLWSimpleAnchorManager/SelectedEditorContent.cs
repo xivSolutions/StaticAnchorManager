@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public class SelectedEditorContent
     {

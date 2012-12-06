@@ -8,11 +8,12 @@
     <ProjectGuid>{A5308BB8-B512-40F4-AD83-6252CE000671}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WLWSimpleAnchorManager</RootNamespace>
-    <AssemblyName>WLWSimpleAnchorManager</AssemblyName>
+    <RootNamespace>WLWStaticAnchorManager</RootNamespace>
+    <AssemblyName>WLWStaticAnchorManager</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

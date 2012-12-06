@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     /// <summary>
     /// Class definition derived from List(Of T) which is strongly typed, and includes a method

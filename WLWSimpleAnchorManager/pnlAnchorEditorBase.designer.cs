@@ -1,4 +1,4 @@
-﻿namespace WLWSimpleAnchorManager
+﻿namespace WLWStaticAnchorManager
 {
     partial class pnlAnchorEditorBase
     {

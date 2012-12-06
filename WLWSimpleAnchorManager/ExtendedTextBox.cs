@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public partial class ExtendedTextbox : UserControl
     {

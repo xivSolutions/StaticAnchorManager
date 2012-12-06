@@ -1,5 +1,5 @@
 ﻿
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public abstract class AnchorBuilderBase
     {
@@ -11,7 +11,7 @@ namespace WLWSimpleAnchorManager
         //public static string wlwAnchorFlag = "wlwAnchor";
         //public static string wlwLinkToAnchorFlag = "wlwLink";
 
-        public AnchorData AnchorSettings { get; set; }
+        public WLWSAMAnchor AnchorSettings { get; set; }
         public string ExistingHtml { get; set; }
 
         public abstract string getPublishHtml();

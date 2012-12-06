@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLWSimpleAnchorManager", "WLWSimpleAnchorManager\WLWSimpleAnchorManager.csproj", "{A5308BB8-B512-40F4-AD83-6252CE000671}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLWStaticAnchorManager", "WLWSimpleAnchorManager\WLWStaticAnchorManager.csproj", "{A5308BB8-B512-40F4-AD83-6252CE000671}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

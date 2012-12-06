@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public partial class EditContentForm : Form
     {
@@ -20,7 +20,7 @@ namespace WLWSimpleAnchorManager
         private Label _currentTabLabel;
 
 
-        private AnchorData _currentAnchorSettings;
+        private WLWSAMAnchor _currentAnchorSettings;
         private pnlAnchorEditorBase _currentEditorPanel;
 
         private string[] _anchorNames;
@@ -42,8 +42,8 @@ namespace WLWSimpleAnchorManager
             this.tbInsertAnchor.MouseLeave += new EventHandler(TabLabel_MouseLEave);
             this.tbLinkToAnchor.MouseLeave += new EventHandler(TabLabel_MouseLEave);
 
-            this.tbInsertAnchor.Tag = AnchorTypes.Anchor;
-            this.tbLinkToAnchor.Tag = AnchorTypes.Link;
+            this.tbInsertAnchor.Tag = AnchorTypes.wlwStaticAnchor;
+            this.tbLinkToAnchor.Tag = AnchorTypes.wlwStaticLink;
 
             this._TabLabelGroup = new List<Label>();
             this._TabLabelGroup.Add(tbInsertAnchor);
@@ -56,7 +56,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public EditContentForm(AnchorData settings, string[] anchorNames) : this()
+        public EditContentForm(WLWSAMAnchor settings, string[] anchorNames) : this()
         {
             _anchorNames = anchorNames;
             _currentAnchorSettings = settings;
@@ -66,14 +66,14 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        private void ConfigureForm(AnchorData settings)
+        private void ConfigureForm(WLWSAMAnchor settings)
         {
-            if (settings.AnchorType == AnchorTypes.Anchor)
+            if (settings.AnchorType == AnchorTypes.wlwStaticAnchor)
             {
                 this.FormSetupEditAnchorConfig();
             }
 
-            if (settings.AnchorType == AnchorTypes.Link)
+            if (settings.AnchorType == AnchorTypes.wlwStaticLink)
             {
                 this.FormSetupEditLinkConfig();
             }
@@ -147,10 +147,10 @@ namespace WLWSimpleAnchorManager
 
             switch (selectedConfiguration)
             {
-                case AnchorTypes.Anchor:
+                case AnchorTypes.wlwStaticAnchor:
                     _currentEditorPanel = new pnlAnchorEditor(_currentAnchorSettings);
                     break;
-                case AnchorTypes.Link:
+                case AnchorTypes.wlwStaticLink:
                     _currentEditorPanel = new pnlLinkEditor(_anchorNames, _currentAnchorSettings);
                     break;
                 case AnchorTypes.None:
@@ -329,7 +329,7 @@ namespace WLWSimpleAnchorManager
             // lblChooseAction
             // 
             this.lblChooseAction.BackColor = System.Drawing.Color.Transparent;
-            this.lblChooseAction.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
+            this.lblChooseAction.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
             this.lblChooseAction.ForeColor = System.Drawing.Color.DarkBlue;
             this.lblChooseAction.Location = new System.Drawing.Point(2, 27);
             this.lblChooseAction.Name = "lblChooseAction";
@@ -341,7 +341,7 @@ namespace WLWSimpleAnchorManager
             // 
             this.tbLinkToAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbLinkToAnchor.BackColor = System.Drawing.Color.Transparent;
-            this.tbLinkToAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
+            this.tbLinkToAnchor.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
             this.tbLinkToAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.tbLinkToAnchor.Location = new System.Drawing.Point(436, 23);
             this.tbLinkToAnchor.Name = "tbLinkToAnchor";
@@ -354,7 +354,7 @@ namespace WLWSimpleAnchorManager
             // 
             this.tbInsertAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbInsertAnchor.BackColor = System.Drawing.Color.Transparent;
-            this.tbInsertAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
+            this.tbInsertAnchor.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.STANDARD_UI_FONT;
             this.tbInsertAnchor.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.tbInsertAnchor.Location = new System.Drawing.Point(263, 23);
             this.tbInsertAnchor.Name = "tbInsertAnchor";

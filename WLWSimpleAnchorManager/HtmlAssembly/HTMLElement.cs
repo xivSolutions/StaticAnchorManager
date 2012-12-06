@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     /// <summary>
     /// Represents an HTML Element

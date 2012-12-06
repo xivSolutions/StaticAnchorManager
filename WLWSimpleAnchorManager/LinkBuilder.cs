@@ -1,11 +1,11 @@
 ﻿
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     class LinkBuilder : AnchorBuilderBase
     {
 
-        public LinkBuilder(AnchorData settings)
+        public LinkBuilder(WLWSAMAnchor settings)
         {
             this.AnchorSettings = settings;
         }
@@ -15,7 +15,7 @@ namespace WLWSimpleAnchorManager
         {
             htmlElement newAnchor = new htmlElement("a", false);
             newAnchor.Attributes.Add(new htmlAttribute("href", "#" + this.AnchorSettings.WLWLinksToAnchorId(), '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.currentInstanceID(), '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.htmlElementID(), '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -27,8 +27,8 @@ namespace WLWSimpleAnchorManager
         {
             htmlElement newAnchor = new htmlElement("a", false);
             newAnchor.Attributes.Add(new htmlAttribute("href", "#" + this.AnchorSettings.WLWLinksToAnchorId(), '"'));
-            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.currentInstanceID(), '"'));
-            newAnchor.Content = this.AnchorSettings.DisplayText;
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.htmlElementID(), '"'));
+            newAnchor.Content = this.AnchorSettings.InnerText;
 
             string anchorTag = newAnchor.ToString();
 

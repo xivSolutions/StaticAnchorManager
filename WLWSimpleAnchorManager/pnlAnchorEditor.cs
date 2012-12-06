@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public partial class pnlAnchorEditor : pnlAnchorEditorBase
     {
@@ -14,7 +14,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public pnlAnchorEditor(AnchorData settings) : base(settings)
+        public pnlAnchorEditor(WLWSAMAnchor settings) : base(settings)
         {
             InitializeComponent();
             this.chkShowAnchorText.CheckedChanged += new EventHandler(chkShowAnchorText_CheckedChanged);
@@ -26,8 +26,8 @@ namespace WLWSimpleAnchorManager
 
         void pnlAnchorEditor_Load(object sender, EventArgs e)
         {
-            this.DisplayText = this.AnchorSettings.DisplayText;
-            this.AnchorName = this.AnchorSettings.FriendlyAnchorName;
+            this.DisplayText = this.AnchorSettings.InnerText;
+            this.AnchorName = this.AnchorSettings.DescriptiveName;
             
             this.chkShowAnchorText.Checked = false;
             if (this.txtDisplayText.Text != "")
@@ -91,7 +91,7 @@ namespace WLWSimpleAnchorManager
         {
             get
             {
-                return AnchorTypes.Anchor;
+                return AnchorTypes.wlwStaticAnchor;
             }
             set
             {

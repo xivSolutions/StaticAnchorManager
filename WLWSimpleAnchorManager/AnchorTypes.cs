@@ -1,11 +1,11 @@
 ﻿
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public enum AnchorTypes
     {
         None = 0,
-        Anchor = 1,
-        Link = 2
+        wlwStaticAnchor = 1,
+        wlwStaticLink = 2
     }
 
 
@@ -18,10 +18,10 @@ namespace WLWSimpleAnchorManager
                 case "None":
                     return AnchorTypes.None;
                     //break;
-                case "Anchor":
-                    return AnchorTypes.Anchor;
-                case "Link":
-                    return AnchorTypes.Link;
+                case "wlwStaticAnchor":
+                    return AnchorTypes.wlwStaticAnchor;
+                case "wlwStaticLink":
+                    return AnchorTypes.wlwStaticLink;
                 default:
                     return AnchorTypes.None;
             }

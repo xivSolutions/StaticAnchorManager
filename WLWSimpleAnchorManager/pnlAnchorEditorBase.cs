@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public partial class pnlAnchorEditorBase : UserControl
     {
@@ -21,7 +21,7 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public pnlAnchorEditorBase(AnchorData settings) : this()
+        public pnlAnchorEditorBase(WLWSAMAnchor settings) : this()
         {
             InitializeComponent();
             this.AnchorSettings = settings;
@@ -35,13 +35,13 @@ namespace WLWSimpleAnchorManager
         }
 
         public virtual AnchorTypes AnchorType{get; set; }
-        public AnchorData AnchorSettings { get; set; }
+        public WLWSAMAnchor AnchorSettings { get; set; }
 
 
         public virtual void PerformSave()
         {
-            this.AnchorSettings.FriendlyAnchorName = this.AnchorName;
-            this.AnchorSettings.DisplayText = this.DisplayText;
+            this.AnchorSettings.DescriptiveName = this.AnchorName;
+            this.AnchorSettings.InnerText = this.DisplayText;
             this.AnchorSettings.AnchorType = this.AnchorType;
             this.AnchorSettings.LinkTargetAnchorId = this.AnchorName;
         }

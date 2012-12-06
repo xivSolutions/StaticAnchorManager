@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using mshtml;
 using WLWPluginBase.Win32;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     public class EditorContent
     {
@@ -15,7 +15,6 @@ namespace WLWSimpleAnchorManager
         IntPtr owner;
 
         private IHTMLDocument2 _htmlDocument;
-
         private string _editorHtml;
 
 
@@ -93,6 +92,108 @@ namespace WLWSimpleAnchorManager
         }
 
 
+        public IHTMLElement TryGetElementFromHtml(string html)
+        {
+            IHTMLSelectionObject selection = _htmlDocument.selection;
+
+            // This line will throw an exception if an Image or other non-Html
+            // item is selected in the html editor. Allow the exception to propegate
+            // up the call stack for handling at the UI level. 
+            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
+            rng.findText(html);
+            rng.select();
+
+            IHTMLElement elmt = null;
+
+            try
+            {
+                elmt = this.getAnchorFromSelection(rng.parentElement());
+
+                //if (elmt != null)
+                //{
+
+                //    rng.moveToElementText(elmt);
+                //}
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            return elmt;
+        }
+
+
+        public IHTMLElement TryGetAnchorFromSelection()
+        {
+            IHTMLElement elmt = null;
+            IHTMLSelectionObject selection = _htmlDocument.selection;
+
+            // This line will throw an exception if an Image or other non-Html
+            // item is selected in the html editor. Allow the exception to propegate
+            // up the call stack for handling at the UI level. 
+            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
+            if (rng != null)
+            {
+                if (rng.text == null)
+                {
+                    rng.text = "";
+                }
+
+                rng.findText(rng.text);
+
+                try
+                {
+                    elmt = this.getAnchorFromSelection(rng.parentElement());
+
+                    if (elmt != null)
+                    {
+
+                        rng.moveToElementText(elmt);
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+
+            return elmt;
+        }
+
+
+        public IHTMLElement getAnchorFromSelection(IHTMLElement initialElement)
+        {
+            if (initialElement.GetType().Name == "HTMLAnchorElementClass")
+            {
+                // This current element is valid as selected HTML for the editor:
+                return initialElement;
+            }
+            else
+            {
+                if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), initialElement.GetType().Name) >= 0)
+                {
+                    IHTMLElement parent = initialElement.parentElement;
+
+                    if (parent.GetType().Name == "HTMLAnchorElementClass"
+                    || Array.IndexOf(this.CheckParentSelectionElementClassNames(), parent.GetType().Name) >= 0)
+                    {
+                        return this.getAnchorFromSelection(parent);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+        }
+
+
         public IHTMLElement TryGetCurrentElement()
         {
             
@@ -113,8 +214,12 @@ namespace WLWSimpleAnchorManager
                 return null;
             }
 
-            rng.moveToElementText(elmt);
-            rng.select();
+            if (elmt != null)
+            {
+                rng.moveToElementText(elmt);
+                rng.select();
+            }
+
             return elmt;
         }
 
@@ -151,32 +256,32 @@ namespace WLWSimpleAnchorManager
         }
 
 
-        public static string[] getAnchorNames(string editorHtml)
-        {
-            string delimitedList = EditorContent.ExtractDelimitedAnchorsList(editorHtml);
-            return delimitedList.Split(ANCHOR_LIST_DELIMITER);
-        }
+        //public static string[] getAnchorNames(string editorHtml)
+        //{
+        //    string delimitedList = EditorContent.ExtractDelimitedAnchorsList(editorHtml);
+        //    return delimitedList.Split(ANCHOR_LIST_DELIMITER);
+        //}
 
 
-        private static string ExtractDelimitedAnchorsList(string PostContent)
-        {
-            String regExMatchPattern = "(?<=id=" + AnchorData.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
-            MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
+        //private static string ExtractDelimitedAnchorsList(string PostContent)
+        //{
+        //    String regExMatchPattern = "(?<=id=" + WLWSAMAnchor.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
+        //    MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
 
 
-            StringBuilder sb = new StringBuilder("");
-            foreach (Match currentMatch in matches)
-            {
-                sb.Append(currentMatch.Value + ANCHOR_LIST_DELIMITER);
-            }
+        //    StringBuilder sb = new StringBuilder("");
+        //    foreach (Match currentMatch in matches)
+        //    {
+        //        sb.Append(currentMatch.Value + ANCHOR_LIST_DELIMITER);
+        //    }
 
-            if (sb.Length > 0)
-            {
-                sb.Remove(sb.Length - 1, 1);
-            }
+        //    if (sb.Length > 0)
+        //    {
+        //        sb.Remove(sb.Length - 1, 1);
+        //    }
 
-            return sb.ToString();
-        }
+        //    return sb.ToString();
+        //}
 
 
         string[] validSelectionElementClassNames()
@@ -198,16 +303,9 @@ namespace WLWSimpleAnchorManager
 
 
 
-        public void ChangeAllAnchorRefs(string anchorName)
-        {
-            IHTMLDocument2 document = EditorContent.getHtmlDocument2(owner);
-            IHTMLElementCollection elements = document.anchors as IHTMLElementCollection;
-            IHTMLElement selected = elements.item(anchorName) as IHTMLElement;
-            selected.id = "MyNewAnchor";           
-        }
 
 
-        public Dictionary<string, string> ExistingAnchorNames()
+        public Dictionary<string, string> ExistingAnchors()
         {
             IHTMLDocument2 document = EditorContent.getHtmlDocument2(owner);
             IHTMLElementCollection elements = document.anchors as IHTMLElementCollection;
@@ -215,8 +313,11 @@ namespace WLWSimpleAnchorManager
 
             var output = new Dictionary<string, string>();
 
+
             foreach (IHTMLElement item in elements)
             {
+                IHTMLAnchorElement test = (IHTMLAnchorElement)item;
+
                 IHTMLElement current = (IHTMLElement)item;
                 string name = current.id;
                 if (!string.IsNullOrEmpty(name))
@@ -231,7 +332,7 @@ namespace WLWSimpleAnchorManager
 
         public int getUniqueAnchorNameIndex(string proposedAnchorName)
         {
-            Dictionary<string, string> existingAnchorNames = this.ExistingAnchorNames();
+            Dictionary<string, string> existingAnchorNames = this.ExistingAnchors();
             int i = 0;
             string appendIndex = "";
             while (existingAnchorNames.ContainsKey(proposedAnchorName))

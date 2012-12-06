@@ -1,4 +1,4 @@
-﻿namespace WLWSimpleAnchorManager
+﻿namespace WLWStaticAnchorManager
 {
     partial class pnlLinkEditor
     {
@@ -32,15 +32,15 @@
             this.lblDiplayText = new System.Windows.Forms.Label();
             this.lblLvSelectedAnchor = new System.Windows.Forms.Label();
             this.lvSelectedAnchor = new System.Windows.Forms.ListView();
-            this.txtDisplayText = new WLWSimpleAnchorManager.ExtendedTextbox();
-            this.txtAnchorName = new WLWSimpleAnchorManager.ExtendedTextbox();
+            this.txtDisplayText = new WLWStaticAnchorManager.ExtendedTextbox();
+            this.txtAnchorName = new WLWStaticAnchorManager.ExtendedTextbox();
             this.SuspendLayout();
             // 
             // lblAnchorName
             // 
             this.lblAnchorName.AutoSize = true;
-            this.lblAnchorName.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
-            this.lblAnchorName.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblAnchorName.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblAnchorName.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblAnchorName.Location = new System.Drawing.Point(12, 60);
             this.lblAnchorName.Name = "lblAnchorName";
             this.lblAnchorName.Size = new System.Drawing.Size(92, 18);
@@ -50,8 +50,8 @@
             // lblDiplayText
             // 
             this.lblDiplayText.AutoSize = true;
-            this.lblDiplayText.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
-            this.lblDiplayText.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblDiplayText.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblDiplayText.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblDiplayText.Location = new System.Drawing.Point(12, 8);
             this.lblDiplayText.Name = "lblDiplayText";
             this.lblDiplayText.Size = new System.Drawing.Size(82, 18);
@@ -61,8 +61,8 @@
             // lblLvSelectedAnchor
             // 
             this.lblLvSelectedAnchor.AutoSize = true;
-            this.lblLvSelectedAnchor.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
-            this.lblLvSelectedAnchor.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblLvSelectedAnchor.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblLvSelectedAnchor.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblLvSelectedAnchor.Location = new System.Drawing.Point(12, 113);
             this.lblLvSelectedAnchor.Name = "lblLvSelectedAnchor";
             this.lblLvSelectedAnchor.Size = new System.Drawing.Size(93, 18);

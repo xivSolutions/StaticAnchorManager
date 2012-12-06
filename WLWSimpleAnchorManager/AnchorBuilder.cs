@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace WLWSimpleAnchorManager
+namespace WLWStaticAnchorManager
 {
     class AnchorBuilder : AnchorBuilderBase
     {
-        public AnchorBuilder(AnchorData settings)
+        public AnchorBuilder(WLWSAMAnchor settings)
         {
             this.AnchorSettings = settings;
         }
@@ -13,7 +13,7 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml()
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.currentInstanceID(), '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.htmlElementID(), '"'));
 
             string anchorHtml = newAnchor.ToString();
 
@@ -24,8 +24,8 @@ namespace WLWSimpleAnchorManager
         public override string getPublishHtml(string selectedHtml, string selectedText)
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.currentInstanceID(), '"'));
-            newAnchor.Content = this.AnchorSettings.DisplayText;
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.htmlElementID(), '"'));
+            newAnchor.Content = this.AnchorSettings.InnerText;
 
             string anchorTag = newAnchor.ToString();
 

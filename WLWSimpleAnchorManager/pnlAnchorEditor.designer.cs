@@ -1,4 +1,4 @@
-﻿namespace WLWSimpleAnchorManager
+﻿namespace WLWStaticAnchorManager
 {
     partial class pnlAnchorEditor
     {
@@ -31,15 +31,15 @@
             this.chkShowAnchorText = new System.Windows.Forms.CheckBox();
             this.lblDiplayText = new System.Windows.Forms.Label();
             this.lblAnchorName = new System.Windows.Forms.Label();
-            this.txtAnchorName = new WLWSimpleAnchorManager.ExtendedTextbox();
-            this.txtDisplayText = new WLWSimpleAnchorManager.ExtendedTextbox();
+            this.txtAnchorName = new WLWStaticAnchorManager.ExtendedTextbox();
+            this.txtDisplayText = new WLWStaticAnchorManager.ExtendedTextbox();
             this.SuspendLayout();
             // 
             // chkShowAnchorText
             // 
             this.chkShowAnchorText.AutoSize = true;
-            this.chkShowAnchorText.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
-            this.chkShowAnchorText.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.chkShowAnchorText.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.chkShowAnchorText.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.chkShowAnchorText.Location = new System.Drawing.Point(15, 106);
             this.chkShowAnchorText.Name = "chkShowAnchorText";
             this.chkShowAnchorText.Size = new System.Drawing.Size(148, 22);
@@ -50,8 +50,8 @@
             // lblDiplayText
             // 
             this.lblDiplayText.AutoSize = true;
-            this.lblDiplayText.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
-            this.lblDiplayText.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblDiplayText.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblDiplayText.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblDiplayText.Location = new System.Drawing.Point(12, 60);
             this.lblDiplayText.Name = "lblDiplayText";
             this.lblDiplayText.Size = new System.Drawing.Size(82, 18);
@@ -61,8 +61,8 @@
             // lblAnchorName
             // 
             this.lblAnchorName.AutoSize = true;
-            this.lblAnchorName.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
-            this.lblAnchorName.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
+            this.lblAnchorName.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FONT;
+            this.lblAnchorName.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.FORM_LABEL_FORECOLOR;
             this.lblAnchorName.Location = new System.Drawing.Point(12, 8);
             this.lblAnchorName.Name = "lblAnchorName";
             this.lblAnchorName.Size = new System.Drawing.Size(92, 18);
@@ -74,8 +74,8 @@
             this.txtAnchorName.AutoSize = true;
             this.txtAnchorName.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.txtAnchorName.BackColor = System.Drawing.Color.Silver;
-            this.txtAnchorName.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_USER_FONT;
-            this.txtAnchorName.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_TEXTBOX_FORECOLOR;
+            this.txtAnchorName.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.STANDARD_USER_FONT;
+            this.txtAnchorName.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.STANDARD_TEXTBOX_FORECOLOR;
             this.txtAnchorName.Location = new System.Drawing.Point(15, 26);
             this.txtAnchorName.Margin = new System.Windows.Forms.Padding(1);
             this.txtAnchorName.Name = "txtAnchorName";
@@ -90,8 +90,8 @@
             this.txtDisplayText.AutoSize = true;
             this.txtDisplayText.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.txtDisplayText.BackColor = System.Drawing.Color.Silver;
-            this.txtDisplayText.Font = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_USER_FONT;
-            this.txtDisplayText.ForeColor = global::WLWSimpleAnchorManager.Properties.Settings.Default.STANDARD_TEXTBOX_FORECOLOR;
+            this.txtDisplayText.Font = global::WLWStaticAnchorManager.Properties.Settings.Default.STANDARD_USER_FONT;
+            this.txtDisplayText.ForeColor = global::WLWStaticAnchorManager.Properties.Settings.Default.STANDARD_TEXTBOX_FORECOLOR;
             this.txtDisplayText.Location = new System.Drawing.Point(15, 78);
             this.txtDisplayText.Margin = new System.Windows.Forms.Padding(1);
             this.txtDisplayText.Name = "txtDisplayText";
