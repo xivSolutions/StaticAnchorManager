@@ -37,6 +37,10 @@ namespace WLWStaticAnchorManager
                  * Make sure that only alphanumeric characters and 
                  * allowable separators exist in the ID:
                  */
+                if (value == null)
+                {
+                    value = "";
+                }
                 var rgx = new Regex(rgxOnlyAlphaNumeric);
                 _anchorID = rgx.Replace(value, "-");
             }
