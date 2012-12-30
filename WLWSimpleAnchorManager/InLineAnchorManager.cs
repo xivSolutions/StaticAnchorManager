@@ -24,13 +24,8 @@ namespace WLWStaticAnchorManager
         private IHTMLElement _selectedAnchor;
 
         private string _editorHtml;
-        //private string _selectedHtml = "";
         private string _selectedText = "";
-        //private string _selectedInnerHtml = "";
-        //private string[] _anchorsList;
-
-        //private string _currentAnchorName = "";
-        //private string _LinkTargetName = "";
+        private IHTMLElementCollection _namedAnchorList;
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
@@ -39,19 +34,21 @@ namespace WLWStaticAnchorManager
 
             // Current editor contents:
             _editorHtml = currentEditor.EditorHtml;
+            _namedAnchorList = currentEditor.getNamedAnchorList();
 
             try
             {
+                // Is a valid anchor element currently selected in the editor?
                 _selectedAnchor = currentEditor.TryGetAnchorFromSelection();
+                _selectedElement = currentEditor.TryGetCurrentElement();
 
                 if (_selectedAnchor == null)
                 {
-                    _selectedElement = currentEditor.TryGetCurrentElement();
                     _selectedText = _selectedElement.innerText;
-                    _selectedElement.innerText = "";
-                    _selectedElement.insertAdjacentHTML("afterBegin", "<a id=\"newAnchor\">New Anchor</a>");
-                    _selectedAnchor = currentEditor.TryGetElementFromHtml("<a id=\"newAnchor\">New Anchor</a>");
+                    _selectedElement.innerText = null;
+                    //_selectedElement.insertAdjacentHTML("afterBegin", "<a id=\"newAnchor\">" + _selectedText + "</a>");
                 }
+
                 
                 //_selectedElement.outerHTML = "<a id=\"First\">First</a>";
             }
