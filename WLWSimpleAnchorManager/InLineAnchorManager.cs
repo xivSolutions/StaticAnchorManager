@@ -23,8 +23,8 @@ namespace WLWStaticAnchorManager
         private IHTMLElement _selectedElement;
         private IHTMLElement _selectedAnchor;
 
-        private string _editorHtml;
         private HTMLElementDictionary _namedAnchorDictionary;
+        private HTMLElementDictionary _namedLinkDictionary;
         private string[] _anchorNames;
 
         private AnchorData _anchorData;
@@ -34,24 +34,73 @@ namespace WLWStaticAnchorManager
         {
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
 
-            // Current editor contents:
-            _editorHtml = currentEditor.EditorHtml;
+            // Set up the Dictionary of existing anchors, and get a list of
+            // the anchor names for use in creating links to anchors:
             _namedAnchorDictionary = this.getStaticAnchorsDictionary(currentEditor.getAnchorCollection());
+
+            // Use a string array of anchor names to pass to the Link Editor Form:
             _anchorNames = new string[_namedAnchorDictionary.Count];
             _namedAnchorDictionary.Keys.CopyTo(_anchorNames, 0);
 
+            // Dictionary of Static Links for link ID validation:
+            _namedLinkDictionary = this.getStaticLinksDictionary(currentEditor.getAnchorCollection());
+
+            // Remember what was selected, and case the user cancels the operation
+            string _selectedText = "";
+            string _selectedHtml = "";
+
             try
             {
+                _selectedElement = currentEditor.TryGetCurrentElement();
+                //if (_selectedElement == null)
+                //{
+                //    _selectedElement = currentEditor.InsertNewContainerElement();
+                    
+                //}
+
+
                 // Is a valid anchor element currently selected in the editor?
                 _selectedAnchor = currentEditor.TryGetAnchorFromSelection();
-                _selectedElement = currentEditor.TryGetCurrentElement();
+
+                if (_selectedAnchor == null)
+                {
+                    IHTMLElementCollection children = (IHTMLElementCollection)_selectedElement.children;
+                    foreach (IHTMLElement child in children)
+                    {
+                        if (child.tagName == "A")
+                        {
+                            _selectedAnchor = child;
+                        }
+                    }
+                }
+
+                // Remember what was selected, and case the user cancels the operation
+                _selectedText = _selectedElement.innerText;
+                _selectedHtml = _selectedElement.outerHTML;
 
                 _anchorData = new AnchorData();
 
                 if (_selectedAnchor == null)
                 {
-                    _anchorData.DisplayText = _selectedElement.innerText;
-                    _anchorData.AnchorClass = AnchorTypes.None;
+                    // We need to zero these out before adding the new 
+                    // Child, or they are appended to the existing values (kind of). 
+                    // We are essentially moving the visible content of the existing html from
+                    // the currently selected element into the new anchor element:
+                    _selectedElement.innerText = null;
+                    _selectedElement.innerHTML = null;
+
+                    // We need an IHTMLDOMNode interface to use the appendChild method
+                    // on the parent element:
+                    IHTMLDOMNode parent = (IHTMLDOMNode)_selectedElement;
+                    _selectedAnchor = currentEditor.InsertNewAnchor();
+                    _selectedAnchor.innerText = _selectedText;
+
+                    // Once we have created the new anchor element, we need to 
+                    // cast it as an IHTMLDOMNode in order to append to the parent:
+                    IHTMLDOMNode anchorAsDom = (IHTMLDOMNode)_selectedAnchor;
+                    parent.appendChild(anchorAsDom);
+
+                    _anchorData.DisplayText = _selectedAnchor.innerText;
                 }
                 else
                 {
@@ -71,70 +120,65 @@ namespace WLWStaticAnchorManager
             {
                 if (editContentForm.ShowDialog() == DialogResult.OK)
                 {
-                    /*
-                     * make sure the proposed anchor ID is unique:
-                     */
-                    string proposedAnchorName = _anchorData.AnchorID;
-                    int uniqueNameIndex = currentEditor.getUniqueAnchorNameIndex(proposedAnchorName);
-                    if (uniqueNameIndex > 0 && _anchorData.AnchorID != _selectedAnchor.id)
-                    {
-                        _anchorData.AnchorID = _anchorData.AnchorID + "_" + uniqueNameIndex;
-                    }
-
-                    AnchorBuilderBase builder;
-
-                    switch(_anchorData.AnchorClass)
+                    switch (_anchorData.AnchorClass)
                     {
 
                         case AnchorTypes.wlwStaticAnchor:
+
+                            /*
+                             * make sure the proposed anchor ID is unique:
+                             */
+                            int uniqueNameIndex = this.getUniqueAnchorNameIndex(_anchorData.AnchorID);
+                            if (uniqueNameIndex > 0 && _anchorData.AnchorID != _selectedAnchor.id)
+                            {
+                                _anchorData.AnchorID = _anchorData.AnchorID + "_" + uniqueNameIndex;
+                            }
+
+
                             if (_selectedAnchor != null)
                             {
                                 _selectedAnchor.id = _anchorData.AnchorID;
                                 _selectedAnchor.innerText = _anchorData.DisplayText;
-                                content = _selectedAnchor.outerHTML;
-                            }
-                            else
-                            {
-                                builder = new AnchorBuilder(_anchorData);
-                                _selectedElement.innerHTML = builder.getPublishHtml(_selectedElement.innerText);
-                                content = _selectedElement.outerHTML;
+                                _selectedAnchor.className = _anchorData.AnchorClass.ToString();
                             }
 
                             break;
                         case AnchorTypes.wlwStaticLink:
                             if (_selectedAnchor != null)
                             {
+                                /*
+                                 * Make sure the proposed Link ID is unique:
+                                 */
+                                string proposedID = _anchorData.AnchorID + _anchorData.AnchorClass.ToString();
+                                uniqueNameIndex = this.getUniqueLinkNameIndex(proposedID);
+                                if (uniqueNameIndex > 0 && proposedID != _selectedAnchor.id)
+                                {
+                                    _selectedAnchor.id = proposedID + "_" + uniqueNameIndex;
+                                }
+                                else
+                                {
+                                    _selectedAnchor.id = proposedID;
+                                }
+
+                                _selectedAnchor.className = _anchorData.AnchorClass.ToString();
+                                _selectedAnchor.innerText = _anchorData.DisplayText;
                                 IHTMLAnchorElement anchor = (IHTMLAnchorElement)_selectedAnchor;
                                 anchor.href = _anchorData.LinkReference;
-                                _selectedAnchor.innerText = _anchorData.DisplayText;
                             }
-                            else
-                            {
-                                builder = new LinkBuilder(_anchorData);
-                                _selectedElement.innerHTML = builder.getPublishHtml(_selectedElement.innerText);
-                            }
-                            break;
-                        default:
-
                             break;
                     }
-
-
+                }
+                else
+                {
+                    _selectedElement.outerHTML = _selectedHtml;
+                    return DialogResult.Cancel;
                 }
             }
 
             _anchorNames = null;
 
-            //if (_selectedAnchor == null) // No anchor exists
-            //{
-            //    // does the current editor selection contain a WLWSAM Anchor or Link?
+            return DialogResult.OK;
 
-            //    return DialogResult.OK;
-            //}
-            //else // Otherwise, do nothing
-            //{
-            //    return DialogResult.Cancel;
-            //}
         }
 
 
@@ -151,6 +195,52 @@ namespace WLWStaticAnchorManager
             }
 
             return output;
+        }
+
+
+        private HTMLElementDictionary getStaticLinksDictionary(IHTMLElementCollection anchors)
+        {
+            var output = new HTMLElementDictionary();
+
+            foreach (IHTMLElement element in anchors)
+            {
+                if (element.className == AnchorTypes.wlwStaticLink.ToString())
+                {
+                    output.Add(element.id, element);
+                }
+            }
+
+            return output;
+        }
+
+
+        public int getUniqueAnchorNameIndex(string proposedAnchorName)
+        {
+            int i = 0;
+            string appendIndex = "";
+            while (_namedAnchorDictionary.ContainsKey(proposedAnchorName))
+            {
+                i++;
+                appendIndex = "_" + i.ToString();
+                proposedAnchorName = proposedAnchorName + appendIndex;
+            }
+
+            return i;
+        }
+
+
+        public int getUniqueLinkNameIndex(string proposedLinkName)
+        {
+            int i = 0;
+            string appendIndex = "";
+            while (_namedLinkDictionary.ContainsKey(proposedLinkName))
+            {
+                i++;
+                appendIndex = "_" + i.ToString();
+                proposedLinkName = proposedLinkName + appendIndex;
+            }
+
+            return i;
         }
     }
 }

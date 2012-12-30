@@ -244,6 +244,37 @@ namespace WLWStaticAnchorManager
         }
 
 
+        public IHTMLElement InsertNewAnchor()
+        {
+            
+            IHTMLElement newAnchor = (HTMLAnchorElementClass)_htmlDocument.createElement("a");
+            return newAnchor;
+        }
+
+
+        public IHTMLElement InsertNewContainerElement()
+        {
+            IHTMLSelectionObject selection = _htmlDocument.selection;
+
+            // This line will throw an exception if an Image or other non-Html
+            // item is selected in the html editor. Allow the exception to propegate
+            // up the call stack for handling at the UI level. 
+            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
+            
+            IHTMLElement elmt = this.InsertNewAnchor();
+            IHTMLDOMNode DOMelmt = (IHTMLDOMNode)elmt;
+
+            IHTMLDOMNode parent = (IHTMLDOMNode)rng.parentElement();
+            parent.appendChild(DOMelmt);
+
+            elmt.innerText = "newAnchor";
+            rng.moveToElementText(elmt);
+            rng.select();
+
+            return elmt;
+        }
+
+
         private IHTMLElement getFirstValidSelectionElement(IHTMLElement intialElement)
         {
 
@@ -270,38 +301,10 @@ namespace WLWStaticAnchorManager
                 }
                 else
                 {
-                    return intialElement;
+                    return null;
                 }
             }
         }
-
-
-        //public static string[] getAnchorNames(string editorHtml)
-        //{
-        //    string delimitedList = EditorContent.ExtractDelimitedAnchorsList(editorHtml);
-        //    return delimitedList.Split(ANCHOR_LIST_DELIMITER);
-        //}
-
-
-        //private static string ExtractDelimitedAnchorsList(string PostContent)
-        //{
-        //    String regExMatchPattern = "(?<=id=" + WLWSAMAnchor.wlwAnchorFlag + ":).*?(?=\\s|>|\")";
-        //    MatchCollection matches = Regex.Matches(PostContent, regExMatchPattern);
-
-
-        //    StringBuilder sb = new StringBuilder("");
-        //    foreach (Match currentMatch in matches)
-        //    {
-        //        sb.Append(currentMatch.Value + ANCHOR_LIST_DELIMITER);
-        //    }
-
-        //    if (sb.Length > 0)
-        //    {
-        //        sb.Remove(sb.Length - 1, 1);
-        //    }
-
-        //    return sb.ToString();
-        //}
 
 
         string[] validSelectionElementClassNames()
@@ -347,22 +350,6 @@ namespace WLWStaticAnchorManager
             }
 
             return output;
-        }
-
-
-        public int getUniqueAnchorNameIndex(string proposedAnchorName)
-        {
-            Dictionary<string, string> existingAnchorNames = this.ExistingAnchors();
-            int i = 0;
-            string appendIndex = "";
-            while (existingAnchorNames.ContainsKey(proposedAnchorName))
-            {
-                i++;
-                appendIndex = "_" + i.ToString();
-                proposedAnchorName = proposedAnchorName + appendIndex;
-            }
-
-            return i;
         }
     }
 }
