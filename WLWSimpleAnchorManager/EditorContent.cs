@@ -92,6 +92,12 @@ namespace WLWStaticAnchorManager
         }
 
 
+
+        public IHTMLElementCollection getNamedAnchorList()
+        {
+            return _htmlDocument.anchors;
+        }
+
         public IHTMLElement TryGetElementFromHtml(string html)
         {
             IHTMLSelectionObject selection = _htmlDocument.selection;
@@ -129,32 +135,46 @@ namespace WLWStaticAnchorManager
             IHTMLElement elmt = null;
             IHTMLSelectionObject selection = _htmlDocument.selection;
 
-            // This line will throw an exception if an Image or other non-Html
-            // item is selected in the html editor. Allow the exception to propegate
-            // up the call stack for handling at the UI level. 
-            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
-            if (rng != null)
+            if (selection.type == "Control")
             {
-                if (rng.text == null)
+                IHTMLControlRange ctlRng = (IHTMLControlRange)selection.createRange();
+                if (ctlRng.length == 1)
                 {
-                    rng.text = "";
+                    elmt = ctlRng.item(0);
+                    elmt = this.getAnchorFromSelection(elmt.parentElement);
                 }
-
-                rng.findText(rng.text);
-
-                try
+            }
+            else
+            {
+                // This line will throw an exception if an Image or other non-Html
+                // item is selected in the html editor. Allow the exception to propegate
+                // up the call stack for handling at the UI level. 
+                IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
+                if (rng != null)
                 {
-                    elmt = this.getAnchorFromSelection(rng.parentElement());
-
-                    if (elmt != null)
+                    if (rng.text == null)
                     {
-
-                        rng.moveToElementText(elmt);
+                        rng.text = "";
                     }
-                }
-                catch (Exception)
-                {
-                    return null;
+                    else
+                    {
+                        rng.findText(rng.text);
+                    }
+
+
+                    try
+                    {
+                        elmt = this.getAnchorFromSelection(rng.parentElement());
+
+                        if (elmt != null)
+                        {
+                            rng.moveToElementText(elmt);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
                 }
             }
 
@@ -162,7 +182,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public IHTMLElement getAnchorFromSelection(IHTMLElement initialElement)
+        private IHTMLElement getAnchorFromSelection(IHTMLElement initialElement)
         {
             if (initialElement.GetType().Name == "HTMLAnchorElementClass")
             {
