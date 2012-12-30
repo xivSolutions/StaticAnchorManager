@@ -91,12 +91,12 @@ namespace WLWStaticAnchorManager
             return selectedText;
         }
 
-
-
-        public IHTMLElementCollection getNamedAnchorList()
+        
+        public IHTMLElementCollection getAnchorCollection()
         {
             return _htmlDocument.anchors;
         }
+
 
         public IHTMLElement TryGetElementFromHtml(string html)
         {

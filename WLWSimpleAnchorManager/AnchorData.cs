@@ -13,15 +13,16 @@ namespace WLWStaticAnchorManager
         private string _anchorID = "";
 
 
-        public AnchorData(string anchorID, AnchorTypes anchorClass, string DisplayText)
-        {
-            this.AnchorID = anchorID;
-            this.DisplayText = DisplayText;
-        }
-
-
         public string DisplayText { get; set; }
         public AnchorTypes AnchorClass { get; set; }
+
+
+        public AnchorData()
+        {
+            this.AnchorClass = AnchorTypes.None;
+            this.AnchorID = "";
+            this.DisplayText = "";
+        }
 
 
         public string AnchorID
@@ -39,6 +40,12 @@ namespace WLWStaticAnchorManager
                 var rgx = new Regex(rgxOnlyAlphaNumeric);
                 _anchorID = rgx.Replace(value, "-");
             }
+        }
+
+
+        public string LinkReference
+        {
+            get { return "#" + this._anchorID; }
         }
 
 

@@ -11,10 +11,10 @@ namespace WLWStaticAnchorManager
         //public static string wlwAnchorFlag = "wlwAnchor";
         //public static string wlwLinkToAnchorFlag = "wlwLink";
 
-        public WLWSAMAnchor AnchorSettings { get; set; }
+        public AnchorData AnchorSettings { get; set; }
         public string ExistingHtml { get; set; }
 
-        public abstract string getPublishHtml();
-        public abstract string getPublishHtml(string selectedHtml, string selectedText);
+        public abstract string getPublishHtml(string selectedText);
+        //public abstract string getPublishHtml(string selectedHtml, string selectedText);
     }
 }

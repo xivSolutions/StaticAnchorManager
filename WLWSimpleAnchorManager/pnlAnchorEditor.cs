@@ -14,7 +14,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public pnlAnchorEditor(WLWSAMAnchor settings) : base(settings)
+        public pnlAnchorEditor(AnchorData settings) : base(settings)
         {
             InitializeComponent();
             this.chkShowAnchorText.CheckedChanged += new EventHandler(chkShowAnchorText_CheckedChanged);
@@ -26,8 +26,8 @@ namespace WLWStaticAnchorManager
 
         void pnlAnchorEditor_Load(object sender, EventArgs e)
         {
-            this.DisplayText = this.AnchorSettings.InnerText;
-            this.AnchorName = this.AnchorSettings.DescriptiveName;
+            this.DisplayText = this.AnchorSettings.DisplayText;
+            this.AnchorName = this.AnchorSettings.AnchorID;
             
             this.chkShowAnchorText.Checked = false;
             if (this.txtDisplayText.Text != "")

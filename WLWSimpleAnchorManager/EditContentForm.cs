@@ -20,7 +20,7 @@ namespace WLWStaticAnchorManager
         private Label _currentTabLabel;
 
 
-        private WLWSAMAnchor _currentAnchorSettings;
+        private AnchorData _currentAnchorSettings;
         private pnlAnchorEditorBase _currentEditorPanel;
 
         private string[] _anchorNames;
@@ -56,7 +56,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public EditContentForm(WLWSAMAnchor settings, string[] anchorNames) : this()
+        public EditContentForm(AnchorData settings, string[] anchorNames) : this()
         {
             _anchorNames = anchorNames;
             _currentAnchorSettings = settings;
@@ -66,14 +66,14 @@ namespace WLWStaticAnchorManager
         }
 
 
-        private void ConfigureForm(WLWSAMAnchor settings)
+        private void ConfigureForm(AnchorData settings)
         {
-            if (settings.AnchorType == AnchorTypes.wlwStaticAnchor)
+            if (settings.AnchorClass == AnchorTypes.wlwStaticAnchor)
             {
                 this.FormSetupEditAnchorConfig();
             }
 
-            if (settings.AnchorType == AnchorTypes.wlwStaticLink)
+            if (settings.AnchorClass == AnchorTypes.wlwStaticLink)
             {
                 this.FormSetupEditLinkConfig();
             }

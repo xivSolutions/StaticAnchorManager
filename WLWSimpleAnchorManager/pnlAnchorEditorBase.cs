@@ -21,7 +21,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public pnlAnchorEditorBase(WLWSAMAnchor settings) : this()
+        public pnlAnchorEditorBase(AnchorData settings) : this()
         {
             InitializeComponent();
             this.AnchorSettings = settings;
@@ -35,15 +35,14 @@ namespace WLWStaticAnchorManager
         }
 
         public virtual AnchorTypes AnchorType{get; set; }
-        public WLWSAMAnchor AnchorSettings { get; set; }
+        public AnchorData AnchorSettings { get; set; }
 
 
         public virtual void PerformSave()
         {
-            this.AnchorSettings.DescriptiveName = this.AnchorName;
-            this.AnchorSettings.InnerText = this.DisplayText;
-            this.AnchorSettings.AnchorType = this.AnchorType;
-            this.AnchorSettings.LinkTargetAnchorId = this.AnchorName;
+            this.AnchorSettings.AnchorID = this.AnchorName;
+            this.AnchorSettings.DisplayText = this.DisplayText;
+            this.AnchorSettings.AnchorClass = this.AnchorType;
         }
 
 

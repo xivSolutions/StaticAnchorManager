@@ -4,16 +4,18 @@ namespace WLWStaticAnchorManager
 {
     class AnchorBuilder : AnchorBuilderBase
     {
-        public AnchorBuilder(WLWSAMAnchor settings)
+        public AnchorBuilder(AnchorData settings)
         {
             this.AnchorSettings = settings;
         }
 
 
-        public override string getPublishHtml()
+        public override string getPublishHtml(string selectedText = "")
         {
             htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.htmlElementID(), '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.AnchorID, '"'));
+            newAnchor.Attributes.Add(new htmlAttribute("class", this.AnchorSettings.AnchorClass.ToString(), '"'));
+            newAnchor.Content = this.AnchorSettings.DisplayText;
 
             string anchorHtml = newAnchor.ToString();
 
@@ -21,30 +23,30 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public override string getPublishHtml(string selectedHtml, string selectedText)
-        {
-            htmlElement newAnchor = new htmlElement("a", false);
-            newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.htmlElementID(), '"'));
-            newAnchor.Content = this.AnchorSettings.InnerText;
+        //public override string getPublishHtml(string selectedHtml, string selectedText)
+        //{
+        //    htmlElement newAnchor = new htmlElement("a", false);
+        //    newAnchor.Attributes.Add(new htmlAttribute("id", this.AnchorSettings.htmlElementID(), '"'));
+        //    newAnchor.Content = this.AnchorSettings.InnerText;
 
-            string anchorTag = newAnchor.ToString();
+        //    string anchorTag = newAnchor.ToString();
 
-            if (string.IsNullOrEmpty(selectedText))
-            {
-                if (!string.IsNullOrEmpty(selectedHtml))
-                {
-                    htmlElement wrapper = this.EmptyHtmlWrapper(selectedHtml);
-                    wrapper.InternalElements.Add(newAnchor);
-                    anchorTag = wrapper.ToString();
-                }
+        //    if (string.IsNullOrEmpty(selectedText))
+        //    {
+        //        if (!string.IsNullOrEmpty(selectedHtml))
+        //        {
+        //            htmlElement wrapper = this.EmptyHtmlWrapper(selectedHtml);
+        //            wrapper.InternalElements.Add(newAnchor);
+        //            anchorTag = wrapper.ToString();
+        //        }
 
-                return anchorTag;
-            }
-            else
-            {
-                return selectedHtml.Replace(selectedText, anchorTag);
-            }
-        }
+        //        return anchorTag;
+        //    }
+        //    else
+        //    {
+        //        return selectedHtml.Replace(selectedText, anchorTag);
+        //    }
+        //}
 
 
         htmlElement EmptyHtmlWrapper(string emptyTagset)

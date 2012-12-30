@@ -22,7 +22,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public pnlLinkEditor(string[] anchorNames, WLWSAMAnchor settings) : base(settings)
+        public pnlLinkEditor(string[] anchorNames, AnchorData settings) : base(settings)
         {
             InitializeComponent();
 
@@ -40,8 +40,7 @@ namespace WLWStaticAnchorManager
         void pnlLinkEditor_Load(object sender, EventArgs e)
         {
             this.FillAnchorList(_anchorNames);
-            this.DisplayText = this.AnchorSettings.InnerText;
-            this.SetSelectedAnchor(this.AnchorSettings.LinkTargetAnchorId);
+            this.DisplayText = this.AnchorSettings.DisplayText;
         }
 
        
