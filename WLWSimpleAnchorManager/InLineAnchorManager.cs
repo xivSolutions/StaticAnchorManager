@@ -22,7 +22,7 @@ namespace WLWStaticAnchorManager
 
         private HTMLElementDictionary _namedAnchorDictionary;
         private HTMLElementDictionary _namedLinkDictionary;
-        private string[] _anchorNames;
+        //private string[] _anchorNames;
 
         //private AnchorData _anchorData;
 
@@ -32,6 +32,7 @@ namespace WLWStaticAnchorManager
             AnchorData anchorData = new AnchorData();
             IHTMLElement selectedElement;
             IHTMLElement selectedAnchor;
+            //string[] _anchorNames;
 
             // The content variable is passed in by ref, and when returned, marks the insertion point
             // for text contained within any elements created. Appears to behave differeently when 
@@ -47,8 +48,8 @@ namespace WLWStaticAnchorManager
             _namedAnchorDictionary = this.getStaticAnchorsDictionary(currentEditor.getAnchorCollection());
 
             // Use a string array of anchor names to pass to the Link Editor Form:
-            _anchorNames = new string[_namedAnchorDictionary.Count];
-            _namedAnchorDictionary.Keys.CopyTo(_anchorNames, 0);
+            string[]anchorNamesArray = new string[_namedAnchorDictionary.Count];
+            _namedAnchorDictionary.Keys.CopyTo(anchorNamesArray, 0);
 
             // Dictionary of Static Links for link ID validation:
             _namedLinkDictionary = this.getStaticLinksDictionary(currentEditor.getAnchorCollection());
@@ -116,7 +117,7 @@ namespace WLWStaticAnchorManager
             }
 
 
-            using (var editContentForm = new EditContentForm(anchorData, _anchorNames))
+            using (var editContentForm = new EditContentForm(anchorData, anchorNamesArray))
             {
                 if (editContentForm.ShowDialog() == DialogResult.OK)
                 {
@@ -192,7 +193,7 @@ namespace WLWStaticAnchorManager
                 content = selectedAnchor.innerText;
             }
 
-            _anchorNames = null;
+            anchorNamesArray = null;
             selectedAnchor = null;
             selectedElement = null;
             anchorData = null;
