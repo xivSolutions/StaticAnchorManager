@@ -120,13 +120,10 @@ namespace WLWStaticAnchorManager
                         case AnchorTypes.wlwStaticAnchor:
 
                             // MAKE SURE THE PROPOSED ANCHOR NAME IS UNIQUE:
-                            int uniqueNameIndex = this.getUniqueAnchorNameIndex(anchorData.AnchorID);
-                            if (uniqueNameIndex > 0 && anchorData.AnchorID != selectedAnchor.id)
-                            {
-                                anchorData.AnchorID = anchorData.AnchorID + "_" + uniqueNameIndex;
-                            }
+                            anchorData.AnchorID = this.uniqueAnchorId(anchorData.AnchorID, selectedAnchor.id);
 
-                            // Capture the original AnchorID for updating link references:
+                            // Capture the original and new AnchorID/href for updating link references
+                            // to the current anchor:
                             string oldAnchorID = selectedAnchor.id;
                             string oldHref= "#" + oldAnchorID;
                             string newHref = anchorData.LinkHref;
@@ -139,27 +136,20 @@ namespace WLWStaticAnchorManager
                             {
                                 this.updateLinkReferences(oldHref, newHref);
                             }
+
                             break;
                         case AnchorTypes.wlwStaticLink:
                             if (selectedAnchor != null)
                             {
                                 // MAKE SURE THE PROPOSED LINK NAME IS UNIQUE:
-                                string proposedID = anchorData.AnchorID + ":" + anchorData.AnchorClass.ToString();
-                                uniqueNameIndex = this.getUniqueLinkNameIndex(proposedID);
-                                if (uniqueNameIndex > 0 && proposedID != selectedAnchor.id)
-                                {
-                                    selectedAnchor.id = proposedID + "_" + uniqueNameIndex;
-                                }
-                                else
-                                {
-                                    selectedAnchor.id = proposedID;
-                                }
+                                selectedAnchor.id = this.uniqueLinkId(anchorData, selectedAnchor.id);
 
                                 selectedAnchor.className = anchorData.AnchorClass.ToString();
                                 selectedAnchor.innerText = anchorData.DisplayText;
                                 IHTMLAnchorElement anchor = (IHTMLAnchorElement)selectedAnchor;
                                 anchor.href = anchorData.LinkHref;
                             }
+
                             break;
                     }
                 }
@@ -192,8 +182,12 @@ namespace WLWStaticAnchorManager
         {
             IHTMLElement newAnchor;
 
+            // We will move existing text content from the parent element
+            // into the new Anchor Element:
             string _selectedText = parentElement.innerText;
 
+            // These need to be zeroed out so that the addition of
+            // a new child does not append to the existing content. 
             parentElement.innerText = null;
             parentElement.innerHTML = null;
 
@@ -244,6 +238,19 @@ namespace WLWStaticAnchorManager
         }
 
 
+        private string uniqueAnchorId(string newAnchorId, string currentAnchorId)
+        {
+            string output = newAnchorId;
+            int uniqueNameIndex = this.getUniqueAnchorNameIndex(newAnchorId);
+            if (uniqueNameIndex > 0 && newAnchorId != currentAnchorId)
+            {
+                output = newAnchorId + "_" + uniqueNameIndex;
+            }
+
+            return output;
+        }
+
+
         private int getUniqueAnchorNameIndex(string proposedAnchorName)
         {
             int i = 0;
@@ -256,6 +263,21 @@ namespace WLWStaticAnchorManager
             }
 
             return i;
+        }
+
+
+        private string uniqueLinkId(AnchorData NewAnchorData, string currentLinkId)
+        {
+            string proposedID = NewAnchorData.AnchorID + ":" + NewAnchorData.AnchorClass.ToString();
+            string output = proposedID;
+
+            int uniqueNameIndex = this.getUniqueLinkNameIndex(output);
+            if (uniqueNameIndex > 0 && proposedID != currentLinkId)
+            {
+                output = proposedID + "_" + uniqueNameIndex;
+            }
+
+            return output;
         }
 
 
