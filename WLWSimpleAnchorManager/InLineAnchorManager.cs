@@ -102,27 +102,21 @@ namespace WLWStaticAnchorManager
                             selectedAnchor = child;
                         }
                     }
+
+                    // Otherwise . . .
+                    if (selectedAnchor == null)
+                    {
+                        // . . . There is no available anchor within the selection. Create one:
+                        selectedAnchor = this.CreateNewSelectedAnchor(currentEditor, selectedElement);
+                    }
                 }
 
-                //// Remember what was selected in the originally selected element, 
-                //// in case the user cancels the operation. Subsequent operations in this scope
-                //// modify these values in the editor, and we need to be able to reset them on cancel:
-                //_selectedText = selectedElement.innerText;
-                //_selectedHtml = selectedElement.outerHTML;
+                // SET THE ANCHOR DATA VALUES FOR EDITING IN THE FORM:
 
-                
-                if (selectedAnchor == null)
-                {
-                    selectedAnchor = this.CreateNewSelectedAnchor(currentEditor, selectedElement);
-                    anchorData.DisplayText = selectedAnchor.innerText;
-                }
-                else
-                {
-                    anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(selectedAnchor.className);
-                    anchorData.AnchorID = selectedAnchor.id;
-                    anchorData.DisplayText = selectedAnchor.innerText;
-                    anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(anchorData.AnchorID);
-                }
+                anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(selectedAnchor.className);
+                anchorData.AnchorID = selectedAnchor.id;
+                anchorData.DisplayText = selectedAnchor.innerText;
+                anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(anchorData.AnchorID);
             }
             catch (Exception)
             {
