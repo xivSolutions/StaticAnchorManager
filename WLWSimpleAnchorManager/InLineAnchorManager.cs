@@ -32,7 +32,6 @@ namespace WLWStaticAnchorManager
             AnchorData anchorData = new AnchorData();
             IHTMLElement selectedElement;
             IHTMLElement selectedAnchor;
-            //string[] _anchorNames;
 
             // The content variable is passed in by ref, and when returned, marks the insertion point
             // for text contained within any elements created. Appears to behave differeently when 
@@ -43,29 +42,16 @@ namespace WLWStaticAnchorManager
 
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
 
-            // Set up the Dictionary of existing anchors, and get a list of
-            // the anchor names for use in creating links to anchors:
             _namedAnchorDictionary = this.getStaticAnchorsDictionary(currentEditor.getAnchorCollection());
-
-            //// Use a string array of anchor names to pass to the Link Editor Form:
-            //string[]anchorNamesArray = new string[_namedAnchorDictionary.Count];
-            //_namedAnchorDictionary.Keys.CopyTo(anchorNamesArray, 0);
-
-            // Dictionary of Static Links for link ID validation:
             _namedLinkDictionary = this.getStaticLinksDictionary(currentEditor.getAnchorCollection());
 
-            // Remember what was selected, and case the user cancels the operation
+            // Remember what was selected, in case the user cancels the operation:
             string _selectedText = "";
             string _selectedHtml = "";
 
-
-            // GET THE SELECTED ELEMENT, OR CREATE ONE:
-
             try
             {
-                // get a reference to the smallest block of html in which the current
-                // selection is located (if no selection, expands from the current cursor
-                // location:
+                // GET THE SELECTED ELEMENT, OR CREATE ONE:
                 selectedElement = currentEditor.TryGetCurrentElement();
 
                 // If the cursor is not contained by a valid element, create one
@@ -77,15 +63,12 @@ namespace WLWStaticAnchorManager
 
                 // REMEMBER THE INITIAL VALUES FROM THE SELECTED ELEMENT:
                 
-                // Remember what was selected in the originally selected element, 
-                // in case the user cancels the operation. Subsequent operations in this scope
-                // modify these values in the editor, and we need to be able to reset them on cancel:
+                // Subsequent operations in this scope modify these values in the editor, 
+                // and we need to be able to reset them on cancel:
                 _selectedText = selectedElement.innerText;
                 _selectedHtml = selectedElement.outerHTML;
 
-
                 // GET THE SELECTED ANCHOR, OR CREATE ONE:
-
 
                 // Is a valid anchor element currently selected in the editor?
                 selectedAnchor = currentEditor.TryGetAnchorFromSelection();
@@ -106,7 +89,7 @@ namespace WLWStaticAnchorManager
                     // Otherwise . . .
                     if (selectedAnchor == null)
                     {
-                        // . . . There is no available anchor within the selection. Create one:
+                        // . . . Create one:
                         selectedAnchor = this.CreateNewSelectedAnchor(currentEditor, selectedElement);
                     }
                 }
@@ -134,12 +117,9 @@ namespace WLWStaticAnchorManager
                 {
                     switch (anchorData.AnchorClass)
                     {
-
                         case AnchorTypes.wlwStaticAnchor:
 
-                            /*
-                             * make sure the proposed anchor ID is unique:
-                             */
+                            // MAKE SURE THE PROPOSED ANCHOR NAME IS UNIQUE:
                             int uniqueNameIndex = this.getUniqueAnchorNameIndex(anchorData.AnchorID);
                             if (uniqueNameIndex > 0 && anchorData.AnchorID != selectedAnchor.id)
                             {
@@ -151,25 +131,19 @@ namespace WLWStaticAnchorManager
                             string oldHref= "#" + oldAnchorID;
                             string newHref = anchorData.LinkHref;
 
-                            if (selectedAnchor != null)
-                            {
-                                selectedAnchor.id = anchorData.AnchorID;
-                                selectedAnchor.innerText = anchorData.DisplayText;
-                                selectedAnchor.className = anchorData.AnchorClass.ToString();
-                            }
+                            selectedAnchor.id = anchorData.AnchorID;
+                            selectedAnchor.innerText = anchorData.DisplayText;
+                            selectedAnchor.className = anchorData.AnchorClass.ToString();
 
                             if (oldAnchorID != selectedAnchor.id)
                             {
                                 this.updateLinkReferences(oldHref, newHref);
                             }
-
                             break;
                         case AnchorTypes.wlwStaticLink:
                             if (selectedAnchor != null)
                             {
-                                /*
-                                 * Make sure the proposed Link ID is unique:
-                                 */
+                                // MAKE SURE THE PROPOSED LINK NAME IS UNIQUE:
                                 string proposedID = anchorData.AnchorID + ":" + anchorData.AnchorClass.ToString();
                                 uniqueNameIndex = this.getUniqueLinkNameIndex(proposedID);
                                 if (uniqueNameIndex > 0 && proposedID != selectedAnchor.id)
@@ -185,7 +159,6 @@ namespace WLWStaticAnchorManager
                                 selectedAnchor.innerText = anchorData.DisplayText;
                                 IHTMLAnchorElement anchor = (IHTMLAnchorElement)selectedAnchor;
                                 anchor.href = anchorData.LinkHref;
-                                //content = _selectedAnchor.innerText;
                             }
                             break;
                     }
@@ -212,7 +185,6 @@ namespace WLWStaticAnchorManager
             _namedLinkDictionary = null;
 
             return DialogResult.OK;
-
         }
 
 
