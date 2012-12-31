@@ -47,9 +47,9 @@ namespace WLWStaticAnchorManager
             // the anchor names for use in creating links to anchors:
             _namedAnchorDictionary = this.getStaticAnchorsDictionary(currentEditor.getAnchorCollection());
 
-            // Use a string array of anchor names to pass to the Link Editor Form:
-            string[]anchorNamesArray = new string[_namedAnchorDictionary.Count];
-            _namedAnchorDictionary.Keys.CopyTo(anchorNamesArray, 0);
+            //// Use a string array of anchor names to pass to the Link Editor Form:
+            //string[]anchorNamesArray = new string[_namedAnchorDictionary.Count];
+            //_namedAnchorDictionary.Keys.CopyTo(anchorNamesArray, 0);
 
             // Dictionary of Static Links for link ID validation:
             _namedLinkDictionary = this.getStaticLinksDictionary(currentEditor.getAnchorCollection());
@@ -116,6 +116,9 @@ namespace WLWStaticAnchorManager
                 return DialogResult.Cancel;
             }
 
+            // Use a string array of anchor names to pass to the Link Editor Form:
+            string[] anchorNamesArray = new string[_namedAnchorDictionary.Count];
+            _namedAnchorDictionary.Keys.CopyTo(anchorNamesArray, 0);
 
             using (var editContentForm = new EditContentForm(anchorData, anchorNamesArray))
             {
