@@ -58,12 +58,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditorContent.cs" />
-    <Compile Include="HtmlAssembly\HTMLAttribute.cs" />
-    <Compile Include="HtmlAssembly\HTMLAttributeList.cs" />
-    <Compile Include="HtmlAssembly\htmlComment.cs" />
-    <Compile Include="HtmlAssembly\HTMLElement.cs" />
-    <Compile Include="HtmlAssembly\HTMLElementList.cs" />
-    <Compile Include="HtmlAssembly\InvalidhtmlException.cs" />
     <Compile Include="InLineAnchorManager.cs" />
     <Compile Include="pnlAnchorEditor.cs">
       <SubType>UserControl</SubType>
