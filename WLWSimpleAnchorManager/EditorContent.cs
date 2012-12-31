@@ -15,21 +15,11 @@ namespace WLWStaticAnchorManager
         IntPtr owner;
 
         private IHTMLDocument2 _htmlDocument;
-        private string _editorHtml;
-
 
         public EditorContent(IntPtr wlwEditorHandle)
         {
             owner = wlwEditorHandle;
-
-            _editorHtml = EditorContent.getHtml(wlwEditorHandle);
             _htmlDocument = EditorContent.getHtmlDocument2(wlwEditorHandle);
-        }
-
-
-        public string EditorHtml
-        {
-            get { return _editorHtml; }
         }
 
 
@@ -45,55 +35,10 @@ namespace WLWStaticAnchorManager
             return output;
         }
 
-
-        private static string getHtml(IntPtr owner)
-        {
-            string selectedText = "";
-
-            Win32EnumWindowsItem item = Win32EnumWindows.FindByClassName(owner, WNDCLSNAME_IE_SERVER);
-            if (item != null)
-            {
-                selectedText = Win32IEHelper.GetHtml(item.Handle);
-            }
-            return selectedText;
-        }
-
         
         public IHTMLElementCollection getAnchorCollection()
         {
             return _htmlDocument.anchors;
-        }
-
-
-        public IHTMLElement TryGetElementFromHtml(string html)
-        {
-            IHTMLSelectionObject selection = _htmlDocument.selection;
-
-            // This line will throw an exception if an Image or other non-Html
-            // item is selected in the html editor. Allow the exception to propegate
-            // up the call stack for handling at the UI level. 
-            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
-            rng.findText(html);
-            rng.select();
-
-            IHTMLElement elmt = null;
-
-            try
-            {
-                elmt = this.getAnchorFromSelection(rng.parentElement());
-
-                //if (elmt != null)
-                //{
-
-                //    rng.moveToElementText(elmt);
-                //}
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-            return elmt;
         }
 
 
@@ -211,37 +156,6 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public IHTMLElement InsertNewAnchor()
-        {
-            
-            IHTMLElement newAnchor = (HTMLAnchorElementClass)_htmlDocument.createElement("a");
-            return newAnchor;
-        }
-
-
-        public IHTMLElement InsertNewContainerElement()
-        {
-            IHTMLSelectionObject selection = _htmlDocument.selection;
-
-            // This line will throw an exception if an Image or other non-Html
-            // item is selected in the html editor. Allow the exception to propegate
-            // up the call stack for handling at the UI level. 
-            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
-            
-            IHTMLElement elmt = this.InsertNewAnchor();
-            IHTMLDOMNode DOMelmt = (IHTMLDOMNode)elmt;
-
-            IHTMLDOMNode parent = (IHTMLDOMNode)rng.parentElement();
-            parent.appendChild(DOMelmt);
-
-            elmt.innerText = "newAnchor";
-            rng.moveToElementText(elmt);
-            rng.select();
-
-            return elmt;
-        }
-
-
         private IHTMLElement getFirstValidSelectionElement(IHTMLElement intialElement)
         {
 
@@ -292,31 +206,33 @@ namespace WLWStaticAnchorManager
         }
 
 
-
-
-
-        public Dictionary<string, string> ExistingAnchors()
+        public IHTMLElement InsertNewAnchor()
         {
-            IHTMLDocument2 document = EditorContent.getHtmlDocument2(owner);
-            IHTMLElementCollection elements = document.anchors as IHTMLElementCollection;
-            //IHTMLElement selected = elements.item(linkName) as IHTMLElement;
-
-            var output = new Dictionary<string, string>();
+            IHTMLElement newAnchor = (HTMLAnchorElementClass)_htmlDocument.createElement("a");
+            return newAnchor;
+        }
 
 
-            foreach (IHTMLElement item in elements)
-            {
-                IHTMLAnchorElement test = (IHTMLAnchorElement)item;
+        public IHTMLElement InsertNewContainerElement()
+        {
+            IHTMLSelectionObject selection = _htmlDocument.selection;
 
-                IHTMLElement current = (IHTMLElement)item;
-                string name = current.id;
-                if (!string.IsNullOrEmpty(name))
-                {
-                    output.Add(name, name);
-                }
-            }
+            // This line will throw an exception if an Image or other non-Html
+            // item is selected in the html editor. Allow the exception to propegate
+            // up the call stack for handling at the UI level. 
+            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
 
-            return output;
+            IHTMLElement elmt = this.InsertNewAnchor();
+            IHTMLDOMNode DOMelmt = (IHTMLDOMNode)elmt;
+
+            IHTMLDOMNode parent = (IHTMLDOMNode)rng.parentElement();
+            parent.appendChild(DOMelmt);
+
+            elmt.innerText = "newAnchor";
+            rng.moveToElementText(elmt);
+            rng.select();
+
+            return elmt;
         }
 
 
