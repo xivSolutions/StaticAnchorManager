@@ -20,18 +20,22 @@ namespace WLWStaticAnchorManager
         private static string ANCHOR_ICON_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
         private static string LINK_ICON_KEY = Properties.Resources.LINK_IMAGE_KEY;
 
-        private IHTMLElement _selectedElement;
-        private IHTMLElement _selectedAnchor;
+        //private IHTMLElement _selectedElement;
+        //private IHTMLElement _selectedAnchor;
 
         private HTMLElementDictionary _namedAnchorDictionary;
         private HTMLElementDictionary _namedLinkDictionary;
         private string[] _anchorNames;
 
-        private AnchorData _anchorData;
+        //private AnchorData _anchorData;
 
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
+            AnchorData _anchorData = new AnchorData();
+            IHTMLElement _selectedElement;
+            IHTMLElement _selectedAnchor;
+
             content = "";
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
 
@@ -79,8 +83,7 @@ namespace WLWStaticAnchorManager
                 _selectedText = _selectedElement.innerText;
                 _selectedHtml = _selectedElement.outerHTML;
 
-                _anchorData = new AnchorData();
-
+                
                 if (_selectedAnchor == null)
                 {
                     // We need to zero these out before adding the new 
