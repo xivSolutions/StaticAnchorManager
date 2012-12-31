@@ -329,7 +329,16 @@ namespace WLWStaticAnchorManager
             // up the call stack for handling at the UI level. 
             IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
             rng.moveToElementText(element);
-            rng.findText(element.innerText);
+
+            if (element.innerText != null)
+            {
+                rng.findText(element.innerText);
+            }
+            else
+            {
+                element.innerText = "";
+            }
+
             rng.select();
         }
     }
