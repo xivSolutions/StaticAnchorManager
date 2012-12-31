@@ -351,5 +351,19 @@ namespace WLWStaticAnchorManager
 
             return output;
         }
+
+
+        public void MoveSelectionToElementText(IHTMLElement element)
+        {
+            IHTMLSelectionObject selection = _htmlDocument.selection;
+
+            // This line will throw an exception if an Image or other non-Html
+            // item is selected in the html editor. Allow the exception to propegate
+            // up the call stack for handling at the UI level. 
+            IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
+            rng.moveToElementText(element);
+            rng.findText(element.innerText);
+            rng.select();
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace WLWStaticAnchorManager
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
+            content = "";
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
 
             // Set up the Dictionary of existing anchors, and get a list of
@@ -52,11 +53,11 @@ namespace WLWStaticAnchorManager
             try
             {
                 _selectedElement = currentEditor.TryGetCurrentElement();
-                //if (_selectedElement == null)
-                //{
-                //    _selectedElement = currentEditor.InsertNewContainerElement();
-                    
-                //}
+                if (_selectedElement == null)
+                {
+                    _selectedElement = currentEditor.InsertNewContainerElement();
+
+                }
 
 
                 // Is a valid anchor element currently selected in the editor?
@@ -107,6 +108,7 @@ namespace WLWStaticAnchorManager
                     _anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(_selectedAnchor.className);
                     _anchorData.AnchorID = _selectedAnchor.id;
                     _anchorData.DisplayText = _selectedAnchor.innerText;
+                    _anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(_selectedAnchor.id);
                 }
             }
             catch (Exception)
@@ -134,12 +136,21 @@ namespace WLWStaticAnchorManager
                                 _anchorData.AnchorID = _anchorData.AnchorID + "_" + uniqueNameIndex;
                             }
 
+                            // Capture the original AnchorID for updating link references:
+                            string oldAnchorID = _selectedAnchor.id;
+                            string oldHref= "#" + oldAnchorID;
+                            string newHref = _anchorData.LinkHref;
 
                             if (_selectedAnchor != null)
                             {
                                 _selectedAnchor.id = _anchorData.AnchorID;
                                 _selectedAnchor.innerText = _anchorData.DisplayText;
                                 _selectedAnchor.className = _anchorData.AnchorClass.ToString();
+                            }
+
+                            if (oldAnchorID != _selectedAnchor.id)
+                            {
+                                this.updateLinkReferences(oldHref, newHref);
                             }
 
                             break;
@@ -149,7 +160,7 @@ namespace WLWStaticAnchorManager
                                 /*
                                  * Make sure the proposed Link ID is unique:
                                  */
-                                string proposedID = _anchorData.AnchorID + _anchorData.AnchorClass.ToString();
+                                string proposedID = _anchorData.AnchorID + ":" + _anchorData.AnchorClass.ToString();
                                 uniqueNameIndex = this.getUniqueLinkNameIndex(proposedID);
                                 if (uniqueNameIndex > 0 && proposedID != _selectedAnchor.id)
                                 {
@@ -163,7 +174,8 @@ namespace WLWStaticAnchorManager
                                 _selectedAnchor.className = _anchorData.AnchorClass.ToString();
                                 _selectedAnchor.innerText = _anchorData.DisplayText;
                                 IHTMLAnchorElement anchor = (IHTMLAnchorElement)_selectedAnchor;
-                                anchor.href = _anchorData.LinkReference;
+                                anchor.href = _anchorData.LinkHref;
+                                //content = _selectedAnchor.innerText;
                             }
                             break;
                     }
@@ -175,7 +187,15 @@ namespace WLWStaticAnchorManager
                 }
             }
 
+            currentEditor.MoveSelectionToElementText(_selectedAnchor);
+            content = _selectedAnchor.innerText;
+
             _anchorNames = null;
+            _selectedAnchor = null;
+            _selectedElement = null;
+            _anchorData = null;
+            _namedAnchorDictionary = null;
+            _namedLinkDictionary = null;
 
             return DialogResult.OK;
 
@@ -214,7 +234,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public int getUniqueAnchorNameIndex(string proposedAnchorName)
+        private int getUniqueAnchorNameIndex(string proposedAnchorName)
         {
             int i = 0;
             string appendIndex = "";
@@ -229,7 +249,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public int getUniqueLinkNameIndex(string proposedLinkName)
+        private int getUniqueLinkNameIndex(string proposedLinkName)
         {
             int i = 0;
             string appendIndex = "";
@@ -241,6 +261,28 @@ namespace WLWStaticAnchorManager
             }
 
             return i;
+        }
+
+
+        private string getAnchorIDFromLinkID(string linkID)
+        {
+            char[] delim = { ':' };
+            string[] arr = linkID.Split(delim);
+
+            return arr[0];
+        }
+
+
+        private void updateLinkReferences(string oldHref, string newHref)
+        {
+            foreach (IHTMLElement link in _namedLinkDictionary.Values)
+            {
+                IHTMLAnchorElement anchorElement = (IHTMLAnchorElement)link;
+                if (anchorElement.nameProp == oldHref)
+                {
+                    anchorElement.href = newHref;
+                }
+            }
         }
     }
 }

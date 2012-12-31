@@ -51,6 +51,7 @@
     <Compile Include="AnchorBuilder.cs" />
     <Compile Include="AnchorData.cs" />
     <Compile Include="HTMLElementDictionary.cs" />
+    <Compile Include="LinkDataContainer.cs" />
     <Compile Include="WLWSAMAnchor.cs" />
     <Compile Include="AnchorTypes.cs" />
     <Compile Include="SelectedEditorContent.cs" />

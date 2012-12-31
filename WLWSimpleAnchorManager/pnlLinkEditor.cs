@@ -34,13 +34,13 @@ namespace WLWStaticAnchorManager
             this.lvSelectedAnchor.MouseDoubleClick +=new MouseEventHandler(lvSelectedAnchor_MouseDoubleClick);
             this.Load += new EventHandler(pnlLinkEditor_Load);
             this.txtAnchorName.Enabled = false;
-
         }
 
         void pnlLinkEditor_Load(object sender, EventArgs e)
         {
             this.FillAnchorList(_anchorNames);
             this.DisplayText = this.AnchorSettings.DisplayText;
+            this.SetSelectedAnchor(this.AnchorSettings.TargetAnchorID);
         }
 
        
@@ -75,6 +75,10 @@ namespace WLWStaticAnchorManager
 
         private void SetSelectedAnchor(String AnchorName)
         {
+            char[] delim = {':'};
+            string[] arr = AnchorName.Split(delim);
+
+            string findName = arr[0];
             ListView lv = this.lvSelectedAnchor;
             ListViewItem selected = lv.Items[AnchorName];
             if (selected != null)

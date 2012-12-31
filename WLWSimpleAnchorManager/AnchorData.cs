@@ -15,6 +15,7 @@ namespace WLWStaticAnchorManager
 
         public string DisplayText { get; set; }
         public AnchorTypes AnchorClass { get; set; }
+        public string TargetAnchorID { get; set; }
 
 
         public AnchorData()
@@ -47,7 +48,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public string LinkReference
+        public string LinkHref
         {
             get { return "#" + this._anchorID; }
         }
