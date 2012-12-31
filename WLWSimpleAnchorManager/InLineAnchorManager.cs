@@ -189,10 +189,9 @@ namespace WLWStaticAnchorManager
 
             currentEditor.MoveSelectionToElementText(_selectedAnchor);
 
-            content = _selectedAnchor.innerText;
-            if (content == null)
+            if (_selectedAnchor.innerText != null)
             {
-                content = "";
+                content = _selectedAnchor.innerText;
             }
 
             _anchorNames = null;
