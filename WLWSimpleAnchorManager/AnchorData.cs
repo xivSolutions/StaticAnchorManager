@@ -23,6 +23,7 @@ namespace WLWStaticAnchorManager
             this.AnchorClass = AnchorTypes.None;
             this.AnchorID = "";
             this.DisplayText = "";
+            this.TargetAnchorID = "";
         }
 
 
