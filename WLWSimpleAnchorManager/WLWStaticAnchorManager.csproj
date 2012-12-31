@@ -48,13 +48,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnchorBuilder.cs" />
     <Compile Include="AnchorData.cs" />
     <Compile Include="HTMLElementDictionary.cs" />
-    <Compile Include="LinkDataContainer.cs" />
-    <Compile Include="WLWSAMAnchor.cs" />
     <Compile Include="AnchorTypes.cs" />
-    <Compile Include="SelectedEditorContent.cs" />
     <Compile Include="ExtendedTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -62,14 +58,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditorContent.cs" />
-    <Compile Include="LinkBuilder.cs" />
     <Compile Include="HtmlAssembly\HTMLAttribute.cs" />
     <Compile Include="HtmlAssembly\HTMLAttributeList.cs" />
     <Compile Include="HtmlAssembly\htmlComment.cs" />
     <Compile Include="HtmlAssembly\HTMLElement.cs" />
     <Compile Include="HtmlAssembly\HTMLElementList.cs" />
     <Compile Include="HtmlAssembly\InvalidhtmlException.cs" />
-    <Compile Include="AnchorBuilderBase.cs" />
     <Compile Include="InLineAnchorManager.cs" />
     <Compile Include="pnlAnchorEditor.cs">
       <SubType>UserControl</SubType>
