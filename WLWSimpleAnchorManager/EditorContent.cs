@@ -33,39 +33,6 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public SelectedEditorContent SelectedContent()
-        {
-            /* 
-             * the call to currentEditor.TryGetCurrentElement will throw an exception
-             * if the current editor selection is not a valid html item. This is related to the 
-             * underlying COM basis of the operation, hence, the TRY block here:
-             */
-            mshtml.IHTMLElement currentElement = this.TryGetCurrentElement();
-
-            /* 
-             * The current html selected in the editor, or within which the cursor 
-             * is currently located. This includes any relevant formatting tags surrounding the
-             * visible text, and any pre-existing WLW plug-in anchor or link-to-anchor markup:
-             * */
-            string selectedHtml = currentElement.outerHTML;
-
-            /*
-             * Visible text contained within the current element which has additional formatting
-             * tags (such as <em> or <pre>) will mess with our eventual insertion of a 
-             * well-formed anchor or link element. We need to be able to test for this later, 
-             * using the currentSelection.selectedInnerHtml variable:
-             */
-           string innerHtml = currentElement.innerHTML;
-
-            /* The visible text contained within the html element */
-            string selectedText = currentElement.innerText;
-
-            return new SelectedEditorContent(selectedHtml, innerHtml, selectedText);
-
-
-        }
-
-
         private static IHTMLDocument2 getHtmlDocument2(IntPtr owner)
         {
             IHTMLDocument2 output = null;
