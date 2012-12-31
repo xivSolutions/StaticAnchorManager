@@ -20,9 +20,6 @@ namespace WLWStaticAnchorManager
         private static string ANCHOR_ICON_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
         private static string LINK_ICON_KEY = Properties.Resources.LINK_IMAGE_KEY;
 
-        //private IHTMLElement _selectedElement;
-        //private IHTMLElement _selectedAnchor;
-
         private HTMLElementDictionary _namedAnchorDictionary;
         private HTMLElementDictionary _namedLinkDictionary;
         private string[] _anchorNames;
@@ -32,11 +29,17 @@ namespace WLWStaticAnchorManager
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
         {
-            AnchorData _anchorData = new AnchorData();
-            IHTMLElement _selectedElement;
-            IHTMLElement _selectedAnchor;
+            AnchorData anchorData = new AnchorData();
+            IHTMLElement selectedElement;
+            IHTMLElement selectedAnchor;
 
+            // The content variable is passed in by ref, and when returned, marks the insertion point
+            // for text contained within any elements created. Appears to behave differeently when 
+            // the selection point in the editor is at the end of the currrent editor content. 
+
+            // Keep this set to an empty string until this method is ready to return:
             content = "";
+
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
 
             // Set up the Dictionary of existing anchors, and get a list of
@@ -56,62 +59,71 @@ namespace WLWStaticAnchorManager
 
             try
             {
-                _selectedElement = currentEditor.TryGetCurrentElement();
-                if (_selectedElement == null)
-                {
-                    _selectedElement = currentEditor.InsertNewContainerElement();
+                // get a reference to the smallest block of html in which the current
+                // selection is located (if no selection, expands from the current cursor
+                // location:
+                selectedElement = currentEditor.TryGetCurrentElement();
 
+                // If the cursor is not contained by a valid element, create one
+                // as the current selection:
+                if (selectedElement == null)
+                {
+                    selectedElement = currentEditor.InsertNewContainerElement();
                 }
 
 
                 // Is a valid anchor element currently selected in the editor?
-                _selectedAnchor = currentEditor.TryGetAnchorFromSelection();
+                selectedAnchor = currentEditor.TryGetAnchorFromSelection();
 
-                if (_selectedAnchor == null)
+                if (selectedAnchor == null)
                 {
-                    IHTMLElementCollection children = (IHTMLElementCollection)_selectedElement.children;
+                    // No achor exists in the current location. Create one:
+                    IHTMLElementCollection children = (IHTMLElementCollection)selectedElement.children;
                     foreach (IHTMLElement child in children)
                     {
                         if (child.tagName == "A")
                         {
-                            _selectedAnchor = child;
+                            selectedAnchor = child;
                         }
                     }
                 }
 
-                // Remember what was selected, and case the user cancels the operation
-                _selectedText = _selectedElement.innerText;
-                _selectedHtml = _selectedElement.outerHTML;
+                // Remember what was selected in the originally selected element, 
+                // in case the user cancels the operation. Subsequent operations in this scope
+                // modify these values in the editor, and we need to be able to reset them on cancel:
+                _selectedText = selectedElement.innerText;
+                _selectedHtml = selectedElement.outerHTML;
 
                 
-                if (_selectedAnchor == null)
+                if (selectedAnchor == null)
                 {
-                    // We need to zero these out before adding the new 
-                    // Child, or they are appended to the existing values (kind of). 
+                    // We need to zero these out before adding the new Child, or they are 
+                    // appended to the existing values (kind of) when the child is inserted. 
+
                     // We are essentially moving the visible content of the existing html from
                     // the currently selected element into the new anchor element:
-                    _selectedElement.innerText = null;
-                    _selectedElement.innerHTML = null;
+                    selectedElement.innerText = null;
+                    selectedElement.innerHTML = null;
 
                     // We need an IHTMLDOMNode interface to use the appendChild method
                     // on the parent element:
-                    IHTMLDOMNode parent = (IHTMLDOMNode)_selectedElement;
-                    _selectedAnchor = currentEditor.InsertNewAnchor();
-                    _selectedAnchor.innerText = _selectedText;
+                    IHTMLDOMNode parent = (IHTMLDOMNode)selectedElement;
+                    selectedAnchor = currentEditor.InsertNewAnchor();
+                    selectedAnchor.innerText = _selectedText;
 
                     // Once we have created the new anchor element, we need to 
                     // cast it as an IHTMLDOMNode in order to append to the parent:
-                    IHTMLDOMNode anchorAsDom = (IHTMLDOMNode)_selectedAnchor;
+                    IHTMLDOMNode anchorAsDom = (IHTMLDOMNode)selectedAnchor;
                     parent.appendChild(anchorAsDom);
 
-                    _anchorData.DisplayText = _selectedAnchor.innerText;
+                    anchorData.DisplayText = selectedAnchor.innerText;
                 }
                 else
                 {
-                    _anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(_selectedAnchor.className);
-                    _anchorData.AnchorID = _selectedAnchor.id;
-                    _anchorData.DisplayText = _selectedAnchor.innerText;
-                    _anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(_selectedAnchor.id);
+                    anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(selectedAnchor.className);
+                    anchorData.AnchorID = selectedAnchor.id;
+                    anchorData.DisplayText = selectedAnchor.innerText;
+                    anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(selectedAnchor.id);
                 }
             }
             catch (Exception)
@@ -121,11 +133,11 @@ namespace WLWStaticAnchorManager
             }
 
 
-            using (var editContentForm = new EditContentForm(_anchorData, _anchorNames))
+            using (var editContentForm = new EditContentForm(anchorData, _anchorNames))
             {
                 if (editContentForm.ShowDialog() == DialogResult.OK)
                 {
-                    switch (_anchorData.AnchorClass)
+                    switch (anchorData.AnchorClass)
                     {
 
                         case AnchorTypes.wlwStaticAnchor:
@@ -133,51 +145,51 @@ namespace WLWStaticAnchorManager
                             /*
                              * make sure the proposed anchor ID is unique:
                              */
-                            int uniqueNameIndex = this.getUniqueAnchorNameIndex(_anchorData.AnchorID);
-                            if (uniqueNameIndex > 0 && _anchorData.AnchorID != _selectedAnchor.id)
+                            int uniqueNameIndex = this.getUniqueAnchorNameIndex(anchorData.AnchorID);
+                            if (uniqueNameIndex > 0 && anchorData.AnchorID != selectedAnchor.id)
                             {
-                                _anchorData.AnchorID = _anchorData.AnchorID + "_" + uniqueNameIndex;
+                                anchorData.AnchorID = anchorData.AnchorID + "_" + uniqueNameIndex;
                             }
 
                             // Capture the original AnchorID for updating link references:
-                            string oldAnchorID = _selectedAnchor.id;
+                            string oldAnchorID = selectedAnchor.id;
                             string oldHref= "#" + oldAnchorID;
-                            string newHref = _anchorData.LinkHref;
+                            string newHref = anchorData.LinkHref;
 
-                            if (_selectedAnchor != null)
+                            if (selectedAnchor != null)
                             {
-                                _selectedAnchor.id = _anchorData.AnchorID;
-                                _selectedAnchor.innerText = _anchorData.DisplayText;
-                                _selectedAnchor.className = _anchorData.AnchorClass.ToString();
+                                selectedAnchor.id = anchorData.AnchorID;
+                                selectedAnchor.innerText = anchorData.DisplayText;
+                                selectedAnchor.className = anchorData.AnchorClass.ToString();
                             }
 
-                            if (oldAnchorID != _selectedAnchor.id)
+                            if (oldAnchorID != selectedAnchor.id)
                             {
                                 this.updateLinkReferences(oldHref, newHref);
                             }
 
                             break;
                         case AnchorTypes.wlwStaticLink:
-                            if (_selectedAnchor != null)
+                            if (selectedAnchor != null)
                             {
                                 /*
                                  * Make sure the proposed Link ID is unique:
                                  */
-                                string proposedID = _anchorData.AnchorID + ":" + _anchorData.AnchorClass.ToString();
+                                string proposedID = anchorData.AnchorID + ":" + anchorData.AnchorClass.ToString();
                                 uniqueNameIndex = this.getUniqueLinkNameIndex(proposedID);
-                                if (uniqueNameIndex > 0 && proposedID != _selectedAnchor.id)
+                                if (uniqueNameIndex > 0 && proposedID != selectedAnchor.id)
                                 {
-                                    _selectedAnchor.id = proposedID + "_" + uniqueNameIndex;
+                                    selectedAnchor.id = proposedID + "_" + uniqueNameIndex;
                                 }
                                 else
                                 {
-                                    _selectedAnchor.id = proposedID;
+                                    selectedAnchor.id = proposedID;
                                 }
 
-                                _selectedAnchor.className = _anchorData.AnchorClass.ToString();
-                                _selectedAnchor.innerText = _anchorData.DisplayText;
-                                IHTMLAnchorElement anchor = (IHTMLAnchorElement)_selectedAnchor;
-                                anchor.href = _anchorData.LinkHref;
+                                selectedAnchor.className = anchorData.AnchorClass.ToString();
+                                selectedAnchor.innerText = anchorData.DisplayText;
+                                IHTMLAnchorElement anchor = (IHTMLAnchorElement)selectedAnchor;
+                                anchor.href = anchorData.LinkHref;
                                 //content = _selectedAnchor.innerText;
                             }
                             break;
@@ -185,22 +197,22 @@ namespace WLWStaticAnchorManager
                 }
                 else
                 {
-                    _selectedElement.outerHTML = _selectedHtml;
+                    selectedElement.outerHTML = _selectedHtml;
                     return DialogResult.Cancel;
                 }
             }
 
-            currentEditor.MoveSelectionToElementText(_selectedAnchor);
+            currentEditor.MoveSelectionToElementText(selectedAnchor);
 
-            if (_selectedAnchor.innerText != null)
+            if (selectedAnchor.innerText != null)
             {
-                content = _selectedAnchor.innerText;
+                content = selectedAnchor.innerText;
             }
 
             _anchorNames = null;
-            _selectedAnchor = null;
-            _selectedElement = null;
-            _anchorData = null;
+            selectedAnchor = null;
+            selectedElement = null;
+            anchorData = null;
             _namedAnchorDictionary = null;
             _namedLinkDictionary = null;
 
