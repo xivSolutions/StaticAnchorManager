@@ -58,6 +58,9 @@ namespace WLWStaticAnchorManager
             string _selectedText = "";
             string _selectedHtml = "";
 
+
+            // GET THE SELECTED ELEMENT, OR CREATE ONE:
+
             try
             {
                 // get a reference to the smallest block of html in which the current
@@ -71,6 +74,17 @@ namespace WLWStaticAnchorManager
                 {
                     selectedElement = currentEditor.InsertNewContainerElement();
                 }
+
+                // REMEMBER THE INITIAL VALUES FROM THE SELECTED ELEMENT:
+                
+                // Remember what was selected in the originally selected element, 
+                // in case the user cancels the operation. Subsequent operations in this scope
+                // modify these values in the editor, and we need to be able to reset them on cancel:
+                _selectedText = selectedElement.innerText;
+                _selectedHtml = selectedElement.outerHTML;
+
+
+                // GET THE SELECTED ANCHOR, OR CREATE ONE:
 
 
                 // Is a valid anchor element currently selected in the editor?
@@ -90,11 +104,11 @@ namespace WLWStaticAnchorManager
                     }
                 }
 
-                // Remember what was selected in the originally selected element, 
-                // in case the user cancels the operation. Subsequent operations in this scope
-                // modify these values in the editor, and we need to be able to reset them on cancel:
-                _selectedText = selectedElement.innerText;
-                _selectedHtml = selectedElement.outerHTML;
+                //// Remember what was selected in the originally selected element, 
+                //// in case the user cancels the operation. Subsequent operations in this scope
+                //// modify these values in the editor, and we need to be able to reset them on cancel:
+                //_selectedText = selectedElement.innerText;
+                //_selectedHtml = selectedElement.outerHTML;
 
                 
                 if (selectedAnchor == null)
