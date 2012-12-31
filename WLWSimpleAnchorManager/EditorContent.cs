@@ -16,6 +16,7 @@ namespace WLWStaticAnchorManager
 
         private IHTMLDocument2 _htmlDocument;
 
+
         public EditorContent(IntPtr wlwEditorHandle)
         {
             owner = wlwEditorHandle;
