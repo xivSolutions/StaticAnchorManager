@@ -22,9 +22,6 @@ namespace WLWStaticAnchorManager
 
         private HTMLElementDictionary _namedAnchorDictionary;
         private HTMLElementDictionary _namedLinkDictionary;
-        //private string[] _anchorNames;
-
-        //private AnchorData _anchorData;
 
 
         public override DialogResult CreateContent(IWin32Window dialogOwner, ref string content)
@@ -51,15 +48,7 @@ namespace WLWStaticAnchorManager
 
             try
             {
-                // GET THE SELECTED ELEMENT, OR CREATE ONE:
-                selectedElement = currentEditor.TryGetCurrentElement();
-
-                // If the cursor is not contained by a valid element, create one
-                // as the current selection:
-                if (selectedElement == null)
-                {
-                    selectedElement = currentEditor.InsertNewContainerElement();
-                }
+                selectedElement = currentEditor.getSelectedElement();
 
                 // REMEMBER THE INITIAL VALUES FROM THE SELECTED ELEMENT:
                 
@@ -68,33 +57,7 @@ namespace WLWStaticAnchorManager
                 _selectedText = selectedElement.innerText;
                 _selectedHtml = selectedElement.outerHTML;
 
-                // GET THE SELECTED ANCHOR, OR CREATE ONE:
-
-                // Is a valid anchor element currently selected in the editor?
-                selectedAnchor = currentEditor.TryGetAnchorFromSelection();
-
-                if (selectedAnchor == null)
-                {
-                    // No achor is currently selected, but one might be contained within the currently
-                    // selected element:
-                    IHTMLElementCollection children = (IHTMLElementCollection)selectedElement.children;
-                    foreach (IHTMLElement child in children)
-                    {
-                        if (child.tagName == "A")
-                        {
-                            selectedAnchor = child;
-                        }
-                    }
-
-                    // Otherwise . . .
-                    if (selectedAnchor == null)
-                    {
-                        // . . . Create one:
-                        selectedAnchor = this.CreateNewSelectedAnchor(currentEditor, selectedElement);
-                    }
-                }
-
-                // SET THE ANCHOR DATA VALUES FOR EDITING IN THE FORM:
+                selectedAnchor = currentEditor.getSelectedAnchor(selectedElement);
 
                 anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(selectedAnchor.className);
                 anchorData.AnchorID = selectedAnchor.id;
@@ -175,34 +138,6 @@ namespace WLWStaticAnchorManager
             _namedLinkDictionary = null;
 
             return DialogResult.OK;
-        }
-
-
-        private IHTMLElement CreateNewSelectedAnchor(EditorContent currentEditor, IHTMLElement parentElement)
-        {
-            IHTMLElement newAnchor;
-
-            // We will move existing text content from the parent element
-            // into the new Anchor Element:
-            string _selectedText = parentElement.innerText;
-
-            // These need to be zeroed out so that the addition of
-            // a new child does not append to the existing content. 
-            parentElement.innerText = null;
-            parentElement.innerHTML = null;
-
-            // We need an IHTMLDOMNode interface to use the appendChild method
-            // on the parent element:
-            IHTMLDOMNode parent = (IHTMLDOMNode)parentElement;
-            newAnchor = currentEditor.InsertNewAnchor();
-            newAnchor.innerText = _selectedText;
-
-            // Once we have created the new anchor element, we need to 
-            // cast it as an IHTMLDOMNode in order to append to the parent:
-            IHTMLDOMNode anchorAsDom = (IHTMLDOMNode)newAnchor;
-            parent.appendChild(anchorAsDom);
-
-            return newAnchor;
         }
 
 
