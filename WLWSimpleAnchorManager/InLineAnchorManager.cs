@@ -77,7 +77,8 @@ namespace WLWStaticAnchorManager
 
                 if (selectedAnchor == null)
                 {
-                    // No achor exists in the current location. Create one:
+                    // No achor is currently selected, but one might be contained within the currently
+                    // selected element:
                     IHTMLElementCollection children = (IHTMLElementCollection)selectedElement.children;
                     foreach (IHTMLElement child in children)
                     {
@@ -97,25 +98,7 @@ namespace WLWStaticAnchorManager
                 
                 if (selectedAnchor == null)
                 {
-                    // We need to zero these out before adding the new Child, or they are 
-                    // appended to the existing values (kind of) when the child is inserted. 
-
-                    // We are essentially moving the visible content of the existing html from
-                    // the currently selected element into the new anchor element:
-                    selectedElement.innerText = null;
-                    selectedElement.innerHTML = null;
-
-                    // We need an IHTMLDOMNode interface to use the appendChild method
-                    // on the parent element:
-                    IHTMLDOMNode parent = (IHTMLDOMNode)selectedElement;
-                    selectedAnchor = currentEditor.InsertNewAnchor();
-                    selectedAnchor.innerText = _selectedText;
-
-                    // Once we have created the new anchor element, we need to 
-                    // cast it as an IHTMLDOMNode in order to append to the parent:
-                    IHTMLDOMNode anchorAsDom = (IHTMLDOMNode)selectedAnchor;
-                    parent.appendChild(anchorAsDom);
-
+                    selectedAnchor = this.CreateNewSelectedAnchor(currentEditor, selectedElement);
                     anchorData.DisplayText = selectedAnchor.innerText;
                 }
                 else
@@ -123,7 +106,7 @@ namespace WLWStaticAnchorManager
                     anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(selectedAnchor.className);
                     anchorData.AnchorID = selectedAnchor.id;
                     anchorData.DisplayText = selectedAnchor.innerText;
-                    anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(selectedAnchor.id);
+                    anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(anchorData.AnchorID);
                 }
             }
             catch (Exception)
@@ -218,6 +201,30 @@ namespace WLWStaticAnchorManager
 
             return DialogResult.OK;
 
+        }
+
+
+        private IHTMLElement CreateNewSelectedAnchor(EditorContent currentEditor, IHTMLElement parentElement)
+        {
+            IHTMLElement newAnchor;
+
+            string _selectedText = parentElement.innerText;
+
+            parentElement.innerText = null;
+            parentElement.innerHTML = null;
+
+            // We need an IHTMLDOMNode interface to use the appendChild method
+            // on the parent element:
+            IHTMLDOMNode parent = (IHTMLDOMNode)parentElement;
+            newAnchor = currentEditor.InsertNewAnchor();
+            newAnchor.innerText = _selectedText;
+
+            // Once we have created the new anchor element, we need to 
+            // cast it as an IHTMLDOMNode in order to append to the parent:
+            IHTMLDOMNode anchorAsDom = (IHTMLDOMNode)newAnchor;
+            parent.appendChild(anchorAsDom);
+
+            return newAnchor;
         }
 
 
