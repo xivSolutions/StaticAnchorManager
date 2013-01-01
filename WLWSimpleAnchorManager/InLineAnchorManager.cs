@@ -87,7 +87,7 @@ namespace WLWStaticAnchorManager
                     {
                         case AnchorTypes.wlwStaticAnchor:
 
-                            anchorData.AnchorID = this.uniqueAnchorId(anchorData.AnchorID, selectedAnchor.id);
+                            anchorData.AnchorID = this.getUniqueAnchorId(anchorData.AnchorID, selectedAnchor.id);
 
                             /* 
                              * Capture the original and new AnchorID/href for updating 
@@ -109,7 +109,7 @@ namespace WLWStaticAnchorManager
                             break;
 
                         case AnchorTypes.wlwStaticLink:
-                            selectedAnchor.id = this.uniqueLinkId(anchorData, selectedAnchor.id);
+                            selectedAnchor.id = this.getUniqueLinkId(anchorData, selectedAnchor.id);
                             selectedAnchor.className = anchorData.AnchorClass.ToString();
                             selectedAnchor.innerText = anchorData.DisplayText;
                             IHTMLAnchorElement anchor = (IHTMLAnchorElement)selectedAnchor;
@@ -149,7 +149,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        private string uniqueAnchorId(string newAnchorId, string currentAnchorId)
+        private string getUniqueAnchorId(string newAnchorId, string currentAnchorId)
         {
             string output = newAnchorId;
             int uniqueNameIndex = this.getUniqueAnchorNameIndex(newAnchorId);
@@ -177,11 +177,13 @@ namespace WLWStaticAnchorManager
         }
 
 
-        private string uniqueLinkId(AnchorData NewAnchorData, string currentLinkId)
+        private string getUniqueLinkId(AnchorData NewAnchorData, string currentLinkId)
         {
+            // Link Id's are a concatenation of the target anchorID and the Link Class:
             string proposedID = NewAnchorData.AnchorID + ":" + NewAnchorData.AnchorClass.ToString();
             string output = proposedID;
 
+            // Uniqueness is created by incrementing integer:
             int uniqueNameIndex = this.getUniqueLinkNameIndex(output);
             if (uniqueNameIndex > 0 && proposedID != currentLinkId)
             {
@@ -218,14 +220,23 @@ namespace WLWStaticAnchorManager
 
         private void updateLinkReferences(string oldHref, string newHref)
         {
+            string oldAnchorID = oldHref.Replace("#", "");
+            string newAnchorID = newHref.Replace("#", "");
+
             foreach (IHTMLElement link in _namedLinkDictionary.Values)
             {
                 IHTMLAnchorElement anchorElement = (IHTMLAnchorElement)link;
                 if (anchorElement.nameProp == oldHref)
                 {
+                    // Use the IHTMLElement Interface to replace the ID portion of the link ID
+                    link.id = link.id.Replace(oldAnchorID, newAnchorID);
+
+                    // Use the IHTMLAnchorElement interface to set the new href:
                     anchorElement.href = newHref;
                 }
             }
         }
+
+
     }
 }
