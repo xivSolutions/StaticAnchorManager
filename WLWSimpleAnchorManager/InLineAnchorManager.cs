@@ -149,38 +149,6 @@ namespace WLWStaticAnchorManager
         }
 
 
-        //private HTMLElementDictionary getStaticAnchorsDictionary(IHTMLElementCollection anchors)
-        //{
-        //    var output = new HTMLElementDictionary();
-
-        //    foreach(IHTMLElement element in anchors)
-        //    {
-        //        if(element.className == AnchorTypes.wlwStaticAnchor.ToString())
-        //        {
-        //            output.Add(element.id, element);
-        //        }
-        //    }
-
-        //    return output;
-        //}
-
-
-        //private HTMLElementDictionary getStaticLinksDictionary(IHTMLElementCollection anchors)
-        //{
-        //    var output = new HTMLElementDictionary();
-
-        //    foreach (IHTMLElement element in anchors)
-        //    {
-        //        if (element.className == AnchorTypes.wlwStaticLink.ToString())
-        //        {
-        //            output.Add(element.id, element);
-        //        }
-        //    }
-
-        //    return output;
-        //}
-
-
         private string uniqueAnchorId(string newAnchorId, string currentAnchorId)
         {
             string output = newAnchorId;
