@@ -34,8 +34,8 @@ namespace WLWStaticAnchorManager
 
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
 
-            _namedAnchorDictionary = this.getStaticAnchorsDictionary(currentEditor.getAnchorCollection());
-            _namedLinkDictionary = this.getStaticLinksDictionary(currentEditor.getAnchorCollection());
+            _namedAnchorDictionary = currentEditor.getStaticAnchorsDictionary();
+            _namedLinkDictionary = currentEditor.getStaticLinksDictionary();
 
             // Remember what was selected, in case the user cancels the operation:
             string _selectedText = "";
@@ -146,38 +146,6 @@ namespace WLWStaticAnchorManager
             _namedLinkDictionary = null;
 
             return DialogResult.OK;
-        }
-
-
-        private HTMLElementDictionary getStaticAnchorsDictionary(IHTMLElementCollection anchors)
-        {
-            var output = new HTMLElementDictionary();
-
-            foreach(IHTMLElement element in anchors)
-            {
-                if(element.className == AnchorTypes.wlwStaticAnchor.ToString())
-                {
-                    output.Add(element.id, element);
-                }
-            }
-
-            return output;
-        }
-
-
-        private HTMLElementDictionary getStaticLinksDictionary(IHTMLElementCollection anchors)
-        {
-            var output = new HTMLElementDictionary();
-
-            foreach (IHTMLElement element in anchors)
-            {
-                if (element.className == AnchorTypes.wlwStaticLink.ToString())
-                {
-                    output.Add(element.id, element);
-                }
-            }
-
-            return output;
         }
 
 

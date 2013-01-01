@@ -11,16 +11,18 @@ namespace WLWStaticAnchorManager
     {
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
         private const char ANCHOR_LIST_DELIMITER = '|';
-
+        
         IntPtr owner;
 
         private IHTMLDocument2 _htmlDocument;
+        private IHTMLElementCollection _anchorCollection;
 
 
         public EditorContent(IntPtr wlwEditorHandle)
         {
             owner = wlwEditorHandle;
             _htmlDocument = EditorContent.getHtmlDocument2(wlwEditorHandle);
+            _anchorCollection = this.getAnchorCollection();
         }
 
 
@@ -40,6 +42,38 @@ namespace WLWStaticAnchorManager
         public IHTMLElementCollection getAnchorCollection()
         {
             return _htmlDocument.anchors;
+        }
+
+
+        public HTMLElementDictionary getStaticAnchorsDictionary()
+        {
+            var output = new HTMLElementDictionary();
+
+            foreach (IHTMLElement element in _anchorCollection)
+            {
+                if (element.className == AnchorTypes.wlwStaticAnchor.ToString())
+                {
+                    output.Add(element.id, element);
+                }
+            }
+
+            return output;
+        }
+
+
+        public HTMLElementDictionary getStaticLinksDictionary()
+        {
+            var output = new HTMLElementDictionary();
+
+            foreach (IHTMLElement element in _anchorCollection)
+            {
+                if (element.className == AnchorTypes.wlwStaticLink.ToString())
+                {
+                    output.Add(element.id, element);
+                }
+            }
+
+            return output;
         }
 
 
