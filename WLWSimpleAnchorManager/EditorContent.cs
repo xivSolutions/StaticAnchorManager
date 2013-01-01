@@ -43,11 +43,16 @@ namespace WLWStaticAnchorManager
         }
 
 
-
-
         public IHTMLElement getSelectedElement()
         {
-            // GET THE SELECTED ELEMENT, OR CREATE ONE:
+            /*
+             * When associating a static anchor with existing, formatted
+             * text, we want the anchor to be contained such that the visible text
+             * retains the formatting characterstics of the original and/or can be reformatted
+             * without destroying the anchor.
+             */ 
+
+            // GET THE ELEMENT CURRENTLY SELECTED IN THE EDITOR, OR CREATE ONE:
             IHTMLElement selectedElement = this.TryGetCurrentElement();
 
             // If the cursor is not contained by a valid element, create one
@@ -63,7 +68,6 @@ namespace WLWStaticAnchorManager
 
         private IHTMLElement TryGetCurrentElement()
         {
-            
             IHTMLSelectionObject selection = _htmlDocument.selection;
 
             // This line will throw an exception if an Image or other non-Html
@@ -74,6 +78,8 @@ namespace WLWStaticAnchorManager
 
             try
             {
+                // Try to get the nearest enclosing element that is valid for 
+                // containing an anchor element:
                 elmt = this.getFirstValidSelectionElement(rng.parentElement());
             }
             catch (Exception)
@@ -93,18 +99,25 @@ namespace WLWStaticAnchorManager
 
         private IHTMLElement getFirstValidSelectionElement(IHTMLElement intialElement)
         {
+            // Recursively expand the element outward until a valid containing element is
+            // found. If none is found, return null. 
 
             if (Array.IndexOf(this.validSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
             {
-                // This current element is valid as selected HTML for the editor:
+                // This current element is valid as a container for an anchor element:
                 return intialElement;
             }
             else
             {
+                /* 
+                 * The current element is not a valid container, but may be the 
+                 * child of either an anchor, or a valid anchor container:
+                 */
                 if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), intialElement.GetType().Name) >= 0)
                 {
                     IHTMLElement parent = intialElement.parentElement;
 
+                    // If the parent belongs to either group, recurse:
                     if (Array.IndexOf(this.validSelectionElementClassNames(), parent.GetType().Name) >= 0
                     || Array.IndexOf(this.CheckParentSelectionElementClassNames(), parent.GetType().Name) >= 0)
                     {
@@ -112,11 +125,13 @@ namespace WLWStaticAnchorManager
                     }
                     else
                     {
+                        // Otherise, return what we have (which may be invalid)
                         return intialElement;
                     }
                 }
                 else
                 {
+                    // Nothing was found to be a valid anchor container:
                     return null;
                 }
             }
@@ -125,6 +140,7 @@ namespace WLWStaticAnchorManager
 
         private string[] validSelectionElementClassNames()
         {
+            // These elements represent valid container blocks for an anchor element:
             return new string[] { 
                 "HTMLHeaderElementClass", "HTMLLIElementClass", "HTMLListElementClass", 
                 "HTMLOListElementClass", "HTMLParaElementClass", 
@@ -135,6 +151,8 @@ namespace WLWStaticAnchorManager
 
         private string[] CheckParentSelectionElementClassNames()
         {
+            // These elements are not ideal for our outermost selection, but may be contained
+            // within another element which is:
             return new string[] {
                 "HTMLAnchorElementClass", "HTMLBaseFontElementClass", "HTMLFontElementClass", 
                 "HTMLLinkElementClass", "HTMLPhraseElementClass" };
@@ -143,6 +161,13 @@ namespace WLWStaticAnchorManager
 
         private IHTMLElement InsertNewContainerElement()
         {
+            // Creates a new Anchor Element and inserts it into 
+            // the the parent element of the current selection range
+            // (usually will be the Post Body or equivelent).
+
+            // Use to insert raw anchor within the editor when no 
+            // containing element is present.
+
             IHTMLSelectionObject selection = _htmlDocument.selection;
 
             // This line will throw an exception if an Image or other non-Html
@@ -165,7 +190,11 @@ namespace WLWStaticAnchorManager
 
         private IHTMLElement CreateNewAnchorElement()
         {
+            // Creates a new IHTMLAnchorElement within the html document, 
+            // but does not associate with a parent.
+
             IHTMLElement newAnchor = (HTMLAnchorElementClass)_htmlDocument.createElement("a");
+
             return newAnchor;
         }
 
@@ -195,7 +224,6 @@ namespace WLWStaticAnchorManager
                     selectedAnchor = this.CreateNewSelectedAnchor(currentSelectedElement);
                 }
             }
-
             return selectedAnchor;
         }
 
@@ -207,12 +235,7 @@ namespace WLWStaticAnchorManager
 
             if (selection.type == "Control")
             {
-                IHTMLControlRange ctlRng = (IHTMLControlRange)selection.createRange();
-                if (ctlRng.length == 1)
-                {
-                    elmt = ctlRng.item(0);
-                    elmt = this.getAnchorFromSelection(elmt.parentElement);
-                }
+                return null;
             }
             else
             {
@@ -222,16 +245,6 @@ namespace WLWStaticAnchorManager
                 IHTMLTxtRange rng = selection.createRange() as IHTMLTxtRange;
                 if (rng != null)
                 {
-                    if (rng.text == null)
-                    {
-                        rng.text = "";
-                    }
-                    else
-                    {
-                        rng.findText(rng.text);
-                    }
-
-
                     try
                     {
                         elmt = this.getAnchorFromSelection(rng.parentElement());
@@ -247,7 +260,6 @@ namespace WLWStaticAnchorManager
                     }
                 }
             }
-
             return elmt;
         }
 
@@ -256,15 +268,16 @@ namespace WLWStaticAnchorManager
         {
             if (initialElement.GetType().Name == "HTMLAnchorElementClass")
             {
-                // This current element is valid as selected HTML for the editor:
                 return initialElement;
             }
             else
             {
+                // See if the current element is potentially a child within an anchor element:
                 if (Array.IndexOf(this.CheckParentSelectionElementClassNames(), initialElement.GetType().Name) >= 0)
                 {
                     IHTMLElement parent = initialElement.parentElement;
 
+                    // The parent of the current element may be an anchor, or may itself be a child of an anchor:
                     if (parent.GetType().Name == "HTMLAnchorElementClass"
                     || Array.IndexOf(this.CheckParentSelectionElementClassNames(), parent.GetType().Name) >= 0)
                     {
@@ -280,7 +293,6 @@ namespace WLWStaticAnchorManager
                     return null;
                 }
             }
-
         }
 
 
@@ -289,7 +301,7 @@ namespace WLWStaticAnchorManager
             IHTMLElement newAnchor;
 
             // We will move existing text content from the parent element
-            // into the new Anchor Element:
+            // into the new Anchor (child) Element:
             string _selectedText = parentElement.innerText;
 
             // These need to be zeroed out so that the addition of
@@ -297,14 +309,11 @@ namespace WLWStaticAnchorManager
             parentElement.innerText = null;
             parentElement.innerHTML = null;
 
-            // We need an IHTMLDOMNode interface to use the appendChild method
-            // on the parent element:
-            IHTMLDOMNode parent = (IHTMLDOMNode)parentElement;
             newAnchor = this.CreateNewAnchorElement();
             newAnchor.innerText = _selectedText;
 
-            // Once we have created the new anchor element, we need to 
-            // cast it as an IHTMLDOMNode in order to append to the parent:
+            // We need to use the IHTMLDOMNode interface to use appendChild method
+            IHTMLDOMNode parent = (IHTMLDOMNode)parentElement;
             IHTMLDOMNode anchorAsDom = (IHTMLDOMNode)newAnchor;
             parent.appendChild(anchorAsDom);
 
@@ -328,9 +337,10 @@ namespace WLWStaticAnchorManager
             }
             else
             {
+                // Don't leave the element innerText null or
+                // Bad things will happen later:
                 element.innerText = "";
             }
-
             rng.select();
         }
     }

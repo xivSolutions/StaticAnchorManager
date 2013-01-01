@@ -30,11 +30,6 @@ namespace WLWStaticAnchorManager
             IHTMLElement selectedElement;
             IHTMLElement selectedAnchor;
 
-            // The content variable is passed in by ref, and when returned, marks the insertion point
-            // for text contained within any elements created. Appears to behave differeently when 
-            // the selection point in the editor is at the end of the currrent editor content. 
-
-            // Keep this set to an empty string until this method is ready to return:
             content = "";
 
             EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
@@ -50,18 +45,27 @@ namespace WLWStaticAnchorManager
             {
                 selectedElement = currentEditor.getSelectedElement();
 
-                // REMEMBER THE INITIAL VALUES FROM THE SELECTED ELEMENT:
-                
+                // REMEMBER THE INITIAL VALUES FROM THE SELECTED 
+                // ELEMENT BEFORE CALLING GetSelectedAnchor!
+
                 // Subsequent operations in this scope modify these values in the editor, 
                 // and we need to be able to reset them on cancel:
                 _selectedText = selectedElement.innerText;
                 _selectedHtml = selectedElement.outerHTML;
 
+                // Processes within this call may modify contents of selectedElement. 
+                // This call must FOLLOW CAPTURE of innerText and outerHtml as above:
                 selectedAnchor = currentEditor.getSelectedAnchor(selectedElement);
 
                 anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(selectedAnchor.className);
                 anchorData.AnchorID = selectedAnchor.id;
                 anchorData.DisplayText = selectedAnchor.innerText;
+
+                /*
+                 * The ID of the anchor that is the target of a static link can be parsed
+                 * from the link ID (composed of anchorID + LInk Class Name and possibly
+                 * an integer if more than one link to same anchor)
+                 */ 
                 anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(anchorData.AnchorID);
             }
             catch (Exception)
@@ -70,11 +74,12 @@ namespace WLWStaticAnchorManager
                 return DialogResult.Cancel;
             }
 
-            // Use a string array of anchor names to pass to the Link Editor Form:
+            // get string array of anchor names to pass to the Link Editor Form:
             string[] anchorNamesArray = new string[_namedAnchorDictionary.Count];
             _namedAnchorDictionary.Keys.CopyTo(anchorNamesArray, 0);
 
-            using (var editContentForm = new EditContentForm(anchorData, anchorNamesArray))
+            using (var editContentForm = 
+                new EditContentForm(anchorData, anchorNamesArray))
             {
                 if (editContentForm.ShowDialog() == DialogResult.OK)
                 {
@@ -82,11 +87,13 @@ namespace WLWStaticAnchorManager
                     {
                         case AnchorTypes.wlwStaticAnchor:
 
-                            // MAKE SURE THE PROPOSED ANCHOR NAME IS UNIQUE:
                             anchorData.AnchorID = this.uniqueAnchorId(anchorData.AnchorID, selectedAnchor.id);
 
-                            // Capture the original and new AnchorID/href for updating link references
-                            // to the current anchor:
+                            /* 
+                             * Capture the original and new AnchorID/href for updating 
+                             * links which refer to the current anchor 
+                             * (in case the AnchorID has been Modified):
+                             */
                             string oldAnchorID = selectedAnchor.id;
                             string oldHref= "#" + oldAnchorID;
                             string newHref = anchorData.LinkHref;
@@ -99,41 +106,42 @@ namespace WLWStaticAnchorManager
                             {
                                 this.updateLinkReferences(oldHref, newHref);
                             }
-
                             break;
+
                         case AnchorTypes.wlwStaticLink:
-                            if (selectedAnchor != null)
-                            {
-                                // MAKE SURE THE PROPOSED LINK NAME IS UNIQUE:
-                                selectedAnchor.id = this.uniqueLinkId(anchorData, selectedAnchor.id);
-
-                                selectedAnchor.className = anchorData.AnchorClass.ToString();
-                                selectedAnchor.innerText = anchorData.DisplayText;
-                                IHTMLAnchorElement anchor = (IHTMLAnchorElement)selectedAnchor;
-                                anchor.href = anchorData.LinkHref;
-                            }
-
+                            selectedAnchor.id = this.uniqueLinkId(anchorData, selectedAnchor.id);
+                            selectedAnchor.className = anchorData.AnchorClass.ToString();
+                            selectedAnchor.innerText = anchorData.DisplayText;
+                            IHTMLAnchorElement anchor = (IHTMLAnchorElement)selectedAnchor;
+                            anchor.href = anchorData.LinkHref;
                             break;
                     }
                 }
                 else
                 {
+                    // Reset the contents of the originally selected element:
                     selectedElement.outerHTML = _selectedHtml;
                     return DialogResult.Cancel;
                 }
             }
 
+            // Make sure that the text contained within the anchor is selected in the editor:
             currentEditor.MoveSelectionToElementText(selectedAnchor);
 
             if (selectedAnchor.innerText != null)
             {
+                /*
+                 * ref variable content will replace whatever the 
+                 * current selection in the editor contains. Make sure the text that is replaced
+                 * represents the inner text of the Anchor Element, or weird shit happens. 
+                 */
                 content = selectedAnchor.innerText;
             }
 
-            anchorNamesArray = null;
-            selectedAnchor = null;
-            selectedElement = null;
-            anchorData = null;
+            /* 
+             * These need to be nulled out, because they are not
+             * re-initialized with successive uses of the plugin:
+             */ 
             _namedAnchorDictionary = null;
             _namedLinkDictionary = null;
 
