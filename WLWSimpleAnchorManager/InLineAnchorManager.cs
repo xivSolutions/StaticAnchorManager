@@ -86,6 +86,7 @@ namespace WLWStaticAnchorManager
                     switch (anchorData.AnchorClass)
                     {
                         case AnchorClass.wlwStaticAnchor:
+
                             anchorData.AnchorID = this.getUniqueAnchorId(anchorData.AnchorID, selectedAnchor.id);
                             /* 
                              * Capture the original and new AnchorID/href for updating 
