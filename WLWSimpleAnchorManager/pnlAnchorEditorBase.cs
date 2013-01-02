@@ -34,7 +34,7 @@ namespace WLWStaticAnchorManager
             return false;
         }
 
-        public virtual AnchorTypes AnchorType{get; set; }
+        public virtual AnchorTypes AnchorType { get; set; }
         public AnchorData AnchorSettings { get; set; }
 
 

@@ -8,11 +8,6 @@ namespace WLWStaticAnchorManager
         private static string ANCHOR_IMAGE_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
         private Image ANCHOR_IMAGE = Properties.Resources.Anchor1616;
 
-        protected pnlAnchorEditor() : base()
-        {
-
-        }
-
 
         public pnlAnchorEditor(AnchorData settings) : base(settings)
         {
@@ -44,7 +39,6 @@ namespace WLWStaticAnchorManager
         void txtDisplayText_TextChanged(object sender, EventArgs e)
         {
             this.CheckContentValidation();
-            
             this.chkShowAnchorText.Enabled = this.CanKillDisplayText();
         }
 
@@ -101,29 +95,17 @@ namespace WLWStaticAnchorManager
         }
 
 
-
         public override string DisplayText
         {
-            get
-            {
-                return this.txtDisplayText.Text;
-            }
-            set
-            {
-                this.txtDisplayText.Text = value;
-            }
+            get { return this.txtDisplayText.Text; }
+            set { this.txtDisplayText.Text = value; }
         }
 
         public override string AnchorName
         {
-            get
-            {
-                return this.txtAnchorName.Text;
-            }
-            set
-            {
-                this.txtAnchorName.Text = value;
-            }
+            get { return this.txtAnchorName.Text; }
+            set { this.txtAnchorName.Text = value; }
         }
+
     }
 }
