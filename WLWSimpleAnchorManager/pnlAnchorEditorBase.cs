@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WLWStaticAnchorManager
 {
-    public abstract partial  class pnlAnchorEditorBase : UserControl
+    public partial  class pnlAnchorEditorBase : UserControl
     {
         public delegate void ValidAnchorContentHandler(object sender, EventArgs e);
         public event ValidAnchorContentHandler ValidContentDetected;
@@ -29,7 +24,14 @@ namespace WLWStaticAnchorManager
         public virtual string DisplayText { get; set; }
         public virtual string AnchorName { get; set; }
 
-        protected abstract bool CanSave();
+        protected virtual bool CanSave()
+        {
+            // Should be abstract method, but Forms Designer
+            // requires concrete base class. This method
+            // must be overridden in derived classes. 
+            return false;
+        }
+
 
 
         public virtual void PerformSave()

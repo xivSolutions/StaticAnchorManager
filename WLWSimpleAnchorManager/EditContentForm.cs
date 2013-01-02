@@ -19,7 +19,6 @@ namespace WLWStaticAnchorManager
         private List<Label> _TabLabelGroup;
         private Label _currentTabLabel;
 
-
         private AnchorData _currentAnchorSettings;
         private pnlAnchorEditorBase _currentEditorPanel;
 
@@ -78,7 +77,6 @@ namespace WLWStaticAnchorManager
                 this.FormSetupEditLinkConfig();
             }
         }
-
 
 
         private void FormSetupEditAnchorConfig()
@@ -188,11 +186,13 @@ namespace WLWStaticAnchorManager
             this.OnTabLabelLeave(selectedTabLabel);
         }
 
+
         void TabLabel_MouseEnter(object sender, EventArgs e)
         {
             var selectedTabLabel = (Label)sender;
             this.OnTabLabelEnter(selectedTabLabel);
         }
+
 
         void TabLabel_Click(object sender, EventArgs e)
         {

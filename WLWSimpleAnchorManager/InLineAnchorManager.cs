@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using WindowsLive.Writer.Api;
 using mshtml;
+using WindowsLive.Writer.Api;
 
 namespace WLWStaticAnchorManager
 {
@@ -235,7 +234,6 @@ namespace WLWStaticAnchorManager
                 }
             }
         }
-
 
     }
 }

@@ -6,7 +6,6 @@ namespace WLWStaticAnchorManager
 {
     public partial class ExtendedTextbox : UserControl
     {
-
         private System.Windows.Forms.TextBox textBox1;
 
         public ExtendedTextbox()

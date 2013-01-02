@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WLWStaticAnchorManager
@@ -15,11 +11,6 @@ namespace WLWStaticAnchorManager
 
         private ListViewItem _selectedListItem;
         private string[] _anchorNames;
-
-        protected pnlLinkEditor() : base()
-        {
-
-        }
 
 
         public pnlLinkEditor(string[] anchorNames, AnchorData settings) : base(settings)
