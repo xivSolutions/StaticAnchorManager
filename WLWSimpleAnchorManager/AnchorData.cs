@@ -9,18 +9,16 @@ namespace WLWStaticAnchorManager
 
     public class AnchorData
     {
-        private static string rgxOnlyAlphaNumeric = "[^0-9a-zA-Z-_:]";
         private string _anchorID = "";
 
-
         public string DisplayText { get; set; }
-        public AnchorTypes AnchorClass { get; set; }
+        public AnchorClass AnchorClass { get; set; }
         public string TargetAnchorID { get; set; }
 
 
         public AnchorData()
         {
-            this.AnchorClass = AnchorTypes.None;
+            this.AnchorClass = AnchorClass.None;
             this.AnchorID = "";
             this.DisplayText = "";
             this.TargetAnchorID = "";
@@ -43,7 +41,7 @@ namespace WLWStaticAnchorManager
                 {
                     value = "";
                 }
-                var rgx = new Regex(rgxOnlyAlphaNumeric);
+                var rgx = new Regex("[^0-9a-zA-Z-_:]");
                 _anchorID = rgx.Replace(value, "-");
             }
         }
@@ -53,9 +51,6 @@ namespace WLWStaticAnchorManager
         {
             get { return "#" + this._anchorID; }
         }
-
-
-
 
     }
 }

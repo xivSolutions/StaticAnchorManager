@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="AnchorData.cs" />
     <Compile Include="HTMLElementDictionary.cs" />
-    <Compile Include="AnchorTypes.cs" />
+    <Compile Include="AnchorClass.cs" />
     <Compile Include="ExtendedTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>

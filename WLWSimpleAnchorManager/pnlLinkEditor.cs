@@ -36,6 +36,7 @@ namespace WLWStaticAnchorManager
             this.txtAnchorName.Enabled = false;
         }
 
+
         void pnlLinkEditor_Load(object sender, EventArgs e)
         {
             this.FillAnchorList(_anchorNames);
@@ -43,7 +44,28 @@ namespace WLWStaticAnchorManager
             this.SetSelectedAnchor(this.AnchorSettings.TargetAnchorID);
         }
 
-       
+
+        public override string DisplayText
+        {
+            get { return this.txtDisplayText.Text; }
+            set { this.txtDisplayText.Text = value; }
+        }
+
+
+        public override string AnchorName
+        {
+            get { return this.txtAnchorName.Text; }
+            set { this.txtAnchorName.Text = value; }
+        }
+
+
+        public override AnchorClass AnchorType
+        {
+            get { return AnchorClass.wlwStaticLink; }
+            set { throw new NotImplementedException("The AnchorType is determined by default on this control"); }
+        }
+
+     
         private void SetUpAnchorList()
         {
             ImageList AnchorListImages = new ImageList();
@@ -127,20 +149,6 @@ namespace WLWStaticAnchorManager
         }
 
 
-        public override AnchorTypes AnchorType
-        {
-            get
-            {
-                return AnchorTypes.wlwStaticLink;
-            }
-            set
-            {
-                throw new NotImplementedException("The AnchorType is determined by default on this control");
-            }
-
-        }
-
-
         void txtDisplayText_TextChanged(object sender, EventArgs e)
         {
             this.CheckContentValidation();
@@ -161,28 +169,5 @@ namespace WLWStaticAnchorManager
             }
         }
 
-        public override string DisplayText
-        {
-            get
-            {
-                return this.txtDisplayText.Text;
-            }
-            set
-            {
-                this.txtDisplayText.Text = value;
-            }
-        }
-
-        public override string AnchorName
-        {
-            get
-            {
-                return this.txtAnchorName.Text;
-            }
-            set
-            {
-                this.txtAnchorName.Text = value;
-            }
-        }
     }
 }

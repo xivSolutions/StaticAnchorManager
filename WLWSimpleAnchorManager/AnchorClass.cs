@@ -1,7 +1,7 @@
 ﻿
 namespace WLWStaticAnchorManager
 {
-    public enum AnchorTypes
+    public enum AnchorClass
     {
         None = 0,
         wlwStaticAnchor = 1,
@@ -9,21 +9,21 @@ namespace WLWStaticAnchorManager
     }
 
 
-    public class AnchorTypeHelper
+    public class AnchorClassSelector
     {
-        public static AnchorTypes getAnchorTypeFromString(string TypeName)
+        public static AnchorClass selectByName(string TypeName)
         {
             switch(TypeName)
             {
                 case "None":
-                    return AnchorTypes.None;
+                    return AnchorClass.None;
                     //break;
                 case "wlwStaticAnchor":
-                    return AnchorTypes.wlwStaticAnchor;
+                    return AnchorClass.wlwStaticAnchor;
                 case "wlwStaticLink":
-                    return AnchorTypes.wlwStaticLink;
+                    return AnchorClass.wlwStaticLink;
                 default:
-                    return AnchorTypes.None;
+                    return AnchorClass.None;
             }
         }
     }

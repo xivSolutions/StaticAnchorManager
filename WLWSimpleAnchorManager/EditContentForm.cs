@@ -42,8 +42,8 @@ namespace WLWStaticAnchorManager
             this.tbInsertAnchor.MouseLeave += new EventHandler(TabLabel_MouseLEave);
             this.tbLinkToAnchor.MouseLeave += new EventHandler(TabLabel_MouseLEave);
 
-            this.tbInsertAnchor.Tag = AnchorTypes.wlwStaticAnchor;
-            this.tbLinkToAnchor.Tag = AnchorTypes.wlwStaticLink;
+            this.tbInsertAnchor.Tag = AnchorClass.wlwStaticAnchor;
+            this.tbLinkToAnchor.Tag = AnchorClass.wlwStaticLink;
 
             this._TabLabelGroup = new List<Label>();
             this._TabLabelGroup.Add(tbInsertAnchor);
@@ -68,12 +68,12 @@ namespace WLWStaticAnchorManager
 
         private void ConfigureForm(AnchorData settings)
         {
-            if (settings.AnchorClass == AnchorTypes.wlwStaticAnchor)
+            if (settings.AnchorClass == AnchorClass.wlwStaticAnchor)
             {
                 this.FormSetupEditAnchorConfig();
             }
 
-            if (settings.AnchorClass == AnchorTypes.wlwStaticLink)
+            if (settings.AnchorClass == AnchorClass.wlwStaticLink)
             {
                 this.FormSetupEditLinkConfig();
             }
@@ -86,10 +86,12 @@ namespace WLWStaticAnchorManager
             this.tbLinkToAnchor.Visible = false;
             this.lblChooseAction.Visible = false;
             this.tbInsertAnchor.Left = 0;
-            this.tbInsertAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.tbInsertAnchor.Anchor = 
+                ((System.Windows.Forms.AnchorStyles)
+                ((System.Windows.Forms.AnchorStyles.Top 
+                | System.Windows.Forms.AnchorStyles.Left)));
 
             this.SetTabLabelText(tbInsertAnchor, "Edit Existing Anchor");
-
             this.SelectTabLabel(tbInsertAnchor);
         }
 
@@ -99,11 +101,12 @@ namespace WLWStaticAnchorManager
             this.tbInsertAnchor.Visible = false;
             this.lblChooseAction.Visible = false;
             this.tbLinkToAnchor.Left = 0;
-            this.tbLinkToAnchor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
-
+            this.tbLinkToAnchor.Anchor = 
+                ((System.Windows.Forms.AnchorStyles)
+                ((System.Windows.Forms.AnchorStyles.Top 
+                | System.Windows.Forms.AnchorStyles.Left)));
 
             this.SetTabLabelText(tbLinkToAnchor, "Edit Link to Anchor");
-
             this.SelectTabLabel(tbLinkToAnchor);
         }
 
@@ -138,7 +141,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-        void ConfigurationSelectionChanged(AnchorTypes selectedConfiguration)
+        void ConfigurationSelectionChanged(AnchorClass selectedConfiguration)
         {
             if (_currentEditorPanel != null)
             {
@@ -147,16 +150,13 @@ namespace WLWStaticAnchorManager
 
             switch (selectedConfiguration)
             {
-                case AnchorTypes.wlwStaticAnchor:
+                case AnchorClass.wlwStaticAnchor:
                     _currentEditorPanel = new pnlAnchorEditor(_currentAnchorSettings);
                     break;
-                case AnchorTypes.wlwStaticLink:
+                case AnchorClass.wlwStaticLink:
                     _currentEditorPanel = new pnlLinkEditor(_anchorNames, _currentAnchorSettings);
                     break;
-                case AnchorTypes.None:
-                    _currentEditorPanel = null;
-                    break;
-                default:
+                case AnchorClass.None:
                     _currentEditorPanel = null;
                     break;
             }
@@ -167,7 +167,6 @@ namespace WLWStaticAnchorManager
             _currentEditorPanel.Dock = DockStyle.Fill;
             this.ControlContainer.Controls.Add(_currentEditorPanel);
             _currentEditorPanel.Show();
-
         }
 
 
@@ -181,7 +180,6 @@ namespace WLWStaticAnchorManager
         {
             this.btnOK.Enabled = false;
         }
-
 
 
         void TabLabel_MouseLEave(object sender, EventArgs e)
@@ -221,10 +219,11 @@ namespace WLWStaticAnchorManager
                 }
             }
 
-            AnchorTypes newAnchorType = (AnchorTypes)_currentTabLabel.Tag;
+            AnchorClass newAnchorType = (AnchorClass)_currentTabLabel.Tag;
 
             this.ConfigurationSelectionChanged(newAnchorType);
         }
+
 
         void OnTabLabelEnter(Label selectedTabLabel)
         {
@@ -234,6 +233,7 @@ namespace WLWStaticAnchorManager
                 selectedTabLabel.BackColor = MOUSE_OVER_TAB_BACKCOLOR;
             }
         }
+
 
         void OnTabLabelLeave(Label selectedTabLabel)
         {
@@ -245,8 +245,7 @@ namespace WLWStaticAnchorManager
         }
 
 
-
-
+        // VS DESIGNER GENERATED CODE:
 
         /// <summary>
         /// Required designer variable.

@@ -57,7 +57,7 @@ namespace WLWStaticAnchorManager
                 // This call must FOLLOW CAPTURE of innerText and outerHtml as above:
                 selectedAnchor = currentEditor.getSelectedAnchor(selectedElement);
 
-                anchorData.AnchorClass = AnchorTypeHelper.getAnchorTypeFromString(selectedAnchor.className);
+                anchorData.AnchorClass = AnchorClassSelector.selectByName(selectedAnchor.className);
                 anchorData.AnchorID = selectedAnchor.id;
                 anchorData.DisplayText = selectedAnchor.innerText;
 
@@ -85,10 +85,8 @@ namespace WLWStaticAnchorManager
                 {
                     switch (anchorData.AnchorClass)
                     {
-                        case AnchorTypes.wlwStaticAnchor:
-
+                        case AnchorClass.wlwStaticAnchor:
                             anchorData.AnchorID = this.getUniqueAnchorId(anchorData.AnchorID, selectedAnchor.id);
-
                             /* 
                              * Capture the original and new AnchorID/href for updating 
                              * links which refer to the current anchor 
@@ -108,7 +106,7 @@ namespace WLWStaticAnchorManager
                             }
                             break;
 
-                        case AnchorTypes.wlwStaticLink:
+                        case AnchorClass.wlwStaticLink:
                             selectedAnchor.id = this.getUniqueLinkId(anchorData, selectedAnchor.id);
                             selectedAnchor.className = anchorData.AnchorClass.ToString();
                             selectedAnchor.innerText = anchorData.DisplayText;

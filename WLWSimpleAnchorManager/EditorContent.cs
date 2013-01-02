@@ -51,7 +51,7 @@ namespace WLWStaticAnchorManager
 
             foreach (IHTMLElement element in _anchorCollection)
             {
-                if (element.className == AnchorTypes.wlwStaticAnchor.ToString())
+                if (element.className == AnchorClass.wlwStaticAnchor.ToString())
                 {
                     output.Add(element.id, element);
                 }
@@ -67,7 +67,7 @@ namespace WLWStaticAnchorManager
 
             foreach (IHTMLElement element in _anchorCollection)
             {
-                if (element.className == AnchorTypes.wlwStaticLink.ToString())
+                if (element.className == AnchorClass.wlwStaticLink.ToString())
                 {
                     output.Add(element.id, element);
                 }
