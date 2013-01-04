@@ -31,7 +31,7 @@ namespace WLWStaticAnchorManager
 
             content = "";
 
-            EditorContent currentEditor = new EditorContent(dialogOwner.Handle);
+            WLWEditorContent currentEditor = new WLWEditorContent(dialogOwner.Handle);
 
             _namedAnchorDictionary = currentEditor.getStaticAnchorsDictionary();
             _namedLinkDictionary = currentEditor.getStaticLinksDictionary();
