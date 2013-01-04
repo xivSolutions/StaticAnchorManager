@@ -14,7 +14,7 @@ namespace WLWStaticAnchorManager
     ImagePath = "Images.Clean-Anchor-Icon-PNG-1616.png",
     HasEditableOptions = false)]
     [InsertableContentSource("Inline Anchor")]
-    public class InLineAnchorManager : ContentSource
+    public class StaticAnchorManager : ContentSource
     {
         private static string ANCHOR_ICON_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
         private static string LINK_ICON_KEY = Properties.Resources.LINK_IMAGE_KEY;
