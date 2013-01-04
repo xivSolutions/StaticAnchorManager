@@ -4,7 +4,7 @@ using WLWPluginBase.Win32;
 
 namespace WLWStaticAnchorManager
 {
-    public class EditorContent
+    public class WLWEditorContent
     {
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
         private const char ANCHOR_LIST_DELIMITER = '|';
@@ -15,10 +15,10 @@ namespace WLWStaticAnchorManager
         private IHTMLElementCollection _anchorCollection;
 
 
-        public EditorContent(IntPtr wlwEditorHandle)
+        public WLWEditorContent(IntPtr wlwEditorHandle)
         {
             owner = wlwEditorHandle;
-            _htmlDocument = EditorContent.getHtmlDocument2(wlwEditorHandle);
+            _htmlDocument = WLWEditorContent.getHtmlDocument2(wlwEditorHandle);
             _anchorCollection = this.getAnchorCollection();
         }
 
