@@ -41,8 +41,6 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsLive.Writer.Api">
       <HintPath>C:\Program Files (x86)\Windows Live\Writer\WindowsLive.Writer.Api.dll</HintPath>
     </Reference>
@@ -58,7 +56,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EditorContent.cs" />
-    <Compile Include="InLineAnchorManager.cs" />
+    <Compile Include="StaticAnchorManager.cs" />
     <Compile Include="pnlAnchorEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
