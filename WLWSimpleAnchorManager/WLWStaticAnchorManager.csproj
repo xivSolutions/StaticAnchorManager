@@ -49,30 +49,30 @@
     <Compile Include="AnchorData.cs" />
     <Compile Include="HTMLElementDictionary.cs" />
     <Compile Include="AnchorClass.cs" />
-    <Compile Include="ExtendedTextBox.cs">
+    <Compile Include="Forms\ExtendedTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="EditContentForm.cs">
+    <Compile Include="Forms\EditContentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditorContent.cs" />
+    <Compile Include="WLWEditorContent.cs" />
     <Compile Include="StaticAnchorManager.cs" />
-    <Compile Include="pnlAnchorEditor.cs">
+    <Compile Include="Forms\pnlAnchorEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="pnlAnchorEditor.designer.cs">
+    <Compile Include="Forms\pnlAnchorEditor.designer.cs">
       <DependentUpon>pnlAnchorEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="pnlAnchorEditorBase.cs">
+    <Compile Include="Forms\pnlAnchorEditorBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="pnlAnchorEditorBase.designer.cs">
+    <Compile Include="Forms\pnlAnchorEditorBase.designer.cs">
       <DependentUpon>pnlAnchorEditorBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="pnlLinkEditor.cs">
+    <Compile Include="Forms\pnlLinkEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="pnlLinkEditor.designer.cs">
+    <Compile Include="Forms\pnlLinkEditor.designer.cs">
       <DependentUpon>pnlLinkEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,19 +94,19 @@
     <Compile Include="Win32\Win32WndHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EditContentForm.resx">
+    <EmbeddedResource Include="Forms\EditContentForm.resx">
       <DependentUpon>EditContentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExtendedTextBox.resx">
+    <EmbeddedResource Include="Forms\ExtendedTextBox.resx">
       <DependentUpon>ExtendedTextBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pnlAnchorEditor.resx">
+    <EmbeddedResource Include="Forms\pnlAnchorEditor.resx">
       <DependentUpon>pnlAnchorEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pnlAnchorEditorBase.resx">
+    <EmbeddedResource Include="Forms\pnlAnchorEditorBase.resx">
       <DependentUpon>pnlAnchorEditorBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pnlLinkEditor.resx">
+    <EmbeddedResource Include="Forms\pnlLinkEditor.resx">
       <DependentUpon>pnlLinkEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -62,7 +62,7 @@ namespace WLWStaticAnchorManager
 
                 /*
                  * The ID of the anchor that is the target of a static link can be parsed
-                 * from the link ID (composed of anchorID + LInk Class Name and possibly
+                 * from the link ID (composed of anchorID + Link Class Name and possibly
                  * an integer if more than one link to same anchor)
                  */ 
                 anchorData.TargetAnchorID = this.getAnchorIDFromLinkID(anchorData.AnchorID);
