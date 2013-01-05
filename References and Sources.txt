@@ -1,0 +1,9 @@
+WLWPluginBase Win32 from:
+
+http://wlwplugincollection.codeplex.com/
+
+Current Repo located at:
+https://www.assembla.com/code/outcoldman_p/subversion/nodes/ForeignProjects/CodeSnippetPlugin/WLWPluginBase?rev=15
+
+Denis Gladkikh
+https://twitter.com/outcoldman
