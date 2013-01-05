@@ -7,7 +7,7 @@ namespace WLWStaticAnchorManager
 {
     [WriterPlugin("07366A64-24A2-471B-ADB8-9256ADA500C6",
     "WLW Static Anchor Manager",
-    PublisherUrl = "http://TypeCaseException.com",
+    PublisherUrl = "http://TypeCastException.com",
     Description =
     "Insert inline html anchors and manage the links to" +
     "anchors within your post from a list",
