@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLWStaticAnchorManager", "WLWSimpleAnchorManager\WLWStaticAnchorManager.csproj", "{A5308BB8-B512-40F4-AD83-6252CE000671}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLWStaticAnchorManager", "WLWStaticAnchorManager\WLWStaticAnchorManager.csproj", "{A5308BB8-B512-40F4-AD83-6252CE000671}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{296B0160-240D-4914-8F15-501021F1D2B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginInstallers", "PluginInstallers\PluginInstallers.csproj", "{5F567C5F-703D-4633-86BD-4E09DBEE3300}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WLWPluginCustomInstaller", "WLWPluginCustomInstaller\WLWPluginCustomInstaller.csproj", "{5F567C5F-703D-4633-86BD-4E09DBEE3300}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
