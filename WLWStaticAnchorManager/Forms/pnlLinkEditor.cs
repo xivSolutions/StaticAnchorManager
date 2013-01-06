@@ -7,7 +7,7 @@ namespace WLWStaticAnchorManager
     public partial class pnlLinkEditor : pnlAnchorEditorBase
     {
         private static string ANCHOR_IMAGE_KEY = Properties.Resources.ANCHOR_IMAGE_KEY;
-        private Image ANCHOR_IMAGE = Properties.Resources.Anchor1616;
+        private Image ANCHOR_IMAGE = Properties.Resources.AnchorLink1616;
 
         private ListViewItem _selectedListItem;
         private string[] _anchorNames;
@@ -64,6 +64,7 @@ namespace WLWStaticAnchorManager
 
             ListView lv = lvSelectedAnchor;
             lv.SmallImageList = AnchorListImages;
+
             lv.FullRowSelect = true;
             lv.View = View.List;
             lv.HideSelection = false;
