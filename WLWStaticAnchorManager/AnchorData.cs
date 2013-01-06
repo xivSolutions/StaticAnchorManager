@@ -1,17 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 
-
 namespace WLWStaticAnchorManager
 {
 
     public class AnchorData
     {
         private string _anchorID = "";
-
-        public string DisplayText { get; set; }
-        public AnchorClass AnchorClass { get; set; }
-        public string TargetAnchorID { get; set; }
-
 
         public AnchorData()
         {
@@ -42,6 +36,11 @@ namespace WLWStaticAnchorManager
                 _anchorID = rgx.Replace(value, "-");
             }
         }
+
+
+        public string DisplayText { get; set; }
+        public AnchorClass AnchorClass { get; set; }
+        public string TargetAnchorID { get; set; }
 
 
         public string LinkHref
