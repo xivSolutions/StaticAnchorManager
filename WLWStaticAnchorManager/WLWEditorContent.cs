@@ -4,20 +4,28 @@ using WLWPluginBase.Win32;
 
 namespace WLWStaticAnchorManager
 {
+    /// <summary>
+    /// A custom class that sits between the Win32 stuff and us, provides methods to 
+    /// query and manipulate the current editor content in specific ways. 
+    /// </summary>
     public class WLWEditorContent
     {
         private const string WNDCLSNAME_IE_SERVER = "Internet Explorer_Server";
         private const char ANCHOR_LIST_DELIMITER = '|';
         
-        IntPtr owner;
-
+        IntPtr _owner;
         private IHTMLDocument2 _htmlDocument;
         private IHTMLElementCollection _anchorCollection;
 
-
+        /// <summary>
+        /// initializes a class instance using the WLW editor handle to 
+        /// obtain access to the current HTML document through IHTMLDocument2
+        /// </summary>
         public WLWEditorContent(IntPtr wlwEditorHandle)
         {
-            owner = wlwEditorHandle;
+            _owner = wlwEditorHandle;
+
+            // Everything else in this class depends upon successful initialization of _htmlDocument
             _htmlDocument = WLWEditorContent.getHtmlDocument2(wlwEditorHandle);
             _anchorCollection = this.getAnchorCollection();
         }
@@ -35,13 +43,21 @@ namespace WLWStaticAnchorManager
             return output;
         }
 
-        
+
+        /// <summary>
+        /// Returns a collection of all "a" tags in the editor document which have either an id or class attribute
+        /// </summary>
         public IHTMLElementCollection getAnchorCollection()
         {
             return _htmlDocument.anchors;
         }
 
 
+        /// <summary>
+        /// Returns an HTMLElementDictionary containing references to all
+        /// "a" tags in the current document where the element class is
+        /// wlwStaticAnchor
+        /// </summary>
         public HTMLElementDictionary getStaticAnchorsDictionary()
         {
             var output = new HTMLElementDictionary();
@@ -58,6 +74,11 @@ namespace WLWStaticAnchorManager
         }
 
 
+        /// <summary>
+        /// Returns an HTMLElementDictionary containing references to all
+        /// "a" tags in the current document where the element class is
+        /// wlwStaticLink
+        /// </summary>
         public HTMLElementDictionary getStaticLinksDictionary()
         {
             var output = new HTMLElementDictionary();
@@ -74,6 +95,12 @@ namespace WLWStaticAnchorManager
         }
 
 
+        /// <summary>
+        /// Returns a reference to the element which contains the currently 
+        /// selected text in the editor, or the element within which the cursor
+        /// is located. 
+        /// </summary>
+        /// <returns></returns>
         public IHTMLElement getSelectedElement()
         {
             /*
@@ -83,11 +110,10 @@ namespace WLWStaticAnchorManager
              * without destroying the anchor.
              */ 
 
-            // GET THE ELEMENT CURRENTLY SELECTED IN THE EDITOR, OR CREATE ONE:
+            // GET THE ELEMENT CURRENTLY SELECTED IN THE EDITOR . . .
             IHTMLElement selectedElement = this.TryGetCurrentElement();
 
-            // If the cursor is not contained by a valid element, create one
-            // as the current selection:
+            // . . . OR CREATE ONE AT THE CURRENT INSERTION POINT:
             if (selectedElement == null)
             {
                 selectedElement = this.InsertNewContainerElement();
@@ -115,6 +141,7 @@ namespace WLWStaticAnchorManager
             }
             catch (Exception)
             {
+                // Null return should cause an exception at UI level, or be otherwise handled:
                 return null;
             }
 
@@ -169,6 +196,10 @@ namespace WLWStaticAnchorManager
         }
 
 
+        /// <summary>
+        /// Array of element classes which are suitable containers for an anchor element
+        /// </summary>
+        /// <returns></returns>
         private string[] validSelectionElementClassNames()
         {
             // These elements represent valid container blocks for an anchor element:
@@ -180,6 +211,11 @@ namespace WLWStaticAnchorManager
         }
 
 
+        /// <summary>
+        /// Array of element class names which might be children of a valid
+        /// anchor containing element (one might already exist, or we might add one).
+        /// </summary>
+        /// <returns></returns>
         private string[] CheckParentSelectionElementClassNames()
         {
             // These elements are not ideal for our outermost selection, but may be contained
@@ -195,7 +231,7 @@ namespace WLWStaticAnchorManager
             // Creates a new Anchor Element and inserts it into 
             // the the parent element of the current selection range
             // (usually will be the Post Body or equivelent).
-
+            // OR
             // Use to insert raw anchor within the editor when no 
             // containing element is present.
 
@@ -219,13 +255,14 @@ namespace WLWStaticAnchorManager
             return elmt;
         }
 
+        /// <summary>
+        /// Creates a new IHTMLAnchorElement within the html document, but does not associate with a parent. 
+        /// The returned anchor must be added to the child collection of a suitable parent element in 
+        /// order to be used. 
+        /// </summary>
         private IHTMLElement CreateNewAnchorElement()
         {
-            // Creates a new IHTMLAnchorElement within the html document, 
-            // but does not associate with a parent.
-
             IHTMLElement newAnchor = (HTMLAnchorElementClass)_htmlDocument.createElement("a");
-
             return newAnchor;
         }
 
@@ -295,6 +332,11 @@ namespace WLWStaticAnchorManager
         }
 
 
+        /// <summary>
+        /// Returns an anchor element if one is contained within the element passed in. otherwise returns null.
+        /// </summary>
+        /// <param name="initialElement"></param>
+        /// <returns></returns>
         private IHTMLElement getAnchorFromSelection(IHTMLElement initialElement)
         {
             if (initialElement.GetType().Name == "HTMLAnchorElementClass")
@@ -327,6 +369,11 @@ namespace WLWStaticAnchorManager
         }
 
 
+        /// <summary>
+        /// Creates a new anchor element within the parent element passed in. 
+        /// </summary>
+        /// <param name="parentElement"></param>
+        /// <returns></returns>
         private IHTMLElement CreateNewSelectedAnchor(IHTMLElement parentElement)
         {
             IHTMLElement newAnchor;

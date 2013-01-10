@@ -29,6 +29,8 @@ namespace WLWStaticAnchorManager
             IHTMLElement selectedElement;
             IHTMLElement selectedAnchor;
 
+            // This is passed by ref, and messes with our ability to 
+            // manipulate the editor contents. Zero it out until we're done:
             content = "";
 
             WLWEditorContent currentEditor = new WLWEditorContent(dialogOwner.Handle);
@@ -44,15 +46,12 @@ namespace WLWStaticAnchorManager
             {
                 selectedElement = currentEditor.getSelectedElement();
 
-                // REMEMBER THE INITIAL VALUES FROM THE SELECTED 
-                // ELEMENT BEFORE CALLING GetSelectedAnchor!
-
                 // Subsequent operations in this scope modify these values in the editor, 
                 // and we need to be able to reset them on cancel:
                 _selectedText = selectedElement.innerText;
                 _selectedHtml = selectedElement.outerHTML;
 
-                // Processes within this call may modify contents of selectedElement. 
+                // Processes within THIS call may modify contents of selectedElement. 
                 // This call must FOLLOW CAPTURE of innerText and outerHtml as above:
                 selectedAnchor = currentEditor.getSelectedAnchor(selectedElement);
 
@@ -77,8 +76,7 @@ namespace WLWStaticAnchorManager
             string[] anchorNamesArray = new string[_namedAnchorDictionary.Count];
             _namedAnchorDictionary.Keys.CopyTo(anchorNamesArray, 0);
 
-            using (var editContentForm = 
-                new EditContentForm(anchorData, anchorNamesArray))
+            using (var editContentForm = new EditContentForm(anchorData, anchorNamesArray))
             {
                 if (editContentForm.ShowDialog() == DialogResult.OK)
                 {
@@ -88,20 +86,21 @@ namespace WLWStaticAnchorManager
 
                             anchorData.AnchorID = this.getUniqueAnchorId(anchorData.AnchorID, selectedAnchor.id);
                             /* 
-                             * Capture the original and new AnchorID/href for updating 
-                             * links which refer to the current anchor 
-                             * (in case the AnchorID has been Modified):
+                             * Capture the original and new AnchorID/href for updating links which refer to 
+                             * the current anchor (in case the AnchorID has been Modified):
                              */
                             string oldAnchorID = selectedAnchor.id;
                             string oldHref= "#" + oldAnchorID;
                             string newHref = anchorData.LinkHref;
 
+                            // Set the new values . . .
                             selectedAnchor.id = anchorData.AnchorID;
                             selectedAnchor.innerText = anchorData.DisplayText;
                             selectedAnchor.className = anchorData.AnchorClass.ToString();
 
                             if (oldAnchorID != selectedAnchor.id)
                             {
+                                // Update any links that refer to the old anchor id:    
                                 this.updateLinkReferences(oldHref, newHref);
                             }
                             break;
@@ -129,9 +128,9 @@ namespace WLWStaticAnchorManager
             if (selectedAnchor.innerText != null)
             {
                 /*
-                 * ref variable content will replace whatever the 
-                 * current selection in the editor contains. Make sure the text that is replaced
-                 * represents the inner text of the Anchor Element, or weird shit happens. 
+                 * ref variable content will replace whatever the current selection in the editor 
+                 * contains. Make sure the text that is replaced represents the inner text 
+                 * of the Anchor Element, or weird shit happens. 
                  */
                 content = selectedAnchor.innerText;
             }
